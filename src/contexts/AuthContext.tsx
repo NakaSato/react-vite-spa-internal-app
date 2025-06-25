@@ -126,16 +126,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (userData: RegisterRequest): Promise<boolean> => {
     try {
       setIsLoading(true);
-      console.log("AuthContext: Starting registration with data:", userData);
-
       const response = await AuthService.register(userData);
-      console.log("AuthContext: Registration response:", response);
 
       if (response.success) {
-        console.log("AuthContext: Registration successful");
         return true;
       } else {
-        console.log("AuthContext: Registration failed, creating error");
         // Create an error object that matches what the RegisterForm expects
         const error = new Error(response.message || "Registration failed");
         (error as any).response = {

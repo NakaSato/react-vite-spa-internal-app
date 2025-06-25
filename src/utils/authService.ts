@@ -218,30 +218,23 @@ export class AuthService {
       data: { user: newUser },
       errors: [],
     };
-  }
-
-  // Register new user
+  }  // Register new user
   static async register(userData: RegisterRequest): Promise<RegisterResponse> {
-    console.log("AuthService: Starting registration with data:", userData);
-
     try {
       // Try API registration first
-      console.log("AuthService: Attempting API registration");
       const response = await apiClient.post<RegisterResponse>(
         AUTH_ENDPOINTS.REGISTER,
         userData
       );
-      console.log("AuthService: API registration successful:", response);
       return response;
     } catch (error) {
       console.warn(
-        "AuthService: API registration failed, using fallback registration:",
+        "API registration failed, using fallback registration:",
         error
       );
 
       // Fallback to static registration for development
       const staticResponse = this.staticRegister(userData);
-      console.log("AuthService: Static registration result:", staticResponse);
       return staticResponse;
     }
   }
