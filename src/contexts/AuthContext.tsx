@@ -1,0 +1,193 @@
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { AuthService } from "../utils/authService";
+import {
+  User,
+  AuthContextType,
+  LoginRequest,
+  RegisterRequest,
+} from "../types/auth";
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const isAuthenticated = Boolean(user && token);
+
+  // Initialize authentication on mount
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        setIsLoading(true);
+
+        // Initialize auth service
+        AuthService.initializeAuth();
+
+        const storedToken = AuthService.getToken();
+        const storedUser = AuthService.getUser();
+
+        if (
+          storedToken &&
+          storedUser &&
+          AuthService.isTokenValid(storedToken)
+        ) {
+          setToken(storedToken);
+          setUser(storedUser);
+        } else {
+          // Try to refresh token
+          const refreshed = await AuthService.refreshToken();
+          if (refreshed) {
+            const newToken = AuthService.getToken();
+            const newUser = AuthService.getUser();
+            setToken(newToken);
+            setUser(newUser);
+          }
+        }
+      } catch (error) {
+        console.error("Auth initialization failed:", error);
+        AuthService.logout();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, []);
+
+  // Auto-refresh token before expiration
+  useEffect(() => {
+    if (!token) return;
+
+    const checkTokenExpiry = () => {
+      try {
+        const payload = AuthService.decodeToken(token);
+        const currentTime = Date.now() / 1000;
+        const timeUntilExpiry = payload.exp - currentTime;
+
+        // Refresh token if it expires in less than 5 minutes
+        if (timeUntilExpiry < 300 && timeUntilExpiry > 0) {
+          AuthService.refreshToken().then((success) => {
+            if (success) {
+              const newToken = AuthService.getToken();
+              const newUser = AuthService.getUser();
+              setToken(newToken);
+              setUser(newUser);
+            } else {
+              logout();
+            }
+          });
+        }
+      } catch (error) {
+        console.error("Token validation failed:", error);
+        logout();
+      }
+    };
+
+    // Check token expiry every minute
+    const interval = setInterval(checkTokenExpiry, 60000);
+    return () => clearInterval(interval);
+  }, [token]);
+
+  const login = async (credentials: LoginRequest): Promise<boolean> => {
+    try {
+      setIsLoading(true);
+      const response = await AuthService.login(credentials);
+
+      if (response.success && response.data) {
+        setToken(response.data.token);
+        setUser(response.data.user);
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.error("Login failed:", error);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const register = async (userData: RegisterRequest): Promise<boolean> => {
+    try {
+      setIsLoading(true);
+      const response = await AuthService.register(userData);
+      return response.success;
+    } catch (error) {
+      console.error("Registration failed:", error);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const refreshToken = async (): Promise<boolean> => {
+    try {
+      const success = await AuthService.refreshToken();
+      if (success) {
+        const newToken = AuthService.getToken();
+        const newUser = AuthService.getUser();
+        setToken(newToken);
+        setUser(newUser);
+      }
+      return success;
+    } catch (error) {
+      console.error("Token refresh failed:", error);
+      return false;
+    }
+  };
+
+  const logout = (): void => {
+    AuthService.logout();
+    setToken(null);
+    setUser(null);
+  };
+
+  const value: AuthContextType = {
+    user,
+    token,
+    isAuthenticated,
+    isLoading,
+    login,
+    logout,
+    register,
+    refreshToken,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+// Hook to use authentication context
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
+
+// Role-based access hooks
+export const useRole = () => {
+  const { user } = useAuth();
+
+  return {
+    isAdmin: user?.roleId === 1,
+    isManager: user?.roleId === 2 || user?.roleId === 1,
+    isUser: user?.roleId === 3 || user?.roleId === 2 || user?.roleId === 1,
+    isViewer: Boolean(user), // All authenticated users can view
+    hasRole: (roleId: number) => (user ? user.roleId <= roleId : false),
+    roleName: user?.roleName,
+  };
+};
