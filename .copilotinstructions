@@ -1,0 +1,240 @@
+# Solar Projects SPA - Copilot Instructions
+
+## Project Overview
+This is a React + Vite + TypeScript Single Page Application (SPA) for managing solar energy projects. The application features comprehensive authentication, role-based access control, and environment-based API configuration for both local development and production deployment.
+
+## Architecture & Technology Stack
+- **Frontend**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Testing**: Vitest with React Testing Library
+- **Package Manager**: Bun
+- **Authentication**: JWT-based with role-based access control
+- **API Integration**: Custom type-safe API client with environment configuration
+
+## Key Features
+1. **Environment-based Configuration**: Supports local (Docker, port 5002) and production (Azure) API endpoints
+2. **Authentication System**: Login, logout, token refresh, role-based UI protection
+3. **Role-based Access Control**: Admin, Manager, User, and Viewer roles with hierarchical permissions
+4. **Protected Routes**: Route-level authentication and authorization
+5. **Type Safety**: Comprehensive TypeScript types for API, auth, and UI components
+6. **Testing**: Full test coverage with automated testing setup
+
+## Project Structure Guidelines
+
+### Core Directories
+- `src/config/`: Environment configuration and validation
+- `src/types/`: TypeScript type definitions (API, auth, etc.)
+- `src/utils/`: Utility functions (API client, auth service)
+- `src/contexts/`: React contexts (AuthContext)
+- `src/hooks/`: Custom React hooks
+- `src/components/`: Reusable UI components
+- `src/pages/`: Page-level components
+- `src/test/`: Test files and utilities
+
+### Environment Configuration
+- `.env`: Default environment variables
+- `.env.local`: Local development (Docker API)
+- `.env.production`: Production environment (Azure)
+- Environment variables are validated in `src/config/env.ts`
+
+## Authentication Flow
+1. **Login**: Uses `AuthService.login()` with JWT token storage
+2. **Token Management**: Automatic refresh and validation
+3. **Role Checking**: Hierarchical role system (Admin > Manager > User > Viewer)
+4. **Protected Routes**: `ProtectedRoute` component wraps authenticated content
+5. **Context**: `AuthProvider` manages global authentication state
+
+## API Integration
+- **Base Client**: `src/utils/apiClient.ts` - Type-safe HTTP client
+- **Authentication**: Automatic JWT header injection
+- **Environment Aware**: Switches between local/production endpoints
+- **Error Handling**: Centralized error handling with proper typing
+
+## Role Hierarchy
+1. **Admin (roleId: 1)**: Full system access, user management
+2. **Manager (roleId: 2)**: Team and project management
+3. **User (roleId: 3)**: Standard project access
+4. **Viewer (roleId: 4)**: Read-only access
+
+## Development Guidelines
+
+### Package Management
+- **Always use Bun** for all package management operations
+- Use `bun add` instead of `npm install` or `yarn add`
+- Use `bun dev` instead of `npm run dev`
+- Leverage Bun's speed for faster development cycles
+- Use Bun's built-in test runner for optimal performance
+
+### Code Style
+- Use TypeScript for all files
+- Implement proper error handling
+- Follow React best practices (hooks, functional components)
+- Use Tailwind CSS for styling
+- Maintain type safety throughout the application
+
+### Authentication Development
+- Always use `useAuth()` hook for authentication state
+- Use `useRole()` hook for role-based logic
+- Wrap protected content with `ProtectedRoute` component
+- Handle loading states properly during auth operations
+
+### API Development
+- Use the existing `apiClient` for all HTTP requests
+- Define proper TypeScript interfaces for request/response data
+- Implement error handling for all API calls
+- Use environment-aware configuration
+
+### Testing Requirements
+- Write tests for all new components and utilities
+- Use React Testing Library for component tests
+- Leverage Bun's fast test runner with `bun test`
+- Mock external dependencies properly
+- Maintain test coverage above 80%
+- Use `bun test --watch` during development for instant feedback
+
+## File Templates
+
+### New Page Component
+```tsx
+import React from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import ProtectedRoute from '../components/ProtectedRoute';
+
+const NewPage: React.FC = () => {
+  const { user } = useAuth();
+
+  return (
+    <ProtectedRoute>
+      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        {/* Page content */}
+      </div>
+    </ProtectedRoute>
+  );
+};
+
+export default NewPage;
+```
+
+### New API Hook
+```tsx
+import { useState, useEffect } from 'react';
+import { useApi } from './useApi';
+import { ApiResponse } from '../types/api';
+
+interface DataType {
+  // Define your data structure
+}
+
+export const useNewData = () => {
+  const [data, setData] = useState<DataType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { apiClient } = useApi();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await apiClient.get<ApiResponse<DataType[]>>('/api/endpoint');
+        if (response.success) {
+          setData(response.data || []);
+        }
+      } catch (err) {
+        setError('Failed to fetch data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [apiClient]);
+
+  return { data, loading, error };
+};
+```
+
+## Environment Setup
+1. Copy `.env.example` to `.env.local` for local development
+2. Ensure Docker is running for local API (port 5002)
+3. Run `bun install` to install dependencies
+4. Use `bun dev` for development server
+5. Use `bun test` for running tests
+6. Use `bun run build` for production builds
+7. Use `bun run preview` to preview production builds locally
+
+## Bun Commands Reference
+- `bun install` - Install dependencies
+- `bun dev` - Start development server
+- `bun build` - Build for production
+- `bun preview` - Preview production build
+- `bun test` - Run tests
+- `bun test --watch` - Run tests in watch mode
+- `bun test --coverage` - Run tests with coverage report
+- `bun add <package>` - Add new dependency
+- `bun add -d <package>` - Add development dependency
+- `bun remove <package>` - Remove dependency
+
+## Common Patterns
+
+### Role-based Rendering
+```tsx
+const { isAdmin, isManager } = useRole();
+
+return (
+  <div>
+    {isAdmin && <AdminPanel />}
+    {isManager && <ManagerTools />}
+    <StandardContent />
+  </div>
+);
+```
+
+### Protected API Calls
+```tsx
+const { apiClient } = useApi();
+const { isAuthenticated } = useAuth();
+
+const handleApiCall = async () => {
+  if (!isAuthenticated) return;
+  
+  try {
+    const response = await apiClient.post('/api/endpoint', data);
+    // Handle response
+  } catch (error) {
+    // Handle error
+  }
+};
+```
+
+## Deployment Notes
+- Production builds target Azure environment
+- Use `bun build` for optimized production builds
+- Environment variables are injected at build time via Vite
+- Authentication tokens are stored in localStorage
+- API endpoints automatically switch based on environment
+- Bun's fast bundling improves build times significantly
+
+## Security Considerations
+- JWT tokens are validated and auto-refreshed
+- Role-based access is enforced at both UI and route levels
+- Sensitive operations require proper authentication
+- All API calls include authentication headers when available
+
+## Testing Strategy
+- Unit tests for utilities and services using Bun's test runner
+- Component tests for UI components with React Testing Library
+- Integration tests for authentication flow
+- Snapshot tests for consistent UI rendering
+- API client tests with mocked responses
+- Use `bun test --coverage` for coverage reports
+- Leverage Bun's speed for rapid test-driven development
+
+## Performance Benefits with Bun
+- **Faster installs**: Bun installs packages significantly faster than npm/yarn
+- **Quick builds**: Bun's bundler provides faster build times
+- **Instant tests**: Bun's test runner starts tests almost immediately
+- **Hot reload**: Lightning-fast development server with instant updates
+- **Memory efficient**: Lower memory usage during development
+
+Remember to maintain type safety, follow the authentication patterns, ensure proper error handling in all new code, and always use Bun for package management and development commands.
