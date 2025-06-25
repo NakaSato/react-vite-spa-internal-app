@@ -15,6 +15,9 @@ import {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Export the context for use in custom hooks
+export { AuthContext };
+
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -123,11 +126,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (userData: RegisterRequest): Promise<boolean> => {
     try {
       setIsLoading(true);
+      console.log("AuthContext: Starting registration with data:", userData);
+
       const response = await AuthService.register(userData);
-      return response.success;
+      console.log("AuthContext: Registration response:", response);
+
+      if (response.success) {
+        console.log("AuthContext: Registration successful");
+        return true;
+      } else {
+        console.log("AuthContext: Registration failed, creating error");
+        // Create an error object that matches what the RegisterForm expects
+        const error = new Error(response.message || "Registration failed");
+        (error as any).response = {
+          data: {
+            message: response.message,
+            errors: response.errors,
+          },
+        };
+        throw error;
+      }
     } catch (error) {
       console.error("Registration failed:", error);
-      return false;
+      throw error; // Re-throw so RegisterForm can handle it properly
     } finally {
       setIsLoading(false);
     }
@@ -167,27 +188,4 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-// Hook to use authentication context
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
-
-// Role-based access hooks
-export const useRole = () => {
-  const { user } = useAuth();
-
-  return {
-    isAdmin: user?.roleId === 1,
-    isManager: user?.roleId === 2 || user?.roleId === 1,
-    isUser: user?.roleId === 3 || user?.roleId === 2 || user?.roleId === 1,
-    isViewer: Boolean(user), // All authenticated users can view
-    hasRole: (roleId: number) => (user ? user.roleId <= roleId : false),
-    roleName: user?.roleName,
-  };
 };

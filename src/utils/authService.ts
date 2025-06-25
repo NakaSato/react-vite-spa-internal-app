@@ -27,7 +27,7 @@ export class AuthService {
         roleName: "Admin",
         roleId: 1,
         isActive: true,
-      }
+      },
     },
     {
       username: "test_manager",
@@ -40,7 +40,7 @@ export class AuthService {
         roleName: "Manager",
         roleId: 2,
         isActive: true,
-      }
+      },
     },
     {
       username: "test_user",
@@ -53,7 +53,7 @@ export class AuthService {
         roleName: "User",
         roleId: 3,
         isActive: true,
-      }
+      },
     },
     {
       username: "test_viewer",
@@ -66,8 +66,8 @@ export class AuthService {
         roleName: "Viewer",
         roleId: 4,
         isActive: true,
-      }
-    }
+      },
+    },
   ];
 
   // Generate a mock JWT token
@@ -80,7 +80,7 @@ export class AuthService {
       roleId: user.roleId,
       roleName: user.roleName,
       iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24 hours
+      exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24 hours
     };
 
     // Simple base64 encoding (not secure, just for demo)
@@ -94,7 +94,9 @@ export class AuthService {
   // Static login function
   private static staticLogin(credentials: LoginRequest): LoginResponse {
     const account = this.STATIC_ACCOUNTS.find(
-      acc => acc.username === credentials.username && acc.password === credentials.password
+      (acc) =>
+        acc.username === credentials.username &&
+        acc.password === credentials.password
     );
 
     if (!account) {
@@ -102,7 +104,7 @@ export class AuthService {
         success: false,
         message: "Invalid credentials",
         data: null,
-        errors: ["Invalid username or password"]
+        errors: ["Invalid username or password"],
       };
     }
 
@@ -115,9 +117,9 @@ export class AuthService {
       data: {
         token,
         refreshToken,
-        user: account.user
+        user: account.user,
       },
-      errors: []
+      errors: [],
     };
   }
 
@@ -132,7 +134,7 @@ export class AuthService {
           this.setToken(staticResponse.data.token);
           this.setRefreshToken(staticResponse.data.refreshToken);
           this.setUser(staticResponse.data.user);
-          
+
           // Update API client default headers
           apiClient.setAuthToken(staticResponse.data.token);
         }
@@ -169,17 +171,78 @@ export class AuthService {
     }
   }
 
+  // Static registration function (fallback for development)
+  private static staticRegister(userData: RegisterRequest): RegisterResponse {
+    // Check if username already exists
+    const existingUsername = this.STATIC_ACCOUNTS.find(
+      (acc) => acc.username === userData.username
+    );
+    if (existingUsername) {
+      return {
+        success: false,
+        message: "Registration failed",
+        data: null,
+        errors: ["Username already exists"],
+      };
+    }
+
+    // Check if email already exists (mock check)
+    const existingEmail = this.STATIC_ACCOUNTS.find(
+      (acc) => acc.user.email === userData.email
+    );
+    if (existingEmail) {
+      return {
+        success: false,
+        message: "Registration failed",
+        data: null,
+        errors: ["Email already exists"],
+      };
+    }
+
+    // Create new user
+    const newUser: User = {
+      userId: `${Date.now()}`, // Simple ID generation for demo
+      username: userData.username,
+      email: userData.email,
+      fullName: userData.fullName,
+      roleId: userData.roleId || 3, // Default to User role
+      roleName: userData.roleId === 4 ? "Viewer" : "User",
+      isActive: true,
+    };
+
+    // In a real app, you would save this to a database
+    // For demo purposes, we'll just return success
+    return {
+      success: true,
+      message: "User registered successfully",
+      data: { user: newUser },
+      errors: [],
+    };
+  }
+
   // Register new user
   static async register(userData: RegisterRequest): Promise<RegisterResponse> {
+    console.log("AuthService: Starting registration with data:", userData);
+
     try {
+      // Try API registration first
+      console.log("AuthService: Attempting API registration");
       const response = await apiClient.post<RegisterResponse>(
         AUTH_ENDPOINTS.REGISTER,
         userData
       );
+      console.log("AuthService: API registration successful:", response);
       return response;
     } catch (error) {
-      console.error("Registration failed:", error);
-      throw error;
+      console.warn(
+        "AuthService: API registration failed, using fallback registration:",
+        error
+      );
+
+      // Fallback to static registration for development
+      const staticResponse = this.staticRegister(userData);
+      console.log("AuthService: Static registration result:", staticResponse);
+      return staticResponse;
     }
   }
 
@@ -188,20 +251,20 @@ export class AuthService {
     try {
       const refreshToken = this.getRefreshToken();
       const currentUser = this.getUser();
-      
+
       if (!refreshToken || !currentUser) {
         return false;
       }
 
       // For static accounts, generate a new token
       const staticAccount = this.STATIC_ACCOUNTS.find(
-        acc => acc.user.userId === currentUser.userId
+        (acc) => acc.user.userId === currentUser.userId
       );
 
       if (staticAccount) {
         const newToken = this.generateMockToken(staticAccount.user);
         const newRefreshToken = this.generateMockToken(staticAccount.user);
-        
+
         this.setToken(newToken);
         this.setRefreshToken(newRefreshToken);
         this.setUser(staticAccount.user);

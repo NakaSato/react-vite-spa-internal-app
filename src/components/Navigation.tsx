@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 
 const Navigation: React.FC = () => {
   const navigate = useNavigate();
@@ -44,12 +44,18 @@ const Navigation: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div>
+              <div className="flex items-center space-x-2">
                 <Link
                   to="/login"
                   className="px-4 py-2 bg-blue-700 hover:bg-blue-800 rounded transition-colors"
                 >
                   Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded transition-colors"
+                >
+                  Register
                 </Link>
               </div>
             )}

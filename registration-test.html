@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registration Test</title>
+  </head>
+  <body>
+    <h1>Test Registration Form</h1>
+    <p>This is a test page to quickly verify registration functionality.</p>
+
+    <form>
+      <h2>Test Data for Registration:</h2>
+      <ul>
+        <li><strong>Full Name:</strong> John Doe</li>
+        <li><strong>Username:</strong> john_doe</li>
+        <li><strong>Email:</strong> john@test.com</li>
+        <li><strong>Password:</strong> TestPass123!</li>
+        <li><strong>Role:</strong> User (3)</li>
+      </ul>
+
+      <h2>Steps to Test:</h2>
+      <ol>
+        <li>Go to http://localhost:3001/register</li>
+        <li>Fill out the form with the above data</li>
+        <li>Open browser DevTools console</li>
+        <li>Click "Create Account" button</li>
+        <li>Check console for debug messages</li>
+      </ol>
+    </form>
+
+    <h2>Expected Result:</h2>
+    <p>
+      Should see "Registration successful!" alert and redirect to login page.
+    </p>
+
+    <h2>Common Issues:</h2>
+    <ul>
+      <li>Password must meet complexity requirements</li>
+      <li>All fields must be filled</li>
+      <li>Username must be alphanumeric + underscores only</li>
+      <li>Email must be valid format</li>
+      <li>Passwords must match</li>
+    </ul>
+  </body>
+</html>

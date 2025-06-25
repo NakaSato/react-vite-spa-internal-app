@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./contexts/AuthContext";
-import { Home, About, Login, Dashboard } from "./pages";
+import { useAuth } from "./hooks/useAuth";
+import { Home, About, Login, Dashboard, Register } from "./pages";
 import ApiExample from "./components/ApiExample";
 import Navigation from "./components/Navigation";
 
@@ -29,6 +29,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           {/* Protected Routes */}
           <Route

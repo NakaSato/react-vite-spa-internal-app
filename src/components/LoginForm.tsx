@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 import { LoginRequest } from "../types/auth";
 
 interface LoginFormProps {
@@ -178,6 +179,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Registration Link */}
+          <div className="text-center mt-6">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                className="font-medium text-blue-600 hover:text-blue-500"
+              >
+                Create one here
+              </Link>
+            </p>
           </div>
         </form>
       </div>
