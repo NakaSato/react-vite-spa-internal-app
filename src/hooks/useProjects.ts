@@ -1,224 +1,186 @@
 import { useState, useEffect, useCallback } from "react";
 import { Project, NewProjectForm } from "../types/project";
 import { projectsApi } from "../utils/projectsApi";
-import { mockProjects } from "../data/mockProjects";
 
-interface ProjectStats {
+export interface ProjectStats {
   totalProjects: number;
   totalBudget: number;
   totalSpent: number;
   totalCapacity: number;
   budgetUtilization?: number;
   statusDistribution?: Record<string, number>;
+  activeProjects?: number;
 }
 
-interface UseProjectsReturn {
+export interface UseProjectsReturn {
+  // Data
   projects: Project[];
-  loading: boolean;
-  error: string | null;
   stats: ProjectStats | null;
+
+  // Loading states
+  loading: boolean;
   statsLoading: boolean;
-  createProject: (projectData: NewProjectForm) => Promise<void>;
-  updateProject: (id: string, projectData: Partial<Project>) => Promise<void>;
-  deleteProject: (id: string) => Promise<void>;
-  updateProjectProgress: (id: string, progress: number) => Promise<void>;
+
+  // Error states
+  error: string | null;
+  statsError: string | null;
+
+  // Actions
+  createProject: (projectData: NewProjectForm) => Promise<boolean>;
+  updateProject: (
+    id: string,
+    projectData: Partial<Project>
+  ) => Promise<boolean>;
+  deleteProject: (id: string) => Promise<boolean>;
+  updateProjectProgress: (id: string, progress: number) => Promise<boolean>;
+
+  // Refresh methods
   refreshProjects: () => Promise<void>;
   refreshStats: () => Promise<void>;
+
+  // Utility methods
   getConstructionProjects: () => Project[];
-  getProjectStats: () => ProjectStats;
+  getProjectStats: () => ProjectStats | null;
+  getProjectsByStatus: (status: Project["status"]) => Project[];
 }
 
-export const useProjects = (
-  useMockData: boolean = false
-): UseProjectsReturn => {
+export const useProjects = (): UseProjectsReturn => {
+  // State
   const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<ProjectStats | null>(null);
-  const [statsLoading, setStatsLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [statsError, setStatsError] = useState<string | null>(null);
 
-  // Fetch project statistics from API or calculate locally
-  const fetchStats = useCallback(async () => {
-    if (useMockData) {
-      // Calculate stats locally from mock data
-      const localStats = calculateStatsLocally(projects);
-      setStats(localStats);
-      return;
-    }
-
-    try {
-      setStatsLoading(true);
-      const apiStats = await projectsApi.getProjectStats();
-      // Add budget utilization calculation
-      const budgetUtilization =
-        apiStats.totalBudget > 0
-          ? (apiStats.totalSpent / apiStats.totalBudget) * 100
-          : 0;
-
-      setStats({
-        ...apiStats,
-        budgetUtilization,
-      });
-    } catch (err) {
-      console.warn("Failed to fetch stats from API, calculating locally:", err);
-      const localStats = calculateStatsLocally(projects);
-      setStats(localStats);
-    } finally {
-      setStatsLoading(false);
-    }
-  }, [useMockData, projects]);
-
-  // Calculate stats locally (fallback or mock mode)
-  const calculateStatsLocally = (projectList: Project[]): ProjectStats => {
-    const totalBudget = projectList.reduce((sum, p) => sum + p.budget, 0);
-    const totalSpent = projectList.reduce((sum, p) => sum + p.spent, 0);
-    const totalCapacity = projectList.reduce((sum, p) => {
-      const size = parseFloat(p.systemSize);
-      return sum + (p.systemSize.includes("MW") ? size * 1000 : size);
-    }, 0);
-
-    const statusDistribution = projectList.reduce((acc, project) => {
-      acc[project.status] = (acc[project.status] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
-    return {
-      totalProjects: projectList.length,
-      totalBudget,
-      totalSpent,
-      totalCapacity,
-      budgetUtilization: totalBudget > 0 ? (totalSpent / totalBudget) * 100 : 0,
-      statusDistribution,
-    };
-  };
-
-  // Fetch projects from API or use mock data
+  // Fetch all projects from API
   const fetchProjects = useCallback(async () => {
-    if (useMockData) {
-      setProjects(mockProjects);
-      setLoading(false);
-      return;
-    }
-
     try {
       setLoading(true);
       setError(null);
-      const data = await projectsApi.getAllProjects();
-      setProjects(data);
+      const fetchedProjects = await projectsApi.getAllProjects();
+      setProjects(fetchedProjects);
     } catch (err) {
-      console.warn("API not available, falling back to mock data:", err);
-      setError("API not available, using mock data");
-      setProjects(mockProjects);
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to fetch projects";
+      setError(errorMessage);
+      console.error("Failed to fetch projects:", err);
     } finally {
       setLoading(false);
     }
-  }, [useMockData]);
+  }, []);
 
-  // Create new project
+  // Fetch project statistics from API
+  const fetchStats = useCallback(async () => {
+    try {
+      setStatsLoading(true);
+      setStatsError(null);
+      const fetchedStats = await projectsApi.getProjectStats();
+
+      // Calculate additional statistics
+      const budgetUtilization =
+        fetchedStats.totalBudget > 0
+          ? (fetchedStats.totalSpent / fetchedStats.totalBudget) * 100
+          : 0;
+
+      const activeProjects = Object.values(
+        fetchedStats.statusDistribution || {}
+      )
+        .filter((_, index) => {
+          const statuses = Object.keys(fetchedStats.statusDistribution || {});
+          return statuses[index] !== "Completed";
+        })
+        .reduce((sum, count) => sum + count, 0);
+
+      setStats({
+        ...fetchedStats,
+        budgetUtilization,
+        activeProjects,
+      });
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Failed to fetch project statistics";
+      setStatsError(errorMessage);
+      console.error("Failed to fetch project statistics:", err);
+    } finally {
+      setStatsLoading(false);
+    }
+  }, []);
+
+  // Create a new project
   const createProject = useCallback(
-    async (projectData: NewProjectForm) => {
-      if (useMockData) {
-        // Mock creation for development
-        const newProject: Project = {
-          id: `P${String(projects.length + 1).padStart(3, "0")}`,
-          name: projectData.projectName,
-          client: projectData.clientInfo,
-          status: projectData.status,
-          progress: 0,
-          startDate: projectData.startDate,
-          expectedCompletion: projectData.estimatedEndDate,
-          systemSize: `${projectData.totalCapacityKw} kW`,
-          location: projectData.address,
-          priority: "Medium",
-          assignedTeam: ["Team Alpha"],
-          budget: projectData.ftsValue,
-          spent: 0,
-        };
-        setProjects((prev) => [...prev, newProject]);
-        return;
-      }
-
+    async (projectData: NewProjectForm): Promise<boolean> => {
       try {
-        setLoading(true);
-        setError(null);
         const newProject = await projectsApi.createProject(projectData);
         setProjects((prev) => [...prev, newProject]);
+
+        // Refresh stats after creating a project
+        fetchStats();
+
+        return true;
       } catch (err) {
-        setError("Failed to create project");
-        throw err;
-      } finally {
-        setLoading(false);
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to create project";
+        setError(errorMessage);
+        console.error("Failed to create project:", err);
+        return false;
       }
     },
-    [projects.length, useMockData]
+    [fetchStats]
   );
 
-  // Update project
+  // Update an existing project
   const updateProject = useCallback(
-    async (id: string, projectData: Partial<Project>) => {
-      if (useMockData) {
-        setProjects((prev) =>
-          prev.map((project) =>
-            project.id === id ? { ...project, ...projectData } : project
-          )
-        );
-        return;
-      }
-
+    async (id: string, projectData: Partial<Project>): Promise<boolean> => {
       try {
-        setLoading(true);
-        setError(null);
         const updatedProject = await projectsApi.updateProject(id, projectData);
         setProjects((prev) =>
           prev.map((project) => (project.id === id ? updatedProject : project))
         );
+
+        // Refresh stats after updating a project
+        fetchStats();
+
+        return true;
       } catch (err) {
-        setError("Failed to update project");
-        throw err;
-      } finally {
-        setLoading(false);
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to update project";
+        setError(errorMessage);
+        console.error("Failed to update project:", err);
+        return false;
       }
     },
-    [useMockData]
+    [fetchStats]
   );
 
-  // Delete project
+  // Delete a project
   const deleteProject = useCallback(
-    async (id: string) => {
-      if (useMockData) {
-        setProjects((prev) => prev.filter((project) => project.id !== id));
-        return;
-      }
-
+    async (id: string): Promise<boolean> => {
       try {
-        setLoading(true);
-        setError(null);
         await projectsApi.deleteProject(id);
         setProjects((prev) => prev.filter((project) => project.id !== id));
+
+        // Refresh stats after deleting a project
+        fetchStats();
+
+        return true;
       } catch (err) {
-        setError("Failed to delete project");
-        throw err;
-      } finally {
-        setLoading(false);
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to delete project";
+        setError(errorMessage);
+        console.error("Failed to delete project:", err);
+        return false;
       }
     },
-    [useMockData]
+    [fetchStats]
   );
 
   // Update project progress
   const updateProjectProgress = useCallback(
-    async (id: string, progress: number) => {
-      if (useMockData) {
-        setProjects((prev) =>
-          prev.map((project) =>
-            project.id === id ? { ...project, progress } : project
-          )
-        );
-        return;
-      }
-
+    async (id: string, progress: number): Promise<boolean> => {
       try {
-        setError(null);
         const updatedProject = await projectsApi.updateProjectProgress(
           id,
           progress
@@ -226,63 +188,81 @@ export const useProjects = (
         setProjects((prev) =>
           prev.map((project) => (project.id === id ? updatedProject : project))
         );
+
+        return true;
       } catch (err) {
-        setError("Failed to update project progress");
-        throw err;
+        const errorMessage =
+          err instanceof Error
+            ? err.message
+            : "Failed to update project progress";
+        setError(errorMessage);
+        console.error("Failed to update project progress:", err);
+        return false;
       }
     },
-    [useMockData]
+    []
   );
-
-  // Get construction projects
-  const getConstructionProjects = useCallback(() => {
-    return projects.filter((project) => project.status === "Construction");
-  }, [projects]);
-
-  // Get project statistics (returns calculated stats or fallback)
-  const getProjectStats = useCallback((): ProjectStats => {
-    if (stats) {
-      return stats;
-    }
-    // Fallback to local calculation if API stats not available
-    return calculateStatsLocally(projects);
-  }, [stats, projects]);
-
-  // Refresh statistics
-  const refreshStats = useCallback(async () => {
-    await fetchStats();
-  }, [fetchStats]);
 
   // Refresh projects
   const refreshProjects = useCallback(async () => {
     await fetchProjects();
   }, [fetchProjects]);
 
-  // Initial load
+  // Refresh stats
+  const refreshStats = useCallback(async () => {
+    await fetchStats();
+  }, [fetchStats]);
+
+  // Get construction projects (cached from current projects)
+  const getConstructionProjects = useCallback((): Project[] => {
+    return projects.filter((project) => project.status === "Construction");
+  }, [projects]);
+
+  // Get current stats
+  const getProjectStats = useCallback((): ProjectStats | null => {
+    return stats;
+  }, [stats]);
+
+  // Get projects by status
+  const getProjectsByStatus = useCallback(
+    (status: Project["status"]): Project[] => {
+      return projects.filter((project) => project.status === status);
+    },
+    [projects]
+  );
+
+  // Initial data fetch
   useEffect(() => {
     fetchProjects();
-  }, [fetchProjects]);
-
-  // Fetch stats when projects change
-  useEffect(() => {
-    if (projects.length > 0) {
-      fetchStats();
-    }
-  }, [projects, fetchStats]);
+    fetchStats();
+  }, [fetchProjects, fetchStats]);
 
   return {
+    // Data
     projects,
-    loading,
-    error,
     stats,
+
+    // Loading states
+    loading,
     statsLoading,
+
+    // Error states
+    error,
+    statsError,
+
+    // Actions
     createProject,
     updateProject,
     deleteProject,
     updateProjectProgress,
+
+    // Refresh methods
     refreshProjects,
     refreshStats,
+
+    // Utility methods
     getConstructionProjects,
     getProjectStats,
+    getProjectsByStatus,
   };
 };

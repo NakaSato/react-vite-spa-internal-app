@@ -17,8 +17,25 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
-  },
-  css: {
-    postcss: './postcss.config.js',
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          // Split @react-pdf/renderer into its own chunk for better caching
+          if (id.includes('@react-pdf/renderer')) {
+            return 'pdf-renderer';
+          }
+          // Split React libraries
+          if (id.includes('react') || id.includes('react-dom')) {
+            return 'vendor-react';
+          }
+          // Split large node_modules into vendor chunk
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
+    // Increase chunk size warning limit to 2MB for PDF functionality
+    chunkSizeWarningLimit: 2000,
   },
 });

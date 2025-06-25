@@ -61,7 +61,7 @@ const ApiStatus: React.FC<ApiStatusProps> = ({ className = "" }) => {
       case "online":
         return "API Online";
       case "offline":
-        return "API Offline (Using Mock Data)";
+        return "API Offline";
       case "checking":
         return "Checking API...";
       default:

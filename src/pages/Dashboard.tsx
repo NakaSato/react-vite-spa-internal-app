@@ -16,8 +16,7 @@ const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  // Use the new projects hook with API integration
-  // Set to true to use mock data during development, false for API calls
+  // Use the projects hook with API integration
   const {
     projects,
     loading,
@@ -31,7 +30,7 @@ const Dashboard: React.FC = () => {
     refreshStats,
     getConstructionProjects,
     getProjectStats,
-  } = useProjects(false); // Change to true to use mock data
+  } = useProjects();
 
   const [newProject, setNewProject] = useState<NewProjectForm>({
     projectName: "",

@@ -1,51 +1,68 @@
-# React Vite TypeScript SPA with Tailwind and MUI
+# Solar Projects Management SPA
 
-This project is a single-page application (SPA) built using React, Vite, TypeScript, Tailwind CSS, and Material-UI (MUI). It serves as a template for developing modern web applications with a focus on performance and developer experience.
+A comprehensive React + TypeScript SPA for solar project management with authentication, role-based access control, and professional PDF reporting capabilities.
 
-## Features
+## 🌟 Features
 
-- **React**: A JavaScript library for building user interfaces.
-- **Vite**: A fast build tool and development server for modern web projects.
-- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript, providing type safety.
-- **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
-- **Material-UI (MUI)**: A popular React UI framework that provides pre-designed components.
+### Core Functionality
+- **Project Management**: Complete CRUD operations for solar projects
+- **Dashboard Analytics**: Real-time statistics and project insights
+- **Role-Based Access**: Admin, Manager, User, and Viewer roles with appropriate permissions
+- **Authentication**: JWT-based auth with token refresh and secure storage
+- **API Integration**: Full API integration with environment-based configuration
 
-## Getting Started
+### PDF Report Generation
+- **Professional Reports**: Generate high-quality PDF reports using @react-pdf/renderer
+- **Multiple Report Types**: 
+  - Overview: High-level summary and statistics
+  - Detailed: Complete project listings with specifications
+  - Financial: Budget analysis and financial metrics
+- **Date Range Filtering**: Filter reports by project start date ranges
+- **Automatic Download**: Client-side PDF generation and download
+
+### Technical Stack
+- **Frontend**: React 18, TypeScript, Tailwind CSS
+- **Build**: Vite with Bun package manager
+- **Testing**: Vitest + React Testing Library
+- **PDF Generation**: @react-pdf/renderer with custom layouts
+- **Auth**: JWT with role-based access control
+- **API**: Type-safe client with environment switching
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (version 14 or later)
-- npm or yarn
+- Bun (recommended) or Node.js 18+
+- Modern browser with ES6 support
 
 ### Installation
 
 1. Clone the repository:
-
    ```bash
    git clone <repository-url>
    cd react-vite-spa
    ```
 
-2. Install dependencies:
-
-   Using npm:
-
+2. Install dependencies using Bun:
    ```bash
-   npm install
-   ```
-
-   Or using yarn:
-
-   ```bash
-   yarn install
+   bun install
    ```
 
 ### Running the Application
 
-To start the development server, run:
-
+#### Development
 ```bash
-npm run dev
+bun dev
+```
+
+#### Build for Production
+```bash
+bun build
+```
+
+#### Run Tests
+```bash
+bun test
 ```
 
 or

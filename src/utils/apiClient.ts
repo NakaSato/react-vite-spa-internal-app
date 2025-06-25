@@ -9,6 +9,7 @@ export class ApiClient {
     this.baseURL = env.API_BASE_URL;
     this.defaultHeaders = {
       "Content-Type": "application/json",
+      Accept: "application/json",
     };
   }
 
@@ -26,26 +27,56 @@ export class ApiClient {
     this.defaultHeaders = headersWithoutAuth;
   }
 
-  // Generic fetch wrapper
-  private async fetch<T>(
+  // Generic request wrapper
+  private async request<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
 
-    const config: RequestInit = {
-      headers: {
-        ...this.defaultHeaders,
-        ...options.headers,
-      },
-      ...options,
+    // Merge headers properly, ensuring we don't override Content-Type if explicitly set
+    const mergedHeaders = {
+      ...this.defaultHeaders,
+      ...options.headers,
     };
+
+    const config: RequestInit = {
+      ...options,
+      headers: mergedHeaders,
+    };
+
+    // Debug logging for troubleshooting
+    console.log("API Request:", {
+      url,
+      method: config.method || "GET",
+      headers: config.headers,
+      bodyType: typeof config.body,
+      body: config.body,
+      hasBody: !!config.body,
+    });
 
     try {
       const response = await fetch(url, config);
 
+      console.log("API Response:", {
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers.entries()),
+      });
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Try to get the error response body for better debugging
+        let errorDetails = `HTTP error! status: ${response.status}`;
+        try {
+          const errorBody = await response.text();
+          console.log("API Error Body:", errorBody);
+          if (errorBody) {
+            errorDetails += ` - ${errorBody}`;
+          }
+        } catch (e) {
+          console.log("Could not parse error response body");
+        }
+        throw new Error(errorDetails);
       }
 
       return await response.json();
@@ -57,7 +88,7 @@ export class ApiClient {
 
   // GET request
   async get<T>(endpoint: string, headers?: HeadersInit): Promise<T> {
-    return this.fetch<T>(endpoint, { method: "GET", headers });
+    return this.request<T>(endpoint, { method: "GET", headers });
   }
 
   // POST request
@@ -66,11 +97,19 @@ export class ApiClient {
     data?: unknown,
     headers?: HeadersInit
   ): Promise<T> {
-    return this.fetch<T>(endpoint, {
+    const config: RequestInit = {
       method: "POST",
-      body: data ? JSON.stringify(data) : undefined,
-      headers,
-    });
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+    };
+
+    if (data) {
+      config.body = JSON.stringify(data);
+    }
+
+    return this.request<T>(endpoint, config);
   }
 
   // PUT request
@@ -79,16 +118,24 @@ export class ApiClient {
     data?: unknown,
     headers?: HeadersInit
   ): Promise<T> {
-    return this.fetch<T>(endpoint, {
+    const config: RequestInit = {
       method: "PUT",
-      body: data ? JSON.stringify(data) : undefined,
-      headers,
-    });
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+    };
+
+    if (data) {
+      config.body = JSON.stringify(data);
+    }
+
+    return this.request<T>(endpoint, config);
   }
 
   // DELETE request
   async delete<T>(endpoint: string, headers?: HeadersInit): Promise<T> {
-    return this.fetch<T>(endpoint, { method: "DELETE", headers });
+    return this.request<T>(endpoint, { method: "DELETE", headers });
   }
 
   // PATCH request
@@ -97,11 +144,19 @@ export class ApiClient {
     data?: unknown,
     headers?: HeadersInit
   ): Promise<T> {
-    return this.fetch<T>(endpoint, {
+    const config: RequestInit = {
       method: "PATCH",
-      body: data ? JSON.stringify(data) : undefined,
-      headers,
-    });
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+    };
+
+    if (data) {
+      config.body = JSON.stringify(data);
+    }
+
+    return this.request<T>(endpoint, config);
   }
 
   // Health check

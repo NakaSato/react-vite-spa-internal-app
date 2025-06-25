@@ -115,8 +115,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       return false;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login failed:", error);
+
+      // Parse API error response if available for better error messages
+      if (error.message && error.message.includes("HTTP error! status:")) {
+        const errorMatch = error.message.match(
+          /HTTP error! status: (\d+) - (.+)/
+        );
+        if (errorMatch) {
+          try {
+            const errorData = JSON.parse(errorMatch[2]);
+            console.error("API Error Details:", errorData);
+          } catch (parseError) {
+            console.error("Could not parse API error response");
+          }
+        }
+      }
+
       return false;
     } finally {
       setIsLoading(false);
@@ -141,8 +157,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         };
         throw error;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Registration failed:", error);
+
+      // Parse API error response if available
+      if (error.message && error.message.includes("HTTP error! status:")) {
+        const errorMatch = error.message.match(
+          /HTTP error! status: (\d+) - (.+)/
+        );
+        if (errorMatch) {
+          try {
+            const errorData = JSON.parse(errorMatch[2]);
+            const apiError = new Error(
+              errorData.message || "Registration failed"
+            );
+            (apiError as any).response = {
+              data: {
+                message: errorData.message,
+                errors: errorData.errors || ["Registration failed"],
+              },
+            };
+            throw apiError;
+          } catch (parseError) {
+            // Fallback to original error
+          }
+        }
+      }
+
       throw error; // Re-throw so RegisterForm can handle it properly
     } finally {
       setIsLoading(false);

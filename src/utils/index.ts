@@ -4,6 +4,7 @@ export * from "./apiClient";
 export * from "./authService";
 export * from "./projectHelpers";
 export * from "./projectsApi";
+export * from "./reportService";
 
 export const formatDate = (date: Date): string => {
   return date.toLocaleDateString("en-US", {
