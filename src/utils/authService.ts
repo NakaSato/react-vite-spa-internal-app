@@ -14,9 +14,132 @@ export class AuthService {
   private static readonly REFRESH_TOKEN_KEY = "solar_refresh_token";
   private static readonly USER_KEY = "solar_user";
 
+  // Static test accounts for demo purposes
+  private static readonly STATIC_ACCOUNTS = [
+    {
+      username: "test_admin",
+      password: "Admin123!",
+      user: {
+        userId: "1",
+        username: "test_admin",
+        email: "admin@internal.construction",
+        fullName: "System Administrator",
+        roleName: "Admin",
+        roleId: 1,
+        isActive: true,
+      }
+    },
+    {
+      username: "test_manager",
+      password: "Manager123!",
+      user: {
+        userId: "2",
+        username: "test_manager",
+        email: "manager@internal.construction",
+        fullName: "Project Manager",
+        roleName: "Manager",
+        roleId: 2,
+        isActive: true,
+      }
+    },
+    {
+      username: "test_user",
+      password: "User123!",
+      user: {
+        userId: "3",
+        username: "test_user",
+        email: "user@internal.construction",
+        fullName: "Construction User",
+        roleName: "User",
+        roleId: 3,
+        isActive: true,
+      }
+    },
+    {
+      username: "test_viewer",
+      password: "Viewer123!",
+      user: {
+        userId: "4",
+        username: "test_viewer",
+        email: "viewer@internal.construction",
+        fullName: "Project Viewer",
+        roleName: "Viewer",
+        roleId: 4,
+        isActive: true,
+      }
+    }
+  ];
+
+  // Generate a mock JWT token
+  private static generateMockToken(user: User): string {
+    const header = { alg: "HS256", typ: "JWT" };
+    const payload = {
+      sub: user.userId,
+      username: user.username,
+      email: user.email,
+      roleId: user.roleId,
+      roleName: user.roleName,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24 hours
+    };
+
+    // Simple base64 encoding (not secure, just for demo)
+    const encodedHeader = btoa(JSON.stringify(header));
+    const encodedPayload = btoa(JSON.stringify(payload));
+    const signature = btoa(`mock_signature_${user.userId}`);
+
+    return `${encodedHeader}.${encodedPayload}.${signature}`;
+  }
+
+  // Static login function
+  private static staticLogin(credentials: LoginRequest): LoginResponse {
+    const account = this.STATIC_ACCOUNTS.find(
+      acc => acc.username === credentials.username && acc.password === credentials.password
+    );
+
+    if (!account) {
+      return {
+        success: false,
+        message: "Invalid credentials",
+        data: null,
+        errors: ["Invalid username or password"]
+      };
+    }
+
+    const token = this.generateMockToken(account.user);
+    const refreshToken = this.generateMockToken(account.user); // Same for demo
+
+    return {
+      success: true,
+      message: "Login successful",
+      data: {
+        token,
+        refreshToken,
+        user: account.user
+      },
+      errors: []
+    };
+  }
+
   // Login user
   static async login(credentials: LoginRequest): Promise<LoginResponse> {
     try {
+      // First try static login
+      const staticResponse = this.staticLogin(credentials);
+      if (staticResponse.success) {
+        // Store tokens and user data
+        if (staticResponse.data) {
+          this.setToken(staticResponse.data.token);
+          this.setRefreshToken(staticResponse.data.refreshToken);
+          this.setUser(staticResponse.data.user);
+          
+          // Update API client default headers
+          apiClient.setAuthToken(staticResponse.data.token);
+        }
+        return staticResponse;
+      }
+
+      // If static login fails, try API login (for future API integration)
       const response = await apiClient.post<LoginResponse>(
         AUTH_ENDPOINTS.LOGIN,
         credentials
@@ -34,8 +157,15 @@ export class AuthService {
 
       return response;
     } catch (error) {
-      console.error("Login failed:", error);
-      throw error;
+      // If API fails, return the static login result
+      const staticResponse = this.staticLogin(credentials);
+      if (staticResponse.success && staticResponse.data) {
+        this.setToken(staticResponse.data.token);
+        this.setRefreshToken(staticResponse.data.refreshToken);
+        this.setUser(staticResponse.data.user);
+        apiClient.setAuthToken(staticResponse.data.token);
+      }
+      return staticResponse;
     }
   }
 
@@ -57,10 +187,29 @@ export class AuthService {
   static async refreshToken(): Promise<boolean> {
     try {
       const refreshToken = this.getRefreshToken();
-      if (!refreshToken) {
+      const currentUser = this.getUser();
+      
+      if (!refreshToken || !currentUser) {
         return false;
       }
 
+      // For static accounts, generate a new token
+      const staticAccount = this.STATIC_ACCOUNTS.find(
+        acc => acc.user.userId === currentUser.userId
+      );
+
+      if (staticAccount) {
+        const newToken = this.generateMockToken(staticAccount.user);
+        const newRefreshToken = this.generateMockToken(staticAccount.user);
+        
+        this.setToken(newToken);
+        this.setRefreshToken(newRefreshToken);
+        this.setUser(staticAccount.user);
+        apiClient.setAuthToken(newToken);
+        return true;
+      }
+
+      // Try API refresh if not a static account
       const response = await apiClient.post<LoginResponse>(
         AUTH_ENDPOINTS.REFRESH,
         { refreshToken }
