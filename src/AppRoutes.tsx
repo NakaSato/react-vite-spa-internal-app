@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import { Home, About, Login, Dashboard, Register } from "./pages";
-import ApiExample from "./components/ApiExample";
 import Navigation from "./components/Navigation";
 
 const AppRoutes: React.FC = () => {
@@ -39,10 +38,10 @@ const AppRoutes: React.FC = () => {
             }
           />
           <Route
-            path="/api-example"
+            path="/"
             element={
               isAuthenticated ? (
-                <ApiExample />
+                <div>Loading...</div>
               ) : (
                 <Navigate to="/login" replace />
               )

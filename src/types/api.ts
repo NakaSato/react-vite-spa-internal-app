@@ -33,7 +33,7 @@ export interface HealthCheckResponse {
 
 // API endpoints (update based on your actual API)
 export const API_ENDPOINTS = {
-  HEALTH: "/health",
-  PROJECTS: "/projects",
-  PROJECT_BY_ID: (id: string) => `/projects/${id}`,
+  HEALTH: "/health", // http://localhost:5001/health
+  PROJECTS: "/api/v1/projects",
+  PROJECT_BY_ID: (id: string) => `/api/v1/projects/${id}`,
 } as const;

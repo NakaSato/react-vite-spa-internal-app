@@ -145,6 +145,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await AuthService.register(userData);
 
       if (response.success) {
+        console.log("Registration successful:", response.message);
         return true;
       } else {
         // Create an error object that matches what the RegisterForm expects
@@ -152,8 +153,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         (error as any).response = {
           data: {
             message: response.message,
-            errors: response.errors,
+            errors: response.errors || ["Registration failed"],
           },
+          status: 400, // Bad Request for validation errors
         };
         throw error;
       }

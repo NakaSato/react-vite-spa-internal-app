@@ -1,7 +1,7 @@
 // Environment configuration
 export const env = {
-  // API Configuration
-  API_BASE_URL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5002",
+  // API Configuration - explicitly set to port 5001 to match API documentation
+  API_BASE_URL: "http://localhost:5001", // Hard-coded to ensure consistency
 
   // Environment info
   NODE_ENV: import.meta.env.MODE,

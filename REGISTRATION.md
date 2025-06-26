@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Solar Projects SPA now includes a complete user registration system that integrates with the API at `http://localhost:5002/api/v1/auth/register`.
+The Solar Projects SPA now includes a complete user registration system that integrates with the API at `http://localhost:5001/api/v1/Auth/register`.
 
 ## ✅ Features Implemented
 
@@ -34,7 +34,7 @@ The Solar Projects SPA now includes a complete user registration system that int
 - **Fast Refresh compatible** architecture
 
 ### 🌐 **API Integration**
-- **Real API Only**: Uses only the actual backend API at `http://localhost:5002`
+- **Real API Only**: Uses only the actual backend API at `http://localhost:5001`
 - **No Fallback**: Registration/login requires properly configured backend
 - **Error handling**: Clear error messages when API is unavailable
 - **Validation**: Both client and server-side error handling
@@ -171,7 +171,7 @@ Account Type: User
 5. **Password Mismatch**: Different confirm password, should show error
 
 ### **API Testing:**
-- **Backend Required**: Ensure your API server is running at `http://localhost:5002`
+- **Backend Required**: Ensure your API server is running at `http://localhost:5001`
 - **Database Required**: Ensure database schema is properly set up with Users table
 - **Error Handling**: Will show clear error messages if backend is not available
 

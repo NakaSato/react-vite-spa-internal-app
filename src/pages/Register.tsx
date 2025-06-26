@@ -13,9 +13,8 @@ const Register: React.FC = () => {
   }
 
   const handleRegistrationSuccess = () => {
-    // Show success message and redirect to login
-    alert("Registration successful! Please log in with your new account.");
-    navigate("/login");
+    // Redirect to login with success message in query params
+    navigate("/login?registered=true");
   };
 
   const handleSwitchToLogin = () => {

@@ -58,9 +58,46 @@ export class AuthService {
         AUTH_ENDPOINTS.REGISTER,
         userData
       );
+
+      // Handle both response formats from API (direct User object or nested user property)
+      if (response.success && response.data) {
+        // If the response data contains a direct User object (as in API docs)
+        if ("userId" in response.data) {
+          // Convert to expected format for consistency
+          return {
+            success: response.success,
+            message: response.message,
+            data: { user: response.data },
+            errors: response.errors || [],
+          };
+        }
+      }
+
       return response;
     } catch (error: any) {
       console.error("AuthService: API registration failed:", error);
+
+      // Format error for better user experience
+      if (error.message && error.message.includes("HTTP error! status: 400")) {
+        // Try to extract validation errors from the response
+        try {
+          const errorMatch = error.message.match(
+            /HTTP error! status: 400 - (.+)/
+          );
+          if (errorMatch && errorMatch[1]) {
+            const errorData = JSON.parse(errorMatch[1]);
+            const formattedError: RegisterResponse = {
+              success: false,
+              message: errorData.message || "Registration failed",
+              data: null,
+              errors: errorData.errors || ["Registration failed"],
+            };
+            throw formattedError;
+          }
+        } catch (parseError) {
+          // Fallback if parsing fails
+        }
+      }
 
       // Re-throw the error for proper error handling upstream
       throw error;

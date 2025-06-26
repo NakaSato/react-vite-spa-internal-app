@@ -11,6 +11,13 @@ export class ApiClient {
       "Content-Type": "application/json",
       Accept: "application/json",
     };
+    console.log("API Client initialized with base URL:", this.baseURL);
+  }
+
+  // Update base URL - useful for testing or switching endpoints
+  setBaseURL(url: string): void {
+    this.baseURL = url;
+    console.log("API base URL updated to:", url);
   }
 
   // Set authentication token
@@ -159,11 +166,45 @@ export class ApiClient {
     return this.request<T>(endpoint, config);
   }
 
-  // Health check
+  // Health check - directly use port 5001 to avoid connection issues
   async healthCheck(): Promise<{ status: string; timestamp: string }> {
-    return this.get("/health");
+    try {
+      // Ensure we're using port 5001 for health check with additional URL parsing
+      let healthUrl = "http://localhost:5001/health";
+      console.log("Current baseURL:", this.baseURL);
+      console.log("Checking API health at:", healthUrl);
+
+      // Force disable any caching
+      const options = {
+        method: "GET",
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+        // Add a random param to bust any cache
+        cache: "no-store" as RequestCache,
+      };
+
+      const response = await fetch(healthUrl, options);
+
+      if (!response.ok) {
+        throw new Error(`Health check failed with status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Health check failed:", error);
+      throw error;
+    }
   }
 }
 
 // Create and export a singleton instance
 export const apiClient = new ApiClient();
+
+// Initialize with correct URL for API endpoints
+if (env.API_BASE_URL !== "http://localhost:5001") {
+  console.warn("API_BASE_URL mismatch - forcing correct URL for health checks");
+  apiClient.setBaseURL("http://localhost:5001");
+}

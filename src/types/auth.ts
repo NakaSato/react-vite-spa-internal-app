@@ -36,9 +36,12 @@ export interface RegisterRequest {
 export interface RegisterResponse {
   success: boolean;
   message: string;
-  data: {
-    user: User;
-  } | null;
+  data:
+    | User
+    | {
+        user: User; // Support both formats from API documentation
+      }
+    | null;
   errors: string[];
 }
 
@@ -88,9 +91,9 @@ export interface TokenPayload {
 
 // API endpoints for auth
 export const AUTH_ENDPOINTS = {
-  LOGIN: "/api/v1/auth/login",
-  REGISTER: "/api/v1/auth/register",
-  REFRESH: "/api/v1/auth/refresh",
+  LOGIN: "/api/v1/Auth/login", // Uppercase 'Auth' per API documentation
+  REGISTER: "/api/v1/Auth/register", // Uppercase 'Auth' per API documentation
+  REFRESH: "/api/v1/Auth/refresh", // Uppercase 'Auth' per API documentation
   LOGOUT: "/api/v1/auth/logout",
   PROFILE: "/api/v1/auth/profile",
   CHANGE_PASSWORD: "/api/v1/auth/change-password",
