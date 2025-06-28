@@ -34,7 +34,7 @@ const Home: React.FC = () => {
                   <img
                     src="/images/pea_logo.png"
                     alt="Provincial Electricity Authority"
-                    className="w-full h-full object-contain filter drop-shadow-lg group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-contain filter drop-shadow-lg"
                     loading="lazy"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
