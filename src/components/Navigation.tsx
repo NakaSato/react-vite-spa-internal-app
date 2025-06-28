@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import NavbarApiStatus from "./NavbarApiStatus";
 
 const Navigation: React.FC = () => {
   const navigate = useNavigate();
@@ -20,8 +19,6 @@ const Navigation: React.FC = () => {
             <Link to="/" className="text-xl font-bold hover:text-blue-200">
               INTERNAL CONSTRUCTION
             </Link>
-            {/* Backend Status Indicator */}
-            <NavbarApiStatus className="hidden sm:inline-flex" />
           </div>
 
           <div className="flex items-center space-x-4">

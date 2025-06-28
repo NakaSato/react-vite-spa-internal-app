@@ -1,11 +1,16 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import { Home, About, Login, Dashboard, Register } from "./pages";
 import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 
 const AppRoutes: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
+  const location = useLocation();
+
+  // Check if we're on the index page
+  const isIndexPage = location.pathname === "/";
 
   // Show loading spinner while checking authentication
   if (isLoading) {
@@ -20,9 +25,9 @@ const AppRoutes: React.FC = () => {
   }
 
   return (
-    <div className="App min-h-screen bg-gray-50">
-      <Navigation />
-      <main>
+    <div className="App min-h-screen bg-gray-50 flex flex-col">
+      {!isIndexPage && <Navigation />}
+      <main className="flex-grow">
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
@@ -57,6 +62,7 @@ const AppRoutes: React.FC = () => {
           />
         </Routes>
       </main>
+      {!isIndexPage && <Footer />}
     </div>
   );
 };

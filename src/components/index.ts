@@ -13,3 +13,4 @@ export { default as ProtectedRoute } from "./ProtectedRoute";
 export { default as LoginForm } from "./LoginForm";
 export { default as RegisterForm } from "./RegisterForm";
 export { default as Navigation } from "./Navigation";
+export { default as Footer } from "./Footer";
