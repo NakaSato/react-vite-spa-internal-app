@@ -29,7 +29,7 @@ const Home: React.FC = () => {
             {/* PEA Logo */}
             <div className="group relative">
               <div className="absolute -inset-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-              <div className="relative w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 bg-white rounded-full flex items-center justify-center shadow-2xl ring-4 ring-white/20 hover:ring-white/50 transition-all duration-500 transform hover:scale-110 hover:rotate-3">
+              <div className="relative w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 bg-white rounded-full flex items-center justify-center shadow-2xl ring-4 ring-white/20 transition-all duration-500">
                 <div className="w-4/5 h-4/5 relative overflow-hidden rounded-full">
                   <img
                     src="/images/pea_logo.png"
@@ -42,19 +42,19 @@ const Home: React.FC = () => {
                     }}
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 transition-opacity duration-500 rounded-full"></div>
               </div>
             </div>
 
             {/* PWA Logo */}
             <div className="group relative">
               <div className="absolute -inset-2 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-              <div className="relative w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 bg-white rounded-full flex items-center justify-center shadow-2xl ring-4 ring-white/20 hover:ring-white/50 transition-all duration-500 transform hover:scale-110 hover:-rotate-3">
+              <div className="relative w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 bg-white rounded-full flex items-center justify-center shadow-2xl ring-4 ring-white/20 transition-all duration-500">
                 <div className="w-4/5 h-4/5 relative overflow-hidden rounded-full">
                   <img
                     src="/images/pwa_logo.png"
                     alt="PWA - Solar Energy Partner"
-                    className="w-full h-full object-contain filter drop-shadow-lg group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-contain filter drop-shadow-lg transition-transform duration-500"
                     loading="lazy"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
@@ -62,7 +62,7 @@ const Home: React.FC = () => {
                     }}
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 transition-opacity duration-500 rounded-full"></div>
               </div>
             </div>
           </div>
