@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import RegisterForm from "../components/RegisterForm";
+import { useAuth } from "../shared/hooks/useAuth";
+import { RegisterForm } from "../features/auth";
 
 const Register: React.FC = () => {
   const { isAuthenticated } = useAuth();

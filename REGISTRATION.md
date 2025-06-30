@@ -190,6 +190,47 @@ Account Type: User
 
 The registration system is now fully functional and ready for production use with your Solar Projects management platform. Users can create accounts that integrate seamlessly with your existing authentication system and project management features.
 
+## 🚪 Logout
+
+**POST** `/api/v1/auth/logout`
+
+**Headers Required**:
+```http
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+Invalidate the current session and tokens.
+
+### Success Response (200)
+
+```json
+{
+  "success": true,
+  "message": "Logout successful",
+  "data": null,
+  "errors": []
+}
+```
+
+## 🔒 Security Best Practices
+
+### 1. Token Storage
+- **Mobile Apps**: Use secure storage (Keychain/Keystore)
+- **Web Apps**: Use httpOnly cookies or secure localStorage
+- **Never** store tokens in plain text
+
+### 2. Authentication Flow
+- Always validate tokens on the server side
+- Implement proper token expiration and refresh mechanisms
+- Use HTTPS in production environments
+- Implement rate limiting for authentication endpoints
+
+### 3. Password Security
+- Enforce strong password requirements
+- Hash passwords using bcrypt or similar
+- Implement account lockout after failed attempts
+- Never store passwords in plain text
+
 ### **Key Benefits:**
 - 🔒 **Secure**: Production-ready authentication with real API only
 - 🎨 **Beautiful**: Modern UI matching your design system  

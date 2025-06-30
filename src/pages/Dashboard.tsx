@@ -1,20 +1,83 @@
 import React, { useState } from "react";
-import { useAuth, useRole } from "../hooks/useAuth";
-import ProtectedRoute from "../components/ProtectedRoute";
-import NavigationTabs from "../components/NavigationTabs";
-import OverviewTab from "../components/OverviewTab";
-import ProjectsTab from "../components/ProjectsTab";
-import ConstructionTab from "../components/ConstructionTab";
-import ReportsTab from "../components/ReportsTab";
-import CreateProjectModal from "../components/CreateProjectModal";
-import { NewProjectForm, TabType } from "../types/project";
-import { useProjects } from "../hooks/useProjects";
+import { useAuth, useRole } from "../shared/hooks/useAuth";
+import { useDashboard } from "../shared/contexts";
+import { ProtectedRoute } from "../features/auth";
+import { OverviewTab } from "../features/dashboard";
+import {
+  ProjectsTab,
+  ConstructionTab,
+  CreateProjectModal,
+  EnhancedCreateProjectModal,
+  ProgressDashboard,
+  GanttChart,
+  ProjectManagement,
+} from "../features/projects";
+import { ReportsTab } from "../features/reports";
+import { NewProjectForm } from "../shared/types/project";
+import {
+  ProjectEntity,
+  ActivityStatus,
+  ProjectStatus,
+  CreateProjectRequest,
+} from "../shared/types/project-management";
+import { useProjects } from "../shared/hooks/useProjects";
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const { isAdmin, isManager, roleName } = useRole();
-  const [activeTab, setActiveTab] = useState<TabType>("overview");
+  const { activeTab } = useDashboard();
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [useEnhancedModal, setUseEnhancedModal] = useState(true); // Toggle between modals
+
+  // Demo project for master plan components
+  const demoProject: ProjectEntity = {
+    projectId: "demo-001",
+    projectName: "Solar Installation Demo",
+    projectOwner: "Demo Owner",
+    mainContractor: "Demo Contractor",
+    plannedStartDate: new Date(),
+    plannedEndDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days from now
+    actualStartDate: new Date(),
+    actualEndDate: undefined,
+    status: ProjectStatus.IN_PROGRESS,
+    overallCompletion: 0.25,
+    phases: [
+      {
+        phaseId: "phase-1",
+        projectId: "demo-001",
+        phaseName: "Planning & Design",
+        weight: 0.3,
+        startDate: new Date(),
+        endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        actualStartDate: new Date(),
+        actualEndDate: undefined,
+        completion: 0.25,
+        order: 1,
+        activities: [
+          {
+            activityId: "activity-1",
+            phaseId: "phase-1",
+            activityName: "Site Survey",
+            duration: 7,
+            startDate: new Date(),
+            endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            actualStartDate: new Date(),
+            actualEndDate: undefined,
+            percentComplete: 0.5,
+            weight: 0.5,
+            assignedResources: [],
+            dependencies: [],
+            documents: [],
+            isOnCriticalPath: true,
+            status: ActivityStatus.IN_PROGRESS,
+            notes: "Initial site survey and measurements",
+          },
+        ],
+      },
+    ],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 
   // Use the projects hook with API integration
   const {
@@ -97,8 +160,6 @@ const Dashboard: React.FC = () => {
     <ProtectedRoute>
       <div className="min-h-screen bg-gray-50">
         <div className="w-full h-full px-8 py-8">
-          <NavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
-
           {/* Loading State */}
           {loading && (
             <div className="flex justify-center items-center py-12">
@@ -123,41 +184,8 @@ const Dashboard: React.FC = () => {
             </div>
           )}
 
-          {/* Tab Content */}
-          {!loading && (
-            <>
-              {activeTab === "overview" && (
-                <OverviewTab
-                  projects={projects}
-                  stats={stats}
-                  statsLoading={statsLoading}
-                />
-              )}
-
-              {activeTab === "projects" && (
-                <ProjectsTab
-                  projects={projects}
-                  isAdmin={isAdmin}
-                  isManager={isManager}
-                  onCreateProject={() => setShowCreateModal(true)}
-                />
-              )}
-
-              {activeTab === "construction" && (
-                <ConstructionTab projects={projects} />
-              )}
-
-              {activeTab === "reports" && <ReportsTab projects={projects} />}
-            </>
-          )}
-
-          <CreateProjectModal
-            showModal={showCreateModal}
-            newProject={newProject}
-            onClose={() => setShowCreateModal(false)}
-            onInputChange={handleInputChange}
-            onCreateProject={handleCreateProject}
-          />
+          {/* Main Project Management Hub */}
+          {!loading && <ProjectManagement />}
         </div>
       </div>
     </ProtectedRoute>

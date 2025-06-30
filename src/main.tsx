@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App from "./app/App";
 import "./index.css";
-import { logEnvironment } from "./config/env";
-import { AuthProvider } from "./contexts/AuthContext";
+import { logEnvironment } from "./shared/config/env";
+import { AuthProvider } from "./shared/contexts/AuthContext";
 
 // Log environment configuration in development
 logEnvironment();

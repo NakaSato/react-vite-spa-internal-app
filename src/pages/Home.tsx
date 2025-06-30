@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../shared/hooks/useAuth";
 
 const Home: React.FC = () => {
   const { isAuthenticated, user } = useAuth();

@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Home from "../pages/Home";
 import About from "../pages/About";
-import AppRoutes from "../AppRoutes";
+import AppRoutes from "../app/AppRoutes";
 
 describe("Snapshot Tests", () => {
   it("Home component matches snapshot", () => {
