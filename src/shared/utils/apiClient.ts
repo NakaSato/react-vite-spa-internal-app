@@ -172,7 +172,7 @@ export class ApiClient {
   async healthCheck(): Promise<{ status: string; timestamp: string }> {
     try {
       // Use the configured base URL for health check
-      let healthUrl = `${this.baseURL}/health`;
+      let healthUrl = `${this.baseURL}/Health`;
       console.log("Current baseURL:", this.baseURL);
       console.log("Checking API health at:", healthUrl);
 

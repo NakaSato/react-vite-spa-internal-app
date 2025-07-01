@@ -45,20 +45,13 @@ export interface RegisterResponse {
   errors: string[];
 }
 
-export interface LogoutResponse {
-  success: boolean;
-  message: string;
-  data: null;
-  errors: string[];
-}
-
 export interface AuthContextType {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: LoginRequest) => Promise<boolean>;
-  logout: () => Promise<void>;
+  logout: () => void;
   register: (userData: RegisterRequest) => Promise<boolean>;
   refreshToken: () => Promise<boolean>;
 }
