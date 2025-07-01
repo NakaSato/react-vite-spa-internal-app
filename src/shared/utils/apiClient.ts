@@ -6,7 +6,8 @@ export class ApiClient {
   private defaultHeaders: HeadersInit;
 
   constructor() {
-    this.baseURL = env.API_BASE_URL;
+    // Normalize the base URL by removing trailing slash if present
+    this.baseURL = env.API_BASE_URL.replace(/\/$/, "");
     this.defaultHeaders = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -16,8 +17,9 @@ export class ApiClient {
 
   // Update base URL - useful for testing or switching endpoints
   setBaseURL(url: string): void {
-    this.baseURL = url;
-    console.log("API base URL updated to:", url);
+    // Normalize the base URL by removing trailing slash if present
+    this.baseURL = url.replace(/\/$/, "");
+    console.log("API base URL updated to:", this.baseURL);
   }
 
   // Set authentication token
@@ -34,12 +36,21 @@ export class ApiClient {
     this.defaultHeaders = headersWithoutAuth;
   }
 
+  // Normalize URL construction to prevent double slashes
+  private buildUrl(endpoint: string): string {
+    // Ensure endpoint starts with /
+    const normalizedEndpoint = endpoint.startsWith("/")
+      ? endpoint
+      : `/${endpoint}`;
+    return `${this.baseURL}${normalizedEndpoint}`;
+  }
+
   // Generic request wrapper
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${this.baseURL}${endpoint}`;
+    const url = this.buildUrl(endpoint);
 
     // Merge headers properly, ensuring we don't override Content-Type if explicitly set
     const mergedHeaders = {
@@ -171,8 +182,8 @@ export class ApiClient {
   // Health check - use configured API base URL
   async healthCheck(): Promise<{ status: string; timestamp: string }> {
     try {
-      // Use the configured base URL for health check
-      let healthUrl = `${this.baseURL}/health`;
+      // Use the normalized URL building approach
+      const healthUrl = this.buildUrl("/health");
       console.log("Current baseURL:", this.baseURL);
       console.log("Checking API health at:", healthUrl);
 
