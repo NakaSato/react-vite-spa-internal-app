@@ -5,3 +5,4 @@ export { default as ConstructionTab } from "./ConstructionTab";
 export { default as ProgressDashboard } from "./ProgressDashboard";
 export { default as GanttChart } from "./GanttChart";
 export { default as ProjectManagement } from "./ProjectManagement";
+// export { default as EnhancedProjectManagement } from "./EnhancedProjectManagement"; // Disabled - uses Material-UI

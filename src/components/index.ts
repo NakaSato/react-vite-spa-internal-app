@@ -1,16 +1,18 @@
 // This file exports various reusable components used throughout the application.
-// Add your component imports and exports below.
+// Most components have been moved to feature-specific directories
 
-export { default as NavigationTabs } from "./NavigationTabs";
-export { default as OverviewTab } from "./OverviewTab";
-export { default as ProjectsTab } from "./ProjectsTab";
-export { default as ConstructionTab } from "./ConstructionTab";
-export { default as ReportsTab } from "./ReportsTab";
-export { default as CreateProjectModal } from "./CreateProjectModal";
-export { default as ApiStatus } from "./ApiStatus";
-export { default as NavbarApiStatus } from "./NavbarApiStatus";
-export { default as ProtectedRoute } from "./ProtectedRoute";
-export { default as LoginForm } from "./LoginForm";
-export { default as RegisterForm } from "./RegisterForm";
-export { default as Navigation } from "./Navigation";
 export { default as Footer } from "./Footer";
+
+// Re-export commonly used components from their new locations
+export { ProtectedRoute } from "../features/auth";
+export { LoginForm, RegisterForm } from "../features/auth";
+export { default as Navigation } from "../widgets/Navigation";
+export {
+  ProjectsTab,
+  ConstructionTab,
+  CreateProjectModal,
+} from "../features/projects";
+export { ReportsTab } from "../features/reports";
+export { OverviewTab } from "../features/dashboard";
+export { default as ApiStatus } from "../widgets/ApiStatus";
+export { default as NavbarApiStatus } from "../widgets/NavbarApiStatus";

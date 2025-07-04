@@ -45,6 +45,13 @@ export interface RegisterResponse {
   errors: string[];
 }
 
+export interface LogoutResponse {
+  success: boolean;
+  message: string;
+  data: null;
+  errors: string[];
+}
+
 export interface AuthContextType {
   user: User | null;
   token: string | null;
@@ -94,7 +101,7 @@ export const AUTH_ENDPOINTS = {
   LOGIN: "/api/v1/Auth/login", // Uppercase 'Auth' per API documentation
   REGISTER: "/api/v1/Auth/register", // Uppercase 'Auth' per API documentation
   REFRESH: "/api/v1/Auth/refresh", // Uppercase 'Auth' per API documentation
-  LOGOUT: "/api/v1/auth/logout",
-  PROFILE: "/api/v1/auth/profile",
-  CHANGE_PASSWORD: "/api/v1/auth/change-password",
+  LOGOUT: "/api/v1/Auth/logout", // Fixed: uppercase 'Auth' for consistency
+  PROFILE: "/api/v1/Auth/profile", // Fixed: uppercase 'Auth' for consistency
+  CHANGE_PASSWORD: "/api/v1/Auth/change-password", // Fixed: uppercase 'Auth' for consistency
 } as const;

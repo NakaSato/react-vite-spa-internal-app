@@ -1,4 +1,5 @@
 import { apiClient } from "./apiClient";
+import toast from "react-hot-toast";
 import {
   LoginRequest,
   LoginResponse,
@@ -21,6 +22,9 @@ export class AuthService {
       username: credentials.username,
     });
 
+    // Show loading toast
+    const loadingToastId = toast.loading("Signing in...");
+
     try {
       console.log("AuthService: Trying API login");
       const response = await apiClient.post<LoginResponse>(
@@ -36,11 +40,39 @@ export class AuthService {
 
         // Update API client default headers
         apiClient.setAuthToken(response.data.token);
+
+        // Show success toast
+        toast.success(`Welcome back, ${response.data.user.fullName}!`, {
+          id: loadingToastId,
+        });
+      } else {
+        // Show error toast for unsuccessful response
+        toast.error(response.message || "Login failed", {
+          id: loadingToastId,
+        });
       }
 
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.error("AuthService: API login failed:", error);
+
+      // Show error toast
+      let errorMessage = "Login failed. Please try again.";
+      if (error.message && error.message.includes("HTTP error! status: 401")) {
+        errorMessage = "Invalid username or password";
+      } else if (
+        error.message &&
+        error.message.includes("HTTP error! status: 400")
+      ) {
+        errorMessage = "Please check your credentials";
+      } else if (error.message && error.message.includes("Failed to fetch")) {
+        errorMessage =
+          "Connection error. Please check your internet connection.";
+      }
+
+      toast.error(errorMessage, {
+        id: loadingToastId,
+      });
 
       // Re-throw the error for proper error handling upstream
       throw error;
@@ -49,6 +81,9 @@ export class AuthService {
 
   // Register new user
   static async register(userData: RegisterRequest): Promise<RegisterResponse> {
+    // Show loading toast
+    const loadingToastId = toast.loading("Creating your account...");
+
     try {
       console.log("AuthService: Attempting API registration with data:", {
         ...userData,
@@ -62,6 +97,11 @@ export class AuthService {
 
       // Handle both response formats from API (direct User object or nested user property)
       if (response.success && response.data) {
+        // Show success toast
+        toast.success("Account created successfully! You can now log in.", {
+          id: loadingToastId,
+        });
+
         // If the response data contains a direct User object (as in API docs)
         if ("userId" in response.data) {
           // Convert to expected format for consistency
@@ -72,11 +112,34 @@ export class AuthService {
             errors: response.errors || [],
           };
         }
+      } else {
+        // Show error toast for unsuccessful response
+        toast.error(response.message || "Registration failed", {
+          id: loadingToastId,
+        });
       }
 
       return response;
     } catch (error: any) {
       console.error("AuthService: API registration failed:", error);
+
+      // Show error toast with detailed message
+      let errorMessage = "Registration failed. Please try again.";
+      if (error.message && error.message.includes("HTTP error! status: 400")) {
+        errorMessage = "Please check your information and try again.";
+      } else if (
+        error.message &&
+        error.message.includes("HTTP error! status: 409")
+      ) {
+        errorMessage = "An account with this email already exists.";
+      } else if (error.message && error.message.includes("Failed to fetch")) {
+        errorMessage =
+          "Connection error. Please check your internet connection.";
+      }
+
+      toast.error(errorMessage, {
+        id: loadingToastId,
+      });
 
       // Format error for better user experience
       if (error.message && error.message.includes("HTTP error! status: 400")) {
@@ -125,12 +188,24 @@ export class AuthService {
         this.setRefreshToken(response.data.refreshToken);
         this.setUser(response.data.user);
         apiClient.setAuthToken(response.data.token);
+
+        // Show subtle success toast for token refresh
+        toast.success("Session refreshed", {
+          duration: 2000,
+        });
+
         return true;
       }
 
       return false;
     } catch (error) {
       console.error("AuthService: Token refresh failed:", error);
+
+      // Show error toast when token refresh fails
+      toast.error("Session expired. Please log in again.", {
+        duration: 4000,
+      });
+
       this.logout();
       return false;
     }
@@ -139,6 +214,9 @@ export class AuthService {
   // Logout user
   static async logout(): Promise<LogoutResponse> {
     console.log("AuthService: Attempting logout");
+
+    // Show loading toast
+    const loadingToastId = toast.loading("Signing out...");
 
     try {
       // Call logout endpoint if token exists
@@ -167,9 +245,20 @@ export class AuthService {
         }
       }
 
+      // Show success toast
+      toast.success("Successfully signed out!", {
+        id: loadingToastId,
+      });
+
       return apiResponse;
     } catch (error) {
       console.error("AuthService: Logout process failed:", error);
+
+      // Show error toast but still proceed with local logout
+      toast.error("Signed out locally", {
+        id: loadingToastId,
+      });
+
       // Return a fallback response
       return {
         success: false,

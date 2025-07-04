@@ -1,0 +1,383 @@
+import React, { useState } from "react";
+import {
+  Box,
+  Container,
+  Paper,
+  Typography,
+  Tabs,
+  Tab,
+  Card,
+  CardContent,
+  Chip,
+  Avatar,
+  Divider,
+  IconButton,
+  Badge,
+  Tooltip,
+  AppBar,
+  Toolbar,
+} from "@mui/material";
+import {
+  Dashboard as DashboardIcon,
+  Construction as ConstructionIcon,
+  Assignment as ProjectsIcon,
+  Timeline as PlanningIcon,
+  Assessment as ReportsIcon,
+  Analytics as AnalyticsIcon,
+  Person as PersonIcon,
+  Notifications as NotificationsIcon,
+  Settings as SettingsIcon,
+} from "@mui/icons-material";
+import { useAuth, useRole } from "../../shared/hooks/useAuth";
+import { useProjects } from "../../shared/hooks/useProjects";
+import { OverviewTab } from "../dashboard";
+import EnhancedOverviewTab from "../dashboard/EnhancedOverviewTab";
+import ProjectsTab from "./ProjectsTab";
+import ConstructionTab from "./ConstructionTab";
+import ProgressDashboard from "./ProgressDashboard";
+import GanttChart from "./GanttChart";
+import { ReportsTab } from "../reports";
+import {
+  ProjectEntity,
+  ProjectStatus,
+} from "../../shared/types/project-management";
+
+// Tab definitions with MUI icons
+type TabType =
+  | "overview"
+  | "projects"
+  | "construction"
+  | "planning"
+  | "reports"
+  | "analytics";
+
+interface TabConfig {
+  id: TabType;
+  label: string;
+  icon: React.ReactElement;
+  description: string;
+  requiredRole?: string[];
+}
+
+const tabs: TabConfig[] = [
+  {
+    id: "overview",
+    label: "Overview",
+    icon: <DashboardIcon />,
+    description: "Project statistics and key metrics",
+  },
+  {
+    id: "projects",
+    label: "Projects",
+    icon: <ProjectsIcon />,
+    description: "Manage all solar projects",
+  },
+  {
+    id: "construction",
+    label: "Construction",
+    icon: <ConstructionIcon />,
+    description: "Construction progress and activities",
+  },
+  {
+    id: "planning",
+    label: "Planning",
+    icon: <PlanningIcon />,
+    description: "Gantt charts and project timelines",
+  },
+  {
+    id: "reports",
+    label: "Reports",
+    icon: <ReportsIcon />,
+    description: "Generate and view project reports",
+  },
+  {
+    id: "analytics",
+    label: "Analytics",
+    icon: <AnalyticsIcon />,
+    description: "Data analysis and insights",
+    requiredRole: ["Admin", "Manager"],
+  },
+];
+
+const EnhancedProjectManagement: React.FC = () => {
+  const { user } = useAuth();
+  const { isAdmin, isManager, roleName } = useRole();
+  const { projects, loading, error, refreshProjects } = useProjects();
+
+  // Internal state management
+  const [activeTab, setActiveTab] = useState<TabType>("overview");
+
+  // Demo project for components that need project data
+  const demoProject: ProjectEntity = {
+    projectId: "demo-001",
+    projectName: "Solar Installation Demo",
+    projectOwner: "Demo Owner",
+    mainContractor: "Demo Contractor",
+    plannedStartDate: new Date(),
+    plannedEndDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    actualStartDate: new Date(),
+    actualEndDate: undefined,
+    status: ProjectStatus.IN_PROGRESS,
+    overallCompletion: 0.25,
+    phases: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  // Filter tabs based on user role
+  const availableTabs = tabs.filter((tab) => {
+    if (!tab.requiredRole) return true;
+    return tab.requiredRole.includes(roleName || "");
+  });
+
+  // Project statistics
+  const projectStats = {
+    totalProjects: projects.length,
+    totalBudget: projects.reduce((sum, p) => sum + p.budget, 0),
+    totalSpent: projects.reduce((sum, p) => sum + p.spent, 0),
+    totalCapacity: projects.reduce((sum, p) => {
+      const size = parseFloat(p.systemSize);
+      return sum + (p.systemSize.includes("MW") ? size * 1000 : size);
+    }, 0),
+    budgetUtilization:
+      projects.length > 0
+        ? (projects.reduce((sum, p) => sum + p.spent, 0) /
+            projects.reduce((sum, p) => sum + p.budget, 0)) *
+          100
+        : 0,
+    statusDistribution: projects.reduce((acc, project) => {
+      acc[project.status] = (acc[project.status] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>),
+  };
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: TabType) => {
+    setActiveTab(newValue);
+  };
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "overview":
+        return (
+          <Box sx={{ p: 3 }}>
+            <EnhancedOverviewTab
+              projects={projects}
+              stats={projectStats}
+              statsLoading={loading}
+            />
+          </Box>
+        );
+
+      case "projects":
+        return (
+          <Box sx={{ p: 3 }}>
+            <ProjectsTab
+              projects={projects}
+              isAdmin={isAdmin}
+              isManager={isManager}
+              onCreateProject={() => {}}
+            />
+          </Box>
+        );
+
+      case "construction":
+        return (
+          <Box sx={{ p: 3 }}>
+            <ConstructionTab projects={projects} />
+          </Box>
+        );
+
+      case "planning":
+        return (
+          <Box sx={{ p: 3 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Project Timeline & Planning
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" paragraph>
+                    Interactive Gantt chart for project planning and timeline
+                    management.
+                  </Typography>
+                  <GanttChart project={demoProject} />
+                </CardContent>
+              </Card>
+              <Box>
+                <ProgressDashboard project={demoProject} />
+              </Box>
+            </Box>
+          </Box>
+        );
+
+      case "reports":
+        return (
+          <Box sx={{ p: 3 }}>
+            <ReportsTab projects={projects} />
+          </Box>
+        );
+
+      case "analytics":
+        return (
+          <Box sx={{ p: 3 }}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Advanced Analytics
+                </Typography>
+                <Typography variant="body2" color="text.secondary" paragraph>
+                  Comprehensive data analysis and insights for project
+                  performance.
+                </Typography>
+
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                    gap: 3,
+                    mt: 2,
+                  }}
+                >
+                  {[
+                    {
+                      title: "Budget Analysis",
+                      subtitle: "Budget vs Actual Spending",
+                      icon: "📊",
+                    },
+                    {
+                      title: "Timeline Analysis",
+                      subtitle: "Schedule Performance",
+                      icon: "⏱️",
+                    },
+                    {
+                      title: "Performance Metrics",
+                      subtitle: "KPI Dashboard",
+                      icon: "⚡",
+                    },
+                    {
+                      title: "Risk Analysis",
+                      subtitle: "Project Risk Assessment",
+                      icon: "🎯",
+                    },
+                  ].map((item, index) => (
+                    <Card
+                      key={index}
+                      variant="outlined"
+                      sx={{
+                        height: 200,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CardContent sx={{ textAlign: "center" }}>
+                        <Typography variant="h3" component="div" sx={{ mb: 2 }}>
+                          {item.icon}
+                        </Typography>
+                        <Typography variant="h6" gutterBottom>
+                          {item.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {item.subtitle}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+        );
+
+      default:
+        return <Typography>Tab not found</Typography>;
+    }
+  };
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <Container maxWidth="xl" sx={{ mt: 3 }}>
+        {/* Loading State */}
+        {loading && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              py: 6,
+            }}
+          >
+            <Box sx={{ textAlign: "center" }}>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <Typography variant="h6" color="text.secondary">
+                Loading projects...
+              </Typography>
+            </Box>
+          </Box>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <Paper
+            sx={{
+              p: 2,
+              mb: 3,
+              backgroundColor: "#fff3cd",
+              borderColor: "#ffeaa7",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography sx={{ color: "#856404" }}>⚠️</Typography>
+              <Box sx={{ ml: 2 }}>
+                <Typography variant="body2" sx={{ color: "#856404" }}>
+                  {error}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "#856404",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                    mt: 1,
+                  }}
+                  onClick={refreshProjects}
+                >
+                  Try again
+                </Typography>
+              </Box>
+            </Box>
+          </Paper>
+        )}
+
+        {/* Enhanced Navigation Tabs with MUI */}
+        {!loading && (
+          <Paper sx={{ mb: 3 }}>
+            <Tabs
+              value={activeTab}
+              onChange={handleTabChange}
+              variant="scrollable"
+              scrollButtons="auto"
+              sx={{ borderBottom: 1, borderColor: "divider" }}
+            >
+              {availableTabs.map((tab) => (
+                <Tab
+                  key={tab.id}
+                  value={tab.id}
+                  icon={tab.icon}
+                  label={tab.label}
+                  iconPosition="start"
+                  sx={{ minHeight: 64 }}
+                />
+              ))}
+            </Tabs>
+          </Paper>
+        )}
+
+        {/* Tab Content */}
+        {!loading && <Paper elevation={1}>{renderTabContent()}</Paper>}
+      </Container>
+    </Box>
+  );
+};
+
+export default EnhancedProjectManagement;

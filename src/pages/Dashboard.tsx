@@ -2,23 +2,12 @@ import React, { useState } from "react";
 import { useAuth, useRole } from "../shared/hooks/useAuth";
 import { useDashboard } from "../shared/contexts";
 import { ProtectedRoute } from "../features/auth";
-import { OverviewTab } from "../features/dashboard";
-import {
-  ProjectsTab,
-  ConstructionTab,
-  CreateProjectModal,
-  EnhancedCreateProjectModal,
-  ProgressDashboard,
-  GanttChart,
-  ProjectManagement,
-} from "../features/projects";
-import { ReportsTab } from "../features/reports";
+import { ProjectManagement } from "../features/projects";
 import { NewProjectForm } from "../shared/types/project";
 import {
   ProjectEntity,
   ActivityStatus,
   ProjectStatus,
-  CreateProjectRequest,
 } from "../shared/types/project-management";
 import { useProjects } from "../shared/hooks/useProjects";
 
@@ -158,36 +147,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
-        <div className="w-full h-full px-8 py-8">
-          {/* Loading State */}
-          {loading && (
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-              <span className="ml-3 text-lg text-gray-600">
-                Loading projects...
-              </span>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <span className="text-yellow-400">⚠️</span>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-yellow-800">{error}</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Main Project Management Hub */}
-          {!loading && <ProjectManagement />}
-        </div>
-      </div>
+      {/* Enhanced Project Management Hub with MUI */}
+      <ProjectManagement />
     </ProtectedRoute>
   );
 };

@@ -2,8 +2,23 @@
 
 export * from "./auth";
 export * from "./api";
-export * from "./project";
-export * from "./project-management";
+// Selective exports to avoid conflicts
+export type {
+  DailyReportDto,
+  CreateDailyReportRequest,
+  EnhancedDailyReportDto,
+  WeeklySummaryDto,
+} from "./reports";
+export type {
+  Project,
+  CreateProjectRequest,
+  UpdateProjectRequest,
+} from "./project";
+export type {
+  ProjectEntity,
+  ActivityStatus,
+  ProjectStatus,
+} from "./project-management";
 
 export interface User {
   id: number;

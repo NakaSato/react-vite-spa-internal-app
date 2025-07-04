@@ -1,2 +1,3 @@
 export { default as ReportsTab } from "./ReportsTab";
-export { default as ProjectReport } from "./ProjectReport";
+// ProjectReport is only used as a dynamic import in reportService.ts
+// Removing static export to enable proper code splitting
