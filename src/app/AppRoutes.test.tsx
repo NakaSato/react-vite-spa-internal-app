@@ -54,4 +54,16 @@ describe("AppRoutes", () => {
       "About Us"
     );
   });
+
+  it("renders 404 page for unknown routes", () => {
+    renderWithRouter(["/unknown-route"]);
+    expect(screen.getByText("404")).toBeInTheDocument();
+    expect(screen.getByText("Page Not Found")).toBeInTheDocument();
+  });
+
+  it("renders 404 page for deeply nested unknown routes", () => {
+    renderWithRouter(["/some/deep/unknown/path"]);
+    expect(screen.getByText("404")).toBeInTheDocument();
+    expect(screen.getByText("Page Not Found")).toBeInTheDocument();
+  });
 });

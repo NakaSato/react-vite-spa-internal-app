@@ -2,9 +2,10 @@ import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../shared/hooks/useAuth";
 import { DashboardProvider, useDashboard } from "../shared/contexts";
-import { Home, About, Login, Dashboard, Register } from "../pages";
+import { Home, About, Login, Dashboard, Register, NotFound } from "../pages";
 import { Navigation } from "../widgets";
 import Footer from "../components/Footer";
+import ProtectedRoute from "../features/auth/ProtectedRoute";
 
 const AppRoutesContent: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -47,27 +48,14 @@ const AppRoutesContent: React.FC = () => {
           <Route
             path="/dashboard"
             element={
-              isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />
-            }
-          />
-          <Route
-            path="/"
-            element={
-              isAuthenticated ? (
-                <div>Loading...</div>
-              ) : (
-                <Navigate to="/login" replace />
-              )
+              <ProtectedRoute redirectToIndex={true}>
+                <Dashboard />
+              </ProtectedRoute>
             }
           />
 
-          {/* Catch-all route */}
-          <Route
-            path="*"
-            element={
-              <Navigate to={isAuthenticated ? "/dashboard" : "/"} replace />
-            }
-          />
+          {/* 404 Not Found - This will catch all unmatched routes */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       {!isIndexPage && <Footer />}
