@@ -69,7 +69,7 @@ const RealTimeProjectDashboard: React.FC<RealTimeProjectDashboardProps> = ({
   const { templates, loading: templatesLoading } = useProjectTemplates();
 
   // Real-time updates for all projects (demo)
-  const { updates: allUpdates } = useRealTimeProjects();
+  const { updates: allUpdates } = useRealTimeProjects(undefined, true); // Explicitly enable for dashboard
 
   // Handle bulk operations
   const handleBulkStatusUpdate = useCallback(

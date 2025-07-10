@@ -982,3 +982,25 @@ export interface DailyReportUpdateNotification {
   previousStatus?: DailyReportApprovalStatus;
   newStatus?: DailyReportApprovalStatus;
 }
+
+// ============================================================================
+// BACKWARD COMPATIBILITY TYPE ALIASES
+// ============================================================================
+
+/**
+ * Legacy type alias for ProjectDto
+ * @deprecated Use ProjectDto instead
+ */
+export type Project = ProjectDto;
+
+/**
+ * Legacy type alias for CreateProjectRequest
+ * @deprecated Use CreateProjectRequest instead
+ */
+export type NewProjectForm = CreateProjectRequest;
+
+/**
+ * Legacy type alias for UpdateProjectRequest
+ * @deprecated Use UpdateProjectRequest instead
+ */
+export type UpdateProjectForm = UpdateProjectRequest;

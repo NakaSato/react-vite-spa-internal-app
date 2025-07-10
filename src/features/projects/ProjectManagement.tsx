@@ -107,9 +107,15 @@ const ProjectManagement: React.FC = () => {
   // Filter and search logic
   const filteredProjects = projects.filter((project) => {
     const matchesSearch =
-      project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.client.toLowerCase().includes(searchTerm.toLowerCase());
+      (project.projectName?.toLowerCase() || "").includes(
+        searchTerm.toLowerCase()
+      ) ||
+      (project.address?.toLowerCase() || "").includes(
+        searchTerm.toLowerCase()
+      ) ||
+      (project.clientInfo?.toLowerCase() || "").includes(
+        searchTerm.toLowerCase()
+      );
 
     const matchesStatus =
       statusFilter === "all" || project.status === statusFilter;
@@ -121,13 +127,19 @@ const ProjectManagement: React.FC = () => {
   const sortedProjects = [...filteredProjects].sort((a, b) => {
     switch (sortBy) {
       case "name":
-        return a.name.localeCompare(b.name);
+        return (a.projectName || "").localeCompare(b.projectName || "");
       case "status":
-        return a.status.localeCompare(b.status);
+        return (a.status || "").localeCompare(b.status || "");
       case "budget":
-        return b.budget - a.budget;
+        // Using totalCapacityKw as a proxy for budget since budget isn't in the current schema
+        return (b.totalCapacityKw || 0) - (a.totalCapacityKw || 0);
       case "progress":
-        return b.progress - a.progress;
+        // Calculate progress from task completion
+        const aProgress =
+          a.taskCount > 0 ? (a.completedTaskCount / a.taskCount) * 100 : 0;
+        const bProgress =
+          b.taskCount > 0 ? (b.completedTaskCount / b.taskCount) * 100 : 0;
+        return bProgress - aProgress;
       default:
         return 0;
     }
@@ -143,20 +155,23 @@ const ProjectManagement: React.FC = () => {
   // Project statistics
   const projectStats = {
     totalProjects: projects.length,
-    totalBudget: projects.reduce((sum, p) => sum + p.budget, 0),
-    totalSpent: projects.reduce((sum, p) => sum + p.spent, 0),
+    totalBudget: projects.reduce((sum, p) => sum + (p.revenueValue || 0), 0), // Using revenueValue as budget proxy
+    totalSpent: projects.reduce((sum, p) => sum + (p.ftsValue || 0), 0), // Using ftsValue as spent proxy
     totalCapacity: projects.reduce((sum, p) => {
-      const size = parseFloat(p.systemSize);
-      return sum + (p.systemSize.includes("MW") ? size * 1000 : size);
+      return sum + (p.totalCapacityKw || 0);
     }, 0),
     budgetUtilization:
       projects.length > 0
-        ? (projects.reduce((sum, p) => sum + p.spent, 0) /
-            projects.reduce((sum, p) => sum + p.budget, 0)) *
+        ? (projects.reduce((sum, p) => sum + (p.ftsValue || 0), 0) /
+            Math.max(
+              projects.reduce((sum, p) => sum + (p.revenueValue || 0), 0),
+              1
+            )) *
           100
         : 0,
     statusDistribution: projects.reduce((acc, project) => {
-      acc[project.status] = (acc[project.status] || 0) + 1;
+      const status = project.status || "Unknown";
+      acc[status] = (acc[status] || 0) + 1;
       return acc;
     }, {} as Record<string, number>),
   };

@@ -11,6 +11,7 @@ interface RealTimeNotificationsProps {
   position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
   autoHideAfter?: number; // milliseconds
   className?: string;
+  enableRealTime?: boolean; // New prop to control real-time updates
 }
 
 const RealTimeNotifications: React.FC<RealTimeNotificationsProps> = ({
@@ -19,8 +20,10 @@ const RealTimeNotifications: React.FC<RealTimeNotificationsProps> = ({
   position = "top-right",
   autoHideAfter = 5000,
   className = "",
+  enableRealTime = false, // Default to false to prevent 404 errors
 }) => {
-  const { updates, connected } = useRealTimeProjects();
+  // Always call the hook but pass a disabled flag
+  const { updates, connected } = useRealTimeProjects(undefined, enableRealTime);
   const [notifications, setNotifications] = useState<
     ProjectUpdateNotification[]
   >([]);

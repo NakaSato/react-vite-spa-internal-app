@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Project, NewProjectForm } from "../types/project";
+import { ProjectDto, CreateProjectRequest } from "../types/project";
 import { projectsApi } from "../utils/projectsApi";
 
 export interface ProjectStats {
@@ -14,7 +14,7 @@ export interface ProjectStats {
 
 export interface UseProjectsReturn {
   // Data
-  projects: Project[];
+  projects: ProjectDto[];
   stats: ProjectStats | null;
 
   // Loading states
@@ -26,10 +26,10 @@ export interface UseProjectsReturn {
   statsError: string | null;
 
   // Actions
-  createProject: (projectData: NewProjectForm) => Promise<boolean>;
+  createProject: (projectData: CreateProjectRequest) => Promise<boolean>;
   updateProject: (
     id: string,
-    projectData: Partial<Project>
+    projectData: Partial<ProjectDto>
   ) => Promise<boolean>;
   deleteProject: (id: string) => Promise<boolean>;
   updateProjectProgress: (id: string, progress: number) => Promise<boolean>;
@@ -39,14 +39,14 @@ export interface UseProjectsReturn {
   refreshStats: () => Promise<void>;
 
   // Utility methods
-  getConstructionProjects: () => Project[];
+  getConstructionProjects: () => ProjectDto[];
   getProjectStats: () => ProjectStats | null;
-  getProjectsByStatus: (status: Project["status"]) => Project[];
+  getProjectsByStatus: (status: string) => ProjectDto[];
 }
 
 export const useProjects = (): UseProjectsReturn => {
   // State
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ProjectDto[]>([]);
   const [stats, setStats] = useState<ProjectStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [statsLoading, setStatsLoading] = useState(true);
@@ -59,7 +59,7 @@ export const useProjects = (): UseProjectsReturn => {
       setLoading(true);
       setError(null);
       const fetchedProjects = await projectsApi.getAllProjects();
-      setProjects(fetchedProjects);
+      setProjects(fetchedProjects.items || []);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to fetch projects";
@@ -111,7 +111,7 @@ export const useProjects = (): UseProjectsReturn => {
 
   // Create a new project
   const createProject = useCallback(
-    async (projectData: NewProjectForm): Promise<boolean> => {
+    async (projectData: CreateProjectRequest): Promise<boolean> => {
       try {
         const newProject = await projectsApi.createProject(projectData);
         setProjects((prev) => [...prev, newProject]);
@@ -133,11 +133,30 @@ export const useProjects = (): UseProjectsReturn => {
 
   // Update an existing project
   const updateProject = useCallback(
-    async (id: string, projectData: Partial<Project>): Promise<boolean> => {
+    async (id: string, projectData: Partial<ProjectDto>): Promise<boolean> => {
       try {
-        const updatedProject = await projectsApi.updateProject(id, projectData);
+        // Convert ProjectDto fields to UpdateProjectRequest fields
+        const updateData: any = {};
+        if (projectData.projectName !== undefined)
+          updateData.projectName = projectData.projectName;
+        if (projectData.address !== undefined)
+          updateData.address = projectData.address;
+        if (projectData.clientInfo !== undefined)
+          updateData.clientInfo = projectData.clientInfo;
+        if (projectData.status !== undefined)
+          updateData.status = projectData.status;
+        if (projectData.startDate !== undefined)
+          updateData.startDate = projectData.startDate;
+        if (projectData.estimatedEndDate !== undefined)
+          updateData.estimatedEndDate = projectData.estimatedEndDate;
+        if (projectData.actualEndDate !== undefined)
+          updateData.actualEndDate = projectData.actualEndDate;
+
+        const updatedProject = await projectsApi.patchProject(id, updateData);
         setProjects((prev) =>
-          prev.map((project) => (project.id === id ? updatedProject : project))
+          prev.map((project) =>
+            project.projectId === id ? updatedProject : project
+          )
         );
 
         // Refresh stats after updating a project
@@ -160,7 +179,9 @@ export const useProjects = (): UseProjectsReturn => {
     async (id: string): Promise<boolean> => {
       try {
         await projectsApi.deleteProject(id);
-        setProjects((prev) => prev.filter((project) => project.id !== id));
+        setProjects((prev) =>
+          prev.filter((project) => project.projectId !== id)
+        );
 
         // Refresh stats after deleting a project
         fetchStats();
@@ -186,7 +207,9 @@ export const useProjects = (): UseProjectsReturn => {
           progress
         );
         setProjects((prev) =>
-          prev.map((project) => (project.id === id ? updatedProject : project))
+          prev.map((project) =>
+            project.projectId === id ? updatedProject : project
+          )
         );
 
         return true;
@@ -214,8 +237,8 @@ export const useProjects = (): UseProjectsReturn => {
   }, [fetchStats]);
 
   // Get construction projects (cached from current projects)
-  const getConstructionProjects = useCallback((): Project[] => {
-    return projects.filter((project) => project.status === "Construction");
+  const getConstructionProjects = useCallback((): ProjectDto[] => {
+    return projects.filter((project) => project.status === "InProgress");
   }, [projects]);
 
   // Get current stats
@@ -225,7 +248,7 @@ export const useProjects = (): UseProjectsReturn => {
 
   // Get projects by status
   const getProjectsByStatus = useCallback(
-    (status: Project["status"]): Project[] => {
+    (status: string): ProjectDto[] => {
       return projects.filter((project) => project.status === status);
     },
     [projects]

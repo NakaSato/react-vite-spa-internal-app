@@ -4,6 +4,9 @@ This directory contains comprehensive documentation for the Solar Projects Manag
 
 ## 📋 Table of Contents
 
+### API Documentation
+- **[Project Management API](api/PROJECT_MANAGEMENT_API.md)** - Enhanced project management with real-time updates, analytics, and role-based access
+
 ### Features Documentation
 - **[Daily Reports Integration](features/DAILY_REPORTS_INTEGRATION_COMPLETE.md)** - Complete daily reporting system with approval workflows
 - **[Registration System](features/REGISTRATION.md)** - User registration and authentication
@@ -13,6 +16,10 @@ This directory contains comprehensive documentation for the Solar Projects Manag
 ### Technical Documentation
 - **[404 & Protected Routes](404_AND_PROTECTED_ROUTES.md)** - Error handling and route protection
 - **[PDF Reports](PDF_REPORTS.md)** - PDF generation and reporting features
+
+### Fixes & Troubleshooting
+- **[Real-time Polling 404 Fix](fixes/REALTIME_POLLING_404_FIX.md)** - Original fix for continuous 404 errors
+- **[Real-time Polling Enhanced Fix](fixes/REALTIME_POLLING_ENHANCED_FIX.md)** - Enhanced solution for preventing 404 errors
 
 ### Archive
 - **[Master Plan Project Overview](archive/MASTER_PLAN_OF_PROJECT.md)** - Comprehensive master plan specification (archived)

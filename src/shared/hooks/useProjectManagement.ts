@@ -533,15 +533,29 @@ export const useMyProjects = (params?: {
 /**
  * Hook for real-time project updates with SignalR/WebSocket integration
  */
-export const useRealTimeProjects = (projectIds?: string[]) => {
+export const useRealTimeProjects = (
+  projectIds?: string[],
+  enabled: boolean = true
+) => {
   const [updates, setUpdates] = useState<RealTimeProjectUpdate[]>([]);
   const [connected, setConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Don't start polling if disabled
+    if (!enabled) {
+      setConnected(false);
+      setUpdates([]);
+      setError(null);
+      return;
+    }
+
     let intervalId: number;
+    let endpointAvailable = true; // Flag to track if endpoint exists
 
     const pollForUpdates = async () => {
+      if (!endpointAvailable) return; // Don't poll if endpoint doesn't exist
+
       try {
         setError(null);
         const lastUpdate =
@@ -555,10 +569,24 @@ export const useRealTimeProjects = (projectIds?: string[]) => {
         );
 
         if (response.success && response.data && Array.isArray(response.data)) {
-          setUpdates((prev) => [...prev, ...response.data]);
+          setUpdates((prev) => [...prev, ...(response.data || [])]);
           setConnected(true);
         }
       } catch (err) {
+        // Check if it's a 404 error (endpoint not implemented)
+        if (err instanceof Error && err.message.includes("404")) {
+          console.warn(
+            "Real-time updates endpoint not available, disabling polling"
+          );
+          endpointAvailable = false;
+          setConnected(false);
+          // Clear the interval to stop polling
+          if (intervalId) {
+            window.clearInterval(intervalId);
+          }
+          return;
+        }
+
         setError(
           err instanceof Error ? err.message : "Failed to fetch updates"
         );
@@ -566,18 +594,21 @@ export const useRealTimeProjects = (projectIds?: string[]) => {
       }
     };
 
-    // Poll every 5 seconds for real-time updates (fallback if SignalR not available)
-    intervalId = window.setInterval(pollForUpdates, 5000);
+    // Only start polling if endpoint is available
+    if (endpointAvailable) {
+      // Poll every 5 seconds for real-time updates (fallback if SignalR not available)
+      intervalId = window.setInterval(pollForUpdates, 5000);
 
-    // Initial fetch
-    pollForUpdates();
+      // Initial fetch
+      pollForUpdates();
+    }
 
     return () => {
       if (intervalId) {
         window.clearInterval(intervalId);
       }
     };
-  }, [projectIds]);
+  }, [projectIds, enabled]);
 
   const clearUpdates = useCallback(() => {
     setUpdates([]);
@@ -747,8 +778,10 @@ export const useEnhancedProjectManagement = () => {
   >([]);
 
   // Get real-time updates for selected projects
-  const { updates: realTimeUpdates, connected } =
-    useRealTimeProjects(selectedProjects);
+  const { updates: realTimeUpdates, connected } = useRealTimeProjects(
+    selectedProjects,
+    true
+  ); // Explicitly enable for enhanced project management
 
   // Bulk operations
   const { performBulkOperation, loading: bulkLoading } =
