@@ -45,6 +45,9 @@ export interface UseProjectsReturn {
 }
 
 export const useProjects = (): UseProjectsReturn => {
+  // Log hook initialization
+  console.log("⚡ [useProjects] Hook initialized");
+
   // State
   const [projects, setProjects] = useState<ProjectDto[]>([]);
   const [stats, setStats] = useState<ProjectStats | null>(null);
@@ -56,17 +59,38 @@ export const useProjects = (): UseProjectsReturn => {
   // Fetch all projects from API
   const fetchProjects = useCallback(async () => {
     try {
+      console.log("🚀 [Get All Projects] Starting API call...");
       setLoading(true);
       setError(null);
+
       const fetchedProjects = await projectsApi.getAllProjects();
-      setProjects(fetchedProjects.items || []);
+
+      console.log("✅ [Get All Projects] API Response:", {
+        success: !!fetchedProjects,
+        totalCount: fetchedProjects?.totalCount || 0,
+        itemsLength: fetchedProjects?.items?.length || 0,
+        pageNumber: fetchedProjects?.pageNumber,
+        pageSize: fetchedProjects?.pageSize,
+        hasNextPage: fetchedProjects?.hasNextPage,
+        fullResponse: fetchedProjects,
+      });
+
+      const projects = fetchedProjects.items || [];
+      console.log("📊 [Get All Projects] Setting projects:", projects);
+
+      setProjects(projects);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to fetch projects";
+      console.error("❌ [Get All Projects] Error:", {
+        error: err,
+        message: errorMessage,
+        stack: err instanceof Error ? err.stack : undefined,
+      });
       setError(errorMessage);
-      console.error("Failed to fetch projects:", err);
     } finally {
       setLoading(false);
+      console.log("🏁 [Get All Projects] Fetch complete");
     }
   }, []);
 
@@ -256,6 +280,9 @@ export const useProjects = (): UseProjectsReturn => {
 
   // Initial data fetch
   useEffect(() => {
+    console.log(
+      "🔄 [useProjects] Initial useEffect triggered - fetching projects and stats"
+    );
     fetchProjects();
     fetchStats();
   }, [fetchProjects, fetchStats]);

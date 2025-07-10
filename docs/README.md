@@ -12,6 +12,7 @@ This directory contains comprehensive documentation for the Solar Projects Manag
 - **[Registration System](features/REGISTRATION.md)** - User registration and authentication
 - **[Real-time Project Management](features/REALTIME_PROJECT_MANAGEMENT.md)** - Live project updates and notifications
 - **[Master Plan Integration](features/MASTER_PLAN_INTEGRATION_SUMMARY.md)** - Master plan functionality and API integration
+- **[Project Status Overview Pagination](features/PROJECT_STATUS_OVERVIEW_PAGINATION.md)** - Database-driven pagination with search, filtering, and sorting
 
 ### Technical Documentation
 - **[404 & Protected Routes](404_AND_PROTECTED_ROUTES.md)** - Error handling and route protection

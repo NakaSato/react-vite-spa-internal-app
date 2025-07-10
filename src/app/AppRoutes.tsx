@@ -40,7 +40,8 @@ const AppRoutesContent: React.FC = () => {
       {!isIndexPage && <Navigation />}
       <main className="flex-grow">
         {/* Real-time notifications for authenticated users */}
-        {isAuthenticated && <RealTimeNotifications position="top-right" />}
+        {/* TEMPORARILY DISABLED: RealTimeNotifications until backend endpoint is implemented */}
+        {/* {isAuthenticated && <RealTimeNotifications position="top-right" />} */}
 
         <Routes>
           {/* Public Routes */}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth, useRole } from "../../shared/hooks/useAuth";
 import { useProjects } from "../../shared/hooks/useProjects";
 import { OverviewTab } from "../dashboard";
-import ProjectsTab from "./ProjectsTab";
+import ProjectsDisplay from "./ProjectsDisplay";
 import ConstructionTab from "./ConstructionTab";
 import ProgressDashboard from "./ProgressDashboard";
 import GanttChart from "./GanttChart";
@@ -69,6 +69,28 @@ const ProjectManagement: React.FC = () => {
   const { user } = useAuth();
   const { isAdmin, isManager, roleName } = useRole();
   const { projects, loading, error, refreshProjects } = useProjects();
+
+  // Log project data changes for debugging
+  React.useEffect(() => {
+    console.log("🔍 [ProjectManagement] Projects data updated:", {
+      projectsCount: projects.length,
+      loading,
+      error,
+      firstProject: projects[0] || null,
+      projectIds: projects.map((p) => p.projectId),
+      projectNames: projects.map((p) => p.projectName),
+    });
+  }, [projects, loading, error]);
+
+  // Log user context for debugging
+  React.useEffect(() => {
+    console.log("👤 [ProjectManagement] User context:", {
+      user: user?.email || "No user",
+      isAdmin,
+      isManager,
+      roleName,
+    });
+  }, [user, isAdmin, isManager, roleName]);
 
   // Internal state management
   const [activeTab, setActiveTab] = useState<
@@ -205,51 +227,13 @@ const ProjectManagement: React.FC = () => {
       case "projects":
         return (
           <div className="space-y-6">
-            <ProjectsTab
-              projects={paginatedProjects}
-              isAdmin={isAdmin}
-              isManager={isManager}
+            <ProjectsDisplay
+              projects={projects}
+              loading={loading}
+              error={error}
+              onRefresh={refreshProjects}
               onCreateProject={handleCreateProject}
             />
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex justify-center items-center space-x-2 mt-6">
-                <button
-                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className="px-3 py-2 rounded-lg border border-gray-300 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                >
-                  Previous
-                </button>
-
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (page) => (
-                    <button
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      className={`px-3 py-2 rounded-lg border ${
-                        currentPage === page
-                          ? "bg-blue-600 text-white border-blue-600"
-                          : "border-gray-300 text-gray-700 hover:bg-gray-50"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  )
-                )}
-
-                <button
-                  onClick={() =>
-                    setCurrentPage(Math.min(totalPages, currentPage + 1))
-                  }
-                  disabled={currentPage === totalPages}
-                  className="px-3 py-2 rounded-lg border border-gray-300 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                >
-                  Next
-                </button>
-              </div>
-            )}
           </div>
         );
 
@@ -343,6 +327,56 @@ const ProjectManagement: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">
+            Project Management
+          </h1>
+          <p className="mt-2 text-gray-600">
+            Manage and monitor your solar installation projects
+          </p>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="mb-8">
+          <nav className="flex space-x-1 bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+            {tabs
+              .filter((tab) => {
+                // Filter tabs based on role requirements
+                if (tab.requiredRole) {
+                  return (
+                    (tab.requiredRole.includes("Admin") && isAdmin) ||
+                    (tab.requiredRole.includes("Manager") && isManager)
+                  );
+                }
+                return true;
+              })
+              .map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-1 px-4 py-3 text-sm font-medium rounded-md transition-colors ${
+                    activeTab === tab.id
+                      ? "bg-blue-600 text-white shadow-sm"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+                >
+                  <div className="flex items-center justify-center space-x-2">
+                    <span className="text-lg">{tab.icon}</span>
+                    <span className="hidden sm:inline">{tab.label}</span>
+                  </div>
+                </button>
+              ))}
+          </nav>
+        </div>
+
+        {/* Tab Description */}
+        <div className="mb-6">
+          <p className="text-sm text-gray-600">
+            {tabs.find((tab) => tab.id === activeTab)?.description}
+          </p>
+        </div>
+
         {/* Loading State */}
         {loading && (
           <div className="flex justify-center items-center py-12">

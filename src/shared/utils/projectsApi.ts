@@ -47,6 +47,11 @@ export class ProjectsApiService {
     params?: GetProjectsParams
   ): Promise<EnhancedPagedResult<ProjectDto>> {
     try {
+      console.log(
+        "🔄 [ProjectsApiService.getAllProjects] Starting API call with params:",
+        params
+      );
+
       const queryParams = new URLSearchParams();
 
       if (params?.pageNumber)
@@ -63,31 +68,58 @@ export class ProjectsApiService {
       const url = queryParams.toString()
         ? `${this.endpoint}?${queryParams}`
         : this.endpoint;
+
+      console.log(
+        "📡 [ProjectsApiService.getAllProjects] Making request to:",
+        url
+      );
+
       const response = await apiClient.get<
         ApiResponse<EnhancedPagedResult<ProjectDto>>
       >(url);
 
-      return (
-        response.data || {
-          items: [],
-          totalCount: 0,
+      console.log("📦 [ProjectsApiService.getAllProjects] Raw API response:", {
+        success: response.success,
+        data: response.data,
+        error: response.error,
+        message: response.message,
+      });
+
+      const result = response.data || {
+        items: [],
+        totalCount: 0,
+        pageNumber: 1,
+        pageSize: 10,
+        totalPages: 0,
+        hasNextPage: false,
+        hasPreviousPage: false,
+        pagination: {
           pageNumber: 1,
           pageSize: 10,
+          totalCount: 0,
           totalPages: 0,
           hasNextPage: false,
           hasPreviousPage: false,
-          pagination: {
-            pageNumber: 1,
-            pageSize: 10,
-            totalCount: 0,
-            totalPages: 0,
-            hasNextPage: false,
-            hasPreviousPage: false,
-          },
-        }
-      );
+        },
+      };
+
+      console.log("✅ [ProjectsApiService.getAllProjects] Returning result:", {
+        itemsCount: result.items?.length || 0,
+        totalCount: result.totalCount,
+        pageNumber: result.pageNumber,
+        pageSize: result.pageSize,
+        hasNextPage: result.hasNextPage,
+        firstItem: result.items?.[0] || null,
+      });
+
+      return result;
     } catch (error) {
-      console.error("Failed to fetch projects:", error);
+      console.error("❌ [ProjectsApiService.getAllProjects] Error:", {
+        error,
+        message: error instanceof Error ? error.message : "Unknown error",
+        stack: error instanceof Error ? error.stack : undefined,
+        params,
+      });
       throw new Error("Failed to fetch projects");
     }
   }

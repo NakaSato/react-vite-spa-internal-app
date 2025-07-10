@@ -1,11 +1,13 @@
-import React from "react";
-import { ProjectDto } from "../../shared/types/project";
+import React, { useState, useEffect, useCallback } from "react";
+import { ProjectDto, GetProjectsParams } from "../../shared/types/project";
+import { EnhancedPagedResult } from "../../shared/types/api";
 import {
   getStatusColor,
   formatCurrency,
   formatCapacity,
 } from "../../shared/utils/projectHelpers";
 import { useDailyReports } from "../../shared/hooks";
+import { projectsApi } from "../../shared/utils/projectsApi";
 
 interface ProjectStats {
   totalProjects: number;
@@ -14,6 +16,16 @@ interface ProjectStats {
   totalCapacity: number;
   budgetUtilization?: number;
   statusDistribution?: Record<string, number>;
+}
+
+interface PaginatedProjectsData {
+  projects: ProjectDto[];
+  totalCount: number;
+  pageNumber: number;
+  pageSize: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  totalPages: number;
 }
 
 interface OverviewTabProps {
@@ -27,6 +39,22 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
   stats,
   statsLoading = false,
 }) => {
+  // Pagination state for Project Status Overview
+  const [paginatedData, setPaginatedData] = useState<PaginatedProjectsData>({
+    projects: [],
+    totalCount: 0,
+    pageNumber: 1,
+    pageSize: 6,
+    hasNextPage: false,
+    hasPreviousPage: false,
+    totalPages: 0,
+  });
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [projectsError, setProjectsError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("name");
+
   // Get recent daily reports
   const { reports: recentReports, loading: reportsLoading } = useDailyReports();
   const todayReports = recentReports.filter((report) => {
@@ -34,6 +62,98 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
     const today = new Date();
     return reportDate.toDateString() === today.toDateString();
   });
+
+  // Fetch paginated projects from API
+  const fetchPaginatedProjects = useCallback(async (params: GetProjectsParams) => {
+    try {
+      setProjectsLoading(true);
+      setProjectsError(null);
+      
+      console.log("🔄 [OverviewTab] Fetching paginated projects with params:", params);
+      
+      const response = await projectsApi.getAllProjects(params);
+      
+      console.log("✅ [OverviewTab] API Response:", {
+        totalCount: response.totalCount,
+        pageNumber: response.pageNumber,
+        pageSize: response.pageSize,
+        hasNextPage: response.hasNextPage,
+        hasPreviousPage: response.hasPreviousPage,
+        itemsLength: response.items?.length || 0,
+      });
+
+      const totalPages = Math.ceil(response.totalCount / response.pageSize);
+      
+      setPaginatedData({
+        projects: response.items || [],
+        totalCount: response.totalCount,
+        pageNumber: response.pageNumber,
+        pageSize: response.pageSize,
+        hasNextPage: response.hasNextPage,
+        hasPreviousPage: response.hasPreviousPage,
+        totalPages,
+      });
+    } catch (error) {
+      console.error("❌ [OverviewTab] Error fetching paginated projects:", error);
+      setProjectsError(error instanceof Error ? error.message : "Failed to fetch projects");
+    } finally {
+      setProjectsLoading(false);
+    }
+  }, []);
+
+  // Initial load and when filters change
+  useEffect(() => {
+    const params: GetProjectsParams = {
+      pageNumber: paginatedData.pageNumber,
+      pageSize: paginatedData.pageSize,
+      search: searchTerm || undefined,
+      status: statusFilter !== "all" ? statusFilter : undefined,
+      sortBy: sortBy || undefined,
+      sortOrder: "asc",
+    };
+
+    fetchPaginatedProjects(params);
+  }, [paginatedData.pageNumber, paginatedData.pageSize, searchTerm, statusFilter, sortBy, fetchPaginatedProjects]);
+
+  // Pagination handlers
+  const handlePageChange = (newPage: number) => {
+    setPaginatedData(prev => ({
+      ...prev,
+      pageNumber: newPage,
+    }));
+  };
+
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPaginatedData(prev => ({
+      ...prev,
+      pageSize: newPageSize,
+      pageNumber: 1, // Reset to first page
+    }));
+  };
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    setPaginatedData(prev => ({
+      ...prev,
+      pageNumber: 1, // Reset to first page
+    }));
+  };
+
+  const handleStatusFilter = (status: string) => {
+    setStatusFilter(status);
+    setPaginatedData(prev => ({
+      ...prev,
+      pageNumber: 1, // Reset to first page
+    }));
+  };
+
+  const handleSortChange = (sort: string) => {
+    setSortBy(sort);
+    setPaginatedData(prev => ({
+      ...prev,
+      pageNumber: 1, // Reset to first page
+    }));
+  };
 
   // Fallback to local calculation if stats not available
   const totalBudget =
@@ -220,25 +340,135 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
             </div>
             <div className="flex items-center space-x-2">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                {projects.length} Projects
+                {paginatedData.totalCount} Total Projects
+              </span>
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                Page {paginatedData.pageNumber} of {paginatedData.totalPages}
               </span>
             </div>
           </div>
         </div>
+
+        {/* Search and Filter Controls */}
+        <div className="px-8 py-4 border-b border-gray-200 bg-gray-50">
+          <div className="flex flex-wrap items-center gap-4">
+            {/* Search Input */}
+            <div className="flex-1 min-w-64">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Search projects..."
+                  value={searchTerm}
+                  onChange={(e) => handleSearch(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Status Filter */}
+            <select
+              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={statusFilter}
+              onChange={(e) => handleStatusFilter(e.target.value)}
+            >
+              <option value="all">All Status</option>
+              <option value="Planning">Planning</option>
+              <option value="InProgress">In Progress</option>
+              <option value="Completed">Completed</option>
+              <option value="OnHold">On Hold</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+
+            {/* Sort Options */}
+            <select
+              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={sortBy}
+              onChange={(e) => handleSortChange(e.target.value)}
+            >
+              <option value="name">Sort by Name</option>
+              <option value="status">Sort by Status</option>
+              <option value="startDate">Sort by Start Date</option>
+              <option value="capacity">Sort by Capacity</option>
+            </select>
+
+            {/* Page Size Selector */}
+            <select
+              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={paginatedData.pageSize}
+              onChange={(e) => handlePageSizeChange(parseInt(e.target.value))}
+            >
+              <option value={6}>6 per page</option>
+              <option value={12}>12 per page</option>
+              <option value={24}>24 per page</option>
+            </select>
+
+            {/* Refresh Button */}
+            <button
+              onClick={() => fetchPaginatedProjects({
+                pageNumber: paginatedData.pageNumber,
+                pageSize: paginatedData.pageSize,
+                search: searchTerm || undefined,
+                status: statusFilter !== "all" ? statusFilter : undefined,
+                sortBy: sortBy || undefined,
+                sortOrder: "asc",
+              })}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Refresh
+            </button>
+          </div>
+        </div>
+
         <div className="p-8">
-          {projects.length === 0 ? (
+          {projectsLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <span className="ml-3 text-gray-600">Loading projects...</span>
+            </div>
+          ) : projectsError ? (
+            <div className="text-center py-12">
+              <div className="text-red-500 text-6xl mb-4">❌</div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                Error loading projects
+              </h3>
+              <p className="text-gray-500 mb-4">{projectsError}</p>
+              <button
+                onClick={() => fetchPaginatedProjects({
+                  pageNumber: paginatedData.pageNumber,
+                  pageSize: paginatedData.pageSize,
+                  search: searchTerm || undefined,
+                  status: statusFilter !== "all" ? statusFilter : undefined,
+                  sortBy: sortBy || undefined,
+                  sortOrder: "asc",
+                })}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Try Again
+              </button>
+            </div>
+          ) : paginatedData.totalCount === 0 ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">🏗️</div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
                 No projects found
               </h3>
               <p className="text-gray-500">
-                Get started by creating your first project.
+                {searchTerm || statusFilter !== "all" 
+                  ? "Try adjusting your search or filter criteria."
+                  : "Get started by creating your first project."}
               </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.slice(0, 6).map((project) => (
+              {paginatedData.projects.map((project) => (
                 <div
                   key={project.projectId}
                   className="bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:border-blue-300"
@@ -297,9 +527,103 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
                         <span>{formatCapacity(project.totalCapacityKw)}</span>
                       )}
                     </div>
+
+                    {/* Additional project details */}
+                    <div className="pt-3 border-t border-gray-100">
+                      <div className="flex justify-between text-xs text-gray-500">
+                        <span>🏢 {project.clientInfo || "No client"}</span>
+                        <span>📍 {project.address || "No address"}</span>
+                      </div>
+                      {project.startDate && (
+                        <div className="mt-1 text-xs text-gray-500">
+                          📅 Started: {new Date(project.startDate).toLocaleDateString()}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Pagination Controls */}
+          {paginatedData.totalCount > 0 && (
+            <div className="mt-8 flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-700">
+                  Showing {Math.min((paginatedData.pageNumber - 1) * paginatedData.pageSize + 1, paginatedData.totalCount)} to{" "}
+                  {Math.min(paginatedData.pageNumber * paginatedData.pageSize, paginatedData.totalCount)} of{" "}
+                  {paginatedData.totalCount} projects
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                {/* Previous Button */}
+                <button
+                  onClick={() => handlePageChange(paginatedData.pageNumber - 1)}
+                  disabled={!paginatedData.hasPreviousPage}
+                  className={`inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium transition-colors ${
+                    paginatedData.hasPreviousPage
+                      ? "text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      : "text-gray-400 bg-gray-100 cursor-not-allowed"
+                  }`}
+                >
+                  <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Previous
+                </button>
+
+                {/* Page Numbers */}
+                <div className="flex items-center space-x-1">
+                  {Array.from({ length: Math.min(5, paginatedData.totalPages) }, (_, i) => {
+                    const page = i + 1;
+                    const isCurrentPage = page === paginatedData.pageNumber;
+                    
+                    return (
+                      <button
+                        key={page}
+                        onClick={() => handlePageChange(page)}
+                        className={`inline-flex items-center px-3 py-2 text-sm font-medium border rounded-lg transition-colors ${
+                          isCurrentPage
+                            ? "text-blue-600 bg-blue-50 border-blue-500"
+                            : "text-gray-700 bg-white border-gray-300 hover:bg-gray-50"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    );
+                  })}
+                  
+                  {paginatedData.totalPages > 5 && (
+                    <>
+                      <span className="px-2 text-gray-500">...</span>
+                      <button
+                        onClick={() => handlePageChange(paginatedData.totalPages)}
+                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
+                        {paginatedData.totalPages}
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                {/* Next Button */}
+                <button
+                  onClick={() => handlePageChange(paginatedData.pageNumber + 1)}
+                  disabled={!paginatedData.hasNextPage}
+                  className={`inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium transition-colors ${
+                    paginatedData.hasNextPage
+                      ? "text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      : "text-gray-400 bg-gray-100 cursor-not-allowed"
+                  }`}
+                >
+                  Next
+                  <svg className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
           )}
         </div>
