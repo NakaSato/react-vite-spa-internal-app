@@ -23,12 +23,38 @@ import {
   ProjectDto,
   CreateProjectRequest,
   UpdateProjectRequest,
-} from "../types/project";
-import {
+  ProjectStatusDto,
+  ProjectAnalyticsDto,
+  ProjectPerformanceDto,
+  ProjectTemplateDto,
+  CreateProjectFromTemplateRequest,
+  UpdateProjectStatusRequest,
+  ProjectStatusUpdateResponse,
+  ProjectSearchRequest,
+  ProjectSearchResponse,
+  GetProjectsParams,
+  ProjectAnalyticsParams,
+  ProjectValidationResult,
+  ProjectStatusWorkflow,
+  BulkProjectOperation,
+  BulkProjectOperationResult,
+  RealTimeProjectUpdate,
+  // Daily Reports types
   DailyReportDto,
   CreateDailyReportRequest,
-  WeeklySummaryDto,
-} from "../types/reports";
+  UpdateDailyReportRequest,
+  GetDailyReportsParams,
+  DailyReportAnalytics,
+  DailyReportValidationResult,
+  DailyReportTemplate,
+  DailyReportExportRequest,
+  BulkApprovalRequest,
+  BulkRejectionRequest,
+  BulkOperationResult,
+  DailyReportUpdateNotification,
+  DailyReportApprovalStatus,
+} from "../types/project";
+import { WeeklySummaryDto } from "../types/reports";
 import { User } from "../types/auth";
 
 /**
@@ -106,30 +132,16 @@ export class SolarProjectApi {
   // ============================================================================
 
   /**
-   * Get all projects with filtering and pagination
+   * Get all projects with enhanced filtering and pagination
    */
-  async getProjects(params?: {
-    ProjectName?: string;
-    Status?: string;
-    ClientInfo?: string;
-    StartDateAfter?: string;
-    StartDateBefore?: string;
-    EstimatedEndDateAfter?: string;
-    EstimatedEndDateBefore?: string;
-    ManagerId?: string;
-    Address?: string;
-    PageNumber?: number;
-    PageSize?: number;
-    SortBy?: string;
-    SortOrder?: string;
-    Search?: string;
-    Fields?: string;
-  }): Promise<ApiResponse<EnhancedPagedResult<ProjectDto>>> {
+  async getProjects(
+    params?: GetProjectsParams
+  ): Promise<ApiResponse<EnhancedPagedResult<ProjectDto>>> {
     const queryString = params
       ? new URLSearchParams(params as any).toString()
       : "";
     return this.apiClient.get<ApiResponse<EnhancedPagedResult<ProjectDto>>>(
-      `/api/v1/Projects${queryString ? `?${queryString}` : ""}`
+      `/api/v1/projects${queryString ? `?${queryString}` : ""}`
     );
   }
 
@@ -194,9 +206,152 @@ export class SolarProjectApi {
   /**
    * Get project status
    */
-  async getProjectStatus(id: string): Promise<ApiResponse<any>> {
-    return this.apiClient.get<ApiResponse<any>>(
-      `/api/v1/Projects/${id}/status`
+  async getProjectStatus(id: string): Promise<ApiResponse<ProjectStatusDto>> {
+    return this.apiClient.get<ApiResponse<ProjectStatusDto>>(
+      `/api/v1/projects/${id}/status`
+    );
+  }
+
+  /**
+   * Partially update project (PATCH - partial update)
+   */
+  async patchProject(
+    id: string,
+    updates: Partial<UpdateProjectRequest>
+  ): Promise<ApiResponse<ProjectDto>> {
+    return this.apiClient.patch<ApiResponse<ProjectDto>>(
+      `/api/v1/projects/${id}`,
+      updates
+    );
+  }
+
+  /**
+   * Update project status with workflow validation
+   */
+  async updateProjectStatus(
+    id: string,
+    statusUpdate: UpdateProjectStatusRequest
+  ): Promise<ApiResponse<ProjectStatusUpdateResponse>> {
+    return this.apiClient.patch<ApiResponse<ProjectStatusUpdateResponse>>(
+      `/api/v1/projects/${id}/status`,
+      statusUpdate
+    );
+  }
+
+  /**
+   * Get project analytics and performance metrics
+   */
+  async getProjectAnalytics(
+    params?: ProjectAnalyticsParams
+  ): Promise<ApiResponse<ProjectAnalyticsDto>> {
+    const queryString = params
+      ? new URLSearchParams(params as any).toString()
+      : "";
+    return this.apiClient.get<ApiResponse<ProjectAnalyticsDto>>(
+      `/api/v1/projects/analytics${queryString ? `?${queryString}` : ""}`
+    );
+  }
+
+  /**
+   * Get detailed performance metrics for a specific project
+   */
+  async getProjectPerformance(
+    id: string
+  ): Promise<ApiResponse<ProjectPerformanceDto>> {
+    return this.apiClient.get<ApiResponse<ProjectPerformanceDto>>(
+      `/api/v1/projects/${id}/performance`
+    );
+  }
+
+  /**
+   * Get available project templates
+   */
+  async getProjectTemplates(): Promise<
+    ApiResponse<{ templates: ProjectTemplateDto[] }>
+  > {
+    return this.apiClient.get<ApiResponse<{ templates: ProjectTemplateDto[] }>>(
+      "/api/v1/projects/templates"
+    );
+  }
+
+  /**
+   * Create project from template
+   */
+  async createProjectFromTemplate(
+    templateId: string,
+    projectData: CreateProjectFromTemplateRequest
+  ): Promise<ApiResponse<ProjectDto>> {
+    return this.apiClient.post<ApiResponse<ProjectDto>>(
+      `/api/v1/projects/from-template/${templateId}`,
+      projectData
+    );
+  }
+
+  /**
+   * Advanced project search with facets and full-text search
+   */
+  async searchProjects(
+    searchRequest: ProjectSearchRequest
+  ): Promise<ApiResponse<ProjectSearchResponse>> {
+    const queryString = new URLSearchParams(searchRequest as any).toString();
+    return this.apiClient.get<ApiResponse<ProjectSearchResponse>>(
+      `/api/v1/projects/search${queryString ? `?${queryString}` : ""}`
+    );
+  }
+
+  /**
+   * Validate project data before submission
+   */
+  async validateProject(
+    projectData: Partial<CreateProjectRequest>
+  ): Promise<ApiResponse<ProjectValidationResult>> {
+    return this.apiClient.post<ApiResponse<ProjectValidationResult>>(
+      "/api/v1/projects/validate",
+      projectData
+    );
+  }
+
+  /**
+   * Get project status workflow information
+   */
+  async getProjectStatusWorkflow(
+    id: string
+  ): Promise<ApiResponse<ProjectStatusWorkflow>> {
+    return this.apiClient.get<ApiResponse<ProjectStatusWorkflow>>(
+      `/api/v1/projects/${id}/status-workflow`
+    );
+  }
+
+  /**
+   * Bulk operations on multiple projects
+   */
+  async bulkProjectOperation(
+    operation: BulkProjectOperation
+  ): Promise<ApiResponse<BulkProjectOperationResult>> {
+    return this.apiClient.post<ApiResponse<BulkProjectOperationResult>>(
+      "/api/v1/projects/bulk",
+      operation
+    );
+  }
+
+  /**
+   * Get real-time project updates (for SignalR/WebSocket setup)
+   */
+  async getProjectUpdates(
+    projectIds?: string[],
+    since?: string
+  ): Promise<ApiResponse<RealTimeProjectUpdate[]>> {
+    const params = new URLSearchParams();
+    if (projectIds) {
+      projectIds.forEach((id) => params.append("projectIds", id));
+    }
+    if (since) {
+      params.append("since", since);
+    }
+    return this.apiClient.get<ApiResponse<RealTimeProjectUpdate[]>>(
+      `/api/v1/projects/updates${
+        params.toString() ? `?${params.toString()}` : ""
+      }`
     );
   }
 
@@ -328,6 +483,165 @@ export class SolarProjectApi {
       `/api/v1/daily-reports/pending-approval${
         queryString ? `?${queryString}` : ""
       }`
+    );
+  }
+
+  // ============================================================================
+  // ENHANCED DAILY REPORTS ENDPOINTS
+  // ============================================================================
+
+  /**
+   * Reject daily report
+   */
+  async rejectDailyReport(
+    id: string,
+    rejectionReason: string
+  ): Promise<ApiResponse<DailyReportDto>> {
+    return this.apiClient.post<ApiResponse<DailyReportDto>>(
+      `/api/v1/daily-reports/${id}/reject`,
+      { rejectionReason }
+    );
+  }
+
+  /**
+   * Submit daily report for approval
+   */
+  async submitDailyReportForApproval(
+    id: string
+  ): Promise<ApiResponse<DailyReportDto>> {
+    return this.apiClient.post<ApiResponse<DailyReportDto>>(
+      `/api/v1/daily-reports/${id}/submit`
+    );
+  }
+
+  /**
+   * Get daily report analytics
+   */
+  async getDailyReportAnalytics(
+    projectId: string,
+    startDate: string,
+    endDate: string
+  ): Promise<ApiResponse<DailyReportAnalytics>> {
+    return this.apiClient.get<ApiResponse<DailyReportAnalytics>>(
+      `/api/v1/daily-reports/analytics/${projectId}?startDate=${startDate}&endDate=${endDate}`
+    );
+  }
+
+  /**
+   * Validate daily report
+   */
+  async validateDailyReport(
+    reportData: CreateDailyReportRequest
+  ): Promise<ApiResponse<DailyReportValidationResult>> {
+    return this.apiClient.post<ApiResponse<DailyReportValidationResult>>(
+      "/api/v1/daily-reports/validate",
+      reportData
+    );
+  }
+
+  /**
+   * Bulk approve daily reports
+   */
+  async bulkApproveDailyReports(
+    request: BulkApprovalRequest
+  ): Promise<ApiResponse<BulkOperationResult>> {
+    return this.apiClient.post<ApiResponse<BulkOperationResult>>(
+      "/api/v1/daily-reports/bulk-approve",
+      request
+    );
+  }
+
+  /**
+   * Bulk reject daily reports
+   */
+  async bulkRejectDailyReports(
+    request: BulkRejectionRequest
+  ): Promise<ApiResponse<BulkOperationResult>> {
+    return this.apiClient.post<ApiResponse<BulkOperationResult>>(
+      "/api/v1/daily-reports/bulk-reject",
+      request
+    );
+  }
+
+  /**
+   * Export daily reports
+   */
+  async exportDailyReports(
+    request: DailyReportExportRequest
+  ): Promise<ApiResponse<{ downloadUrl: string; fileName: string }>> {
+    return this.apiClient.post<
+      ApiResponse<{ downloadUrl: string; fileName: string }>
+    >("/api/v1/daily-reports/export", request);
+  }
+
+  /**
+   * Get daily report templates
+   */
+  async getDailyReportTemplates(
+    projectId?: string
+  ): Promise<ApiResponse<DailyReportTemplate[]>> {
+    const params = projectId ? `?projectId=${projectId}` : "";
+    return this.apiClient.get<ApiResponse<DailyReportTemplate[]>>(
+      `/api/v1/daily-reports/templates${params}`
+    );
+  }
+
+  /**
+   * Create daily report template
+   */
+  async createDailyReportTemplate(
+    templateData: Partial<DailyReportTemplate>
+  ): Promise<ApiResponse<DailyReportTemplate>> {
+    return this.apiClient.post<ApiResponse<DailyReportTemplate>>(
+      "/api/v1/daily-reports/templates",
+      templateData
+    );
+  }
+
+  /**
+   * Update daily report template
+   */
+  async updateDailyReportTemplate(
+    id: string,
+    templateData: Partial<DailyReportTemplate>
+  ): Promise<ApiResponse<DailyReportTemplate>> {
+    return this.apiClient.put<ApiResponse<DailyReportTemplate>>(
+      `/api/v1/daily-reports/templates/${id}`,
+      templateData
+    );
+  }
+
+  /**
+   * Delete daily report template
+   */
+  async deleteDailyReportTemplate(id: string): Promise<ApiResponse<boolean>> {
+    return this.apiClient.delete<ApiResponse<boolean>>(
+      `/api/v1/daily-reports/templates/${id}`
+    );
+  }
+
+  /**
+   * Get daily reports for real-time updates
+   */
+  async getDailyReportUpdates(
+    projectId: string,
+    lastUpdated?: string
+  ): Promise<ApiResponse<DailyReportUpdateNotification[]>> {
+    const params = lastUpdated ? `?lastUpdated=${lastUpdated}` : "";
+    return this.apiClient.get<ApiResponse<DailyReportUpdateNotification[]>>(
+      `/api/v1/daily-reports/updates/${projectId}${params}`
+    );
+  }
+
+  /**
+   * Get daily reports with enhanced search
+   */
+  async searchDailyReports(
+    params: GetDailyReportsParams
+  ): Promise<ApiResponse<EnhancedPagedResult<DailyReportDto>>> {
+    const queryString = new URLSearchParams(params as any).toString();
+    return this.apiClient.get<ApiResponse<EnhancedPagedResult<DailyReportDto>>>(
+      `/api/v1/daily-reports/search?${queryString}`
     );
   }
 

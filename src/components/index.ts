@@ -6,7 +6,6 @@ export { default as Footer } from "./Footer";
 // Re-export commonly used components from their new locations
 export { ProtectedRoute } from "../features/auth";
 export { LoginForm, RegisterForm } from "../features/auth";
-export { default as Navigation } from "../widgets/Navigation";
 export {
   ProjectsTab,
   ConstructionTab,

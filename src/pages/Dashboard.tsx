@@ -3,7 +3,7 @@ import { useAuth, useRole } from "../shared/hooks/useAuth";
 import { useDashboard } from "../shared/contexts";
 import { ProtectedRoute } from "../features/auth";
 import { ProjectManagement } from "../features/projects";
-import { NewProjectForm } from "../shared/types/project";
+import { CreateProjectRequest } from "../shared/types/project";
 import {
   ProjectEntity,
   ActivityStatus,
@@ -84,13 +84,13 @@ const Dashboard: React.FC = () => {
     getProjectStats,
   } = useProjects();
 
-  const [newProject, setNewProject] = useState<NewProjectForm>({
+  const [newProject, setNewProject] = useState<CreateProjectRequest>({
     projectName: "",
     address: "",
     clientInfo: "",
-    status: "Planning",
     startDate: "",
     estimatedEndDate: "",
+    projectManagerId: user?.userId || "",
     totalCapacityKw: 0,
     pvModuleCount: 0,
     ftsValue: 0,
@@ -115,9 +115,9 @@ const Dashboard: React.FC = () => {
         projectName: "",
         address: "",
         clientInfo: "",
-        status: "Planning",
         startDate: "",
         estimatedEndDate: "",
+        projectManagerId: user?.userId || "",
         totalCapacityKw: 0,
         pvModuleCount: 0,
         ftsValue: 0,
@@ -141,13 +141,15 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleInputChange = (field: keyof NewProjectForm, value: any) => {
-    setNewProject((prev) => ({ ...prev, [field]: value }));
+  const handleInputChange = (field: keyof CreateProjectRequest, value: any) => {
+    setNewProject((prev: CreateProjectRequest) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   return (
     <ProtectedRoute>
-      {/* Enhanced Project Management Hub with MUI */}
       <ProjectManagement />
     </ProtectedRoute>
   );

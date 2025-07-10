@@ -1,16 +1,24 @@
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../shared/hooks/useAuth";
-import { DashboardProvider, useDashboard } from "../shared/contexts";
-import { Home, About, Login, Dashboard, Register, NotFound } from "../pages";
-import { Navigation } from "../widgets";
+import { DashboardProvider } from "../shared/contexts";
+import {
+  Home,
+  About,
+  Login,
+  Dashboard,
+  Register,
+  DailyReports,
+  NotFound,
+} from "../pages";
+import { Navigation, RealTimeNotifications } from "../widgets";
+import { RealTimeProjectDashboard } from "../features/projects";
 import Footer from "../components/Footer";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 
 const AppRoutesContent: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
-  const { activeTab, setActiveTab } = useDashboard();
 
   // Check if we're on the index page
   const isIndexPage = location.pathname === "/";
@@ -29,14 +37,11 @@ const AppRoutesContent: React.FC = () => {
 
   return (
     <div className="App min-h-screen bg-gray-50 flex flex-col">
-      {!isIndexPage && (
-        <Navigation
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          showTabs={location.pathname === "/dashboard"}
-        />
-      )}
+      {!isIndexPage && <Navigation />}
       <main className="flex-grow">
+        {/* Real-time notifications for authenticated users */}
+        {isAuthenticated && <RealTimeNotifications position="top-right" />}
+
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
@@ -50,6 +55,26 @@ const AppRoutesContent: React.FC = () => {
             element={
               <ProtectedRoute redirectToIndex={true}>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Real-time Project Management Dashboard */}
+          <Route
+            path="/projects/realtime"
+            element={
+              <ProtectedRoute redirectToIndex={true}>
+                <RealTimeProjectDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Daily Reports Management */}
+          <Route
+            path="/daily-reports"
+            element={
+              <ProtectedRoute redirectToIndex={true}>
+                <DailyReports />
               </ProtectedRoute>
             }
           />

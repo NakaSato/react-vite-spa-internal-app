@@ -1,11 +1,11 @@
 import React from "react";
-import { NewProjectForm, Project } from "../../shared/types/project";
+import { CreateProjectRequest, ProjectDto } from "../../shared/types/project";
 
 interface CreateProjectModalProps {
   showModal: boolean;
-  newProject: NewProjectForm;
+  newProject: CreateProjectRequest;
   onClose: () => void;
-  onInputChange: (field: keyof NewProjectForm, value: any) => void;
+  onInputChange: (field: keyof CreateProjectRequest, value: any) => void;
   onCreateProject: () => void;
 }
 
@@ -57,23 +57,6 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                     placeholder="โรงพยาบาลปากน้ำ"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Status
-                  </label>
-                  <select
-                    value={newProject.status || ""}
-                    onChange={(e) => onInputChange("status", e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option value="Planning">Planning</option>
-                    <option value="Design">Design</option>
-                    <option value="Permits">Permits</option>
-                    <option value="Construction">Construction</option>
-                    <option value="Inspection">Inspection</option>
-                    <option value="Completed">Completed</option>
-                  </select>
-                </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Address *
@@ -92,7 +75,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   </label>
                   <input
                     type="text"
-                    value={newProject.clientInfo}
+                    value={newProject.clientInfo || ""}
                     onChange={(e) =>
                       onInputChange("clientInfo", e.target.value)
                     }
@@ -126,7 +109,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   </label>
                   <input
                     type="date"
-                    value={newProject.estimatedEndDate}
+                    value={newProject.estimatedEndDate || ""}
                     onChange={(e) =>
                       onInputChange("estimatedEndDate", e.target.value)
                     }
@@ -149,7 +132,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   <input
                     type="number"
                     step="0.1"
-                    value={newProject.totalCapacityKw}
+                    value={newProject.totalCapacityKw || 0}
                     onChange={(e) =>
                       onInputChange(
                         "totalCapacityKw",
@@ -166,7 +149,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   </label>
                   <input
                     type="number"
-                    value={newProject.pvModuleCount}
+                    value={newProject.pvModuleCount || 0}
                     onChange={(e) =>
                       onInputChange(
                         "pvModuleCount",
@@ -182,7 +165,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                     Connection Type
                   </label>
                   <select
-                    value={newProject.connectionType}
+                    value={newProject.connectionType || "LV"}
                     onChange={(e) =>
                       onInputChange("connectionType", e.target.value)
                     }
@@ -208,7 +191,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   </label>
                   <input
                     type="number"
-                    value={newProject.ftsValue}
+                    value={newProject.ftsValue || 0}
                     onChange={(e) =>
                       onInputChange("ftsValue", parseFloat(e.target.value) || 0)
                     }
@@ -222,7 +205,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   </label>
                   <input
                     type="number"
-                    value={newProject.revenueValue}
+                    value={newProject.revenueValue || 0}
                     onChange={(e) =>
                       onInputChange(
                         "revenueValue",
@@ -239,7 +222,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   </label>
                   <input
                     type="number"
-                    value={newProject.pqmValue}
+                    value={newProject.pqmValue || 0}
                     onChange={(e) =>
                       onInputChange("pqmValue", parseFloat(e.target.value) || 0)
                     }
@@ -263,7 +246,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   <input
                     type="number"
                     step="0.0001"
-                    value={newProject.latitude}
+                    value={newProject.latitude || 0}
                     onChange={(e) =>
                       onInputChange("latitude", parseFloat(e.target.value) || 0)
                     }
@@ -278,7 +261,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   <input
                     type="number"
                     step="0.0001"
-                    value={newProject.longitude}
+                    value={newProject.longitude || 0}
                     onChange={(e) =>
                       onInputChange(
                         "longitude",
@@ -294,7 +277,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                     Connection Notes
                   </label>
                   <textarea
-                    value={newProject.connectionNotes}
+                    value={newProject.connectionNotes || ""}
                     onChange={(e) =>
                       onInputChange("connectionNotes", e.target.value)
                     }

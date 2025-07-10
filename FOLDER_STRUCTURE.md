@@ -52,7 +52,6 @@ src/
 │   │   └── index.ts            # Auth feature exports
 │   ├── dashboard/              # Dashboard feature
 │   │   ├── OverviewTab.tsx     # Overview tab component
-│   │   ├── NavigationTabs.tsx  # Dashboard navigation tabs
 │   │   └── index.ts            # Dashboard feature exports
 │   ├── projects/               # Projects management feature
 │   │   ├── ProjectsTab.tsx     # Projects tab component

@@ -1,32 +1,29 @@
 # Solar Projects Management SPA
 
-A comprehensive React + TypeScript SPA for solar project management with authentication, role-based access control, and professional PDF reporting capabilities.
+A comprehensive React + TypeScript SPA for solar project management with authentication, role-based access control, real-time updates, and daily reporting capabilities.
 
 ## 🌟 Features
 
 ### Core Functionality
-- **Project Management**: Complete CRUD operations for solar projects
-- **Dashboard Analytics**: Real-time statistics and project insights
+- **Project Management**: Complete CRUD operations for solar projects with status tracking
+- **Dashboard Analytics**: Real-time statistics, project insights, and progress monitoring
 - **Role-Based Access**: Admin, Manager, User, and Viewer roles with appropriate permissions
 - **Authentication**: JWT-based auth with token refresh and secure storage
-- **API Integration**: Full API integration with environment-based configuration
+- **API Integration**: Full API integration with environment-based configuration (Docker/Azure)
 
-### PDF Report Generation
-- **Professional Reports**: Generate high-quality PDF reports using @react-pdf/renderer
-- **Multiple Report Types**: 
-  - Overview: High-level summary and statistics
-  - Detailed: Complete project listings with specifications
-  - Financial: Budget analysis and financial metrics
-- **Date Range Filtering**: Filter reports by project start date ranges
-- **Automatic Download**: Client-side PDF generation and download
+### Real-Time Features
+- **Live Project Dashboard**: Real-time project updates and notifications
+- **Daily Reports**: Comprehensive daily reporting system with approval workflows
+- **Status Management**: Real-time project status updates with approval requirements
+- **Notifications**: Live notifications for project updates and system events
 
 ### Technical Stack
 - **Frontend**: React 18, TypeScript, Tailwind CSS
-- **Build**: Vite with Bun package manager
+- **Build**: Vite with Bun package manager  
 - **Testing**: Vitest + React Testing Library
-- **PDF Generation**: @react-pdf/renderer with custom layouts
 - **Auth**: JWT with role-based access control
-- **API**: Type-safe client with environment switching
+- **API**: Type-safe client with environment switching (local Docker/Azure prod)
+- **State Management**: React Context + Custom Hooks
 
 ## 🚀 Getting Started
 
@@ -34,6 +31,7 @@ A comprehensive React + TypeScript SPA for solar project management with authent
 
 - Bun (recommended) or Node.js 18+
 - Modern browser with ES6 support
+- Backend API running (local Docker or Azure)
 
 ### Installation
 
@@ -89,23 +87,38 @@ yarn build
 
 The build artifacts will be stored in the `dist` directory.
 
-## Project Structure
+## 📁 Project Structure
 
-- `src/`: Contains the source code for the application.
-  - `main.tsx`: Entry point of the application.
-  - `App.tsx`: Main application component.
-  - `components/`: Reusable components.
-  - `pages/`: Main page components.
-  - `hooks/`: Custom hooks.
-  - `utils/`: Utility functions.
-  - `types/`: TypeScript interfaces and types.
-- `public/`: Static assets.
-- `index.html`: Main HTML template.
-- `package.json`: Project metadata and dependencies.
-- `tsconfig.json`: TypeScript configuration.
-- `vite.config.ts`: Vite configuration.
-- `tailwind.config.js`: Tailwind CSS configuration.
-- `postcss.config.js`: PostCSS configuration.
+```
+src/
+├── app/                   # App routing and configuration
+├── components/            # Reusable UI components
+├── features/              # Feature-based modules
+│   ├── auth/             # Authentication components
+│   ├── dashboard/        # Dashboard and overview
+│   ├── projects/         # Project management
+│   └── reports/          # Reporting features
+├── pages/                # Page-level components
+├── shared/               # Shared utilities and types
+│   ├── api/             # API client and services
+│   ├── contexts/        # React contexts
+│   ├── hooks/           # Custom React hooks
+│   ├── types/           # TypeScript type definitions
+│   └── utils/           # Utility functions
+└── widgets/              # Complex reusable components
+```
+
+## 📚 Documentation
+
+- **[Project Structure](FOLDER_STRUCTURE.md)** - Detailed project organization
+- **[Features Documentation](docs/features/)** - Feature-specific documentation
+  - [Daily Reports](docs/features/DAILY_REPORTS_INTEGRATION_COMPLETE.md)
+  - [Registration System](docs/features/REGISTRATION.md)
+  - [Real-time Management](docs/features/REALTIME_PROJECT_MANAGEMENT.md)
+  - [Master Plan Integration](docs/features/MASTER_PLAN_INTEGRATION_SUMMARY.md)
+- **[Technical Docs](docs/)** - Technical implementation details
+  - [404 & Protected Routes](docs/404_AND_PROTECTED_ROUTES.md)
+  - [PDF Reports](docs/PDF_REPORTS.md)
 
 ## Contributing
 
