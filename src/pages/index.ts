@@ -7,3 +7,4 @@ export { default as DailyReports } from "./DailyReports";
 export { default as NotFound } from "./NotFound";
 export { default as ProjectDetail } from "./ProjectDetail";
 export { default as ApiDebugTest } from "./ApiDebugTest";
+export { default as TestIntegrationPage } from "./TestIntegrationPage";

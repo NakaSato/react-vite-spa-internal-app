@@ -12,6 +12,7 @@ import {
   NotFound,
   ProjectDetail,
   ApiDebugTest,
+  TestIntegrationPage,
 } from "../pages";
 import { Navigation, RealTimeNotifications } from "../widgets";
 import { RealTimeProjectDashboard } from "../features/projects";
@@ -98,6 +99,16 @@ const AppRoutesContent: React.FC = () => {
             element={
               <ProtectedRoute redirectToIndex={true}>
                 <ApiDebugTest />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Integration Test Dashboard - Development Only */}
+          <Route
+            path="/integration-test"
+            element={
+              <ProtectedRoute redirectToIndex={true}>
+                <TestIntegrationPage />
               </ProtectedRoute>
             }
           />
