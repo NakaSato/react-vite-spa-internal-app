@@ -1,5 +1,5 @@
 import React from "react";
-import { Project } from "../types/project";
+import { ProjectDto } from "../types/project";
 
 export interface ProjectStats {
   totalProjects: number;
@@ -37,7 +37,7 @@ export class ReportService {
    * Generate and download a PDF report
    */
   static async generateAndDownloadReport(
-    projects: Project[],
+    projects: ProjectDto[],
     stats: ProjectStats,
     options: ReportOptions
   ): Promise<void> {
@@ -92,7 +92,7 @@ export class ReportService {
    * Generate PDF blob without downloading (for preview or sending)
    */
   static async generateReportBlob(
-    projects: Project[],
+    projects: ProjectDto[],
     stats: ProjectStats,
     options: ReportOptions
   ): Promise<Blob> {
@@ -122,7 +122,7 @@ export class ReportService {
    * Generate base64 encoded PDF (for email attachments)
    */
   static async generateReportBase64(
-    projects: Project[],
+    projects: ProjectDto[],
     stats: ProjectStats,
     options: ReportOptions
   ): Promise<string> {
@@ -153,10 +153,10 @@ export class ReportService {
    * Filter projects by date range
    */
   static filterProjectsByDateRange(
-    projects: Project[],
+    projects: ProjectDto[],
     startDate: string,
     endDate: string
-  ): Project[] {
+  ): ProjectDto[] {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
@@ -169,26 +169,30 @@ export class ReportService {
   /**
    * Calculate stats for filtered projects
    */
-  static calculateFilteredStats(projects: Project[]): ProjectStats {
+  static calculateFilteredStats(projects: ProjectDto[]): ProjectStats {
     return {
       totalProjects: projects.length,
-      totalBudget: projects.reduce((sum, p) => sum + p.budget, 0),
-      totalSpent: projects.reduce((sum, p) => sum + p.spent, 0),
-      totalCapacity: projects.length, // Using project count as capacity measure
+      totalBudget: projects.reduce((sum, p) => sum + (p.revenueValue || 0), 0),
+      totalSpent: projects.reduce((sum, p) => sum + (p.ftsValue || 0), 0),
+      totalCapacity: projects.reduce(
+        (sum, p) => sum + (p.totalCapacityKw || 0),
+        0
+      ),
       activeProjects: projects.filter(
         (p) =>
-          p.status === "Construction" ||
+          p.status === "InProgress" ||
           p.status === "Planning" ||
-          p.status === "Design"
+          p.status === "OnHold"
       ).length,
       budgetUtilization:
-        projects.reduce((sum, p) => sum + p.budget, 0) > 0
-          ? (projects.reduce((sum, p) => sum + p.spent, 0) /
-              projects.reduce((sum, p) => sum + p.budget, 0)) *
+        projects.reduce((sum, p) => sum + (p.revenueValue || 0), 0) > 0
+          ? (projects.reduce((sum, p) => sum + (p.ftsValue || 0), 0) /
+              projects.reduce((sum, p) => sum + (p.revenueValue || 0), 0)) *
             100
           : 0,
       statusDistribution: projects.reduce((acc, project) => {
-        acc[project.status] = (acc[project.status] || 0) + 1;
+        const status = project.status || "Unknown";
+        acc[status] = (acc[status] || 0) + 1;
         return acc;
       }, {} as Record<string, number>),
     };
@@ -198,7 +202,7 @@ export class ReportService {
    * Generate report with date filtering
    */
   static async generateFilteredReport(
-    projects: Project[],
+    projects: ProjectDto[],
     stats: ProjectStats,
     startDate: string,
     endDate: string,

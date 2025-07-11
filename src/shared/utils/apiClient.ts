@@ -28,12 +28,42 @@ export class ApiClient {
       ...this.defaultHeaders,
       Authorization: `Bearer ${token}`,
     };
+    console.log("🔑 API Client: Authentication token set");
   }
 
   // Clear authentication token
   clearAuthToken(): void {
     const { Authorization, ...headersWithoutAuth } = this.defaultHeaders as any;
     this.defaultHeaders = headersWithoutAuth;
+    console.log("🔑 API Client: Authentication token cleared");
+  }
+
+  // Get current auth token from localStorage (fallback)
+  private getAuthToken(): string | null {
+    try {
+      return localStorage.getItem("auth_token");
+    } catch (error) {
+      console.warn("Could not retrieve auth token from localStorage:", error);
+      return null;
+    }
+  }
+
+  // Get headers with authentication
+  private getHeaders(): Record<string, string> {
+    // If no Authorization header is set, try to get token from localStorage
+    const headers = { ...this.defaultHeaders } as Record<string, string>;
+
+    if (!headers.Authorization) {
+      const token = this.getAuthToken();
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+        console.log("🔑 API Client: Using token from localStorage");
+      } else {
+        console.log("🔑 API Client: No authentication token available");
+      }
+    }
+
+    return headers;
   }
 
   // Normalize URL construction to prevent double slashes
@@ -51,57 +81,64 @@ export class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = this.buildUrl(endpoint);
+    const headers = this.getHeaders();
 
-    // Merge headers properly, ensuring we don't override Content-Type if explicitly set
-    const mergedHeaders = {
-      ...this.defaultHeaders,
-      ...options.headers,
-    };
-
-    const config: RequestInit = {
+    // Merge provided options with defaults
+    const requestOptions: RequestInit = {
       ...options,
-      headers: mergedHeaders,
+      headers: {
+        ...headers,
+        ...options.headers,
+      },
     };
 
-    // Debug logging for troubleshooting
-    console.log("API Request:", {
-      url,
-      method: config.method || "GET",
-      headers: config.headers,
-      bodyType: typeof config.body,
-      body: config.body,
-      hasBody: !!config.body,
+    console.log(`📡 API Request: ${requestOptions.method || "GET"} ${url}`);
+    console.log(`📡 API Headers:`, {
+      ...headers,
+      Authorization: headers.Authorization ? "[REDACTED]" : "none",
     });
 
     try {
-      const response = await fetch(url, config);
+      const response = await fetch(url, requestOptions);
 
-      console.log("API Response:", {
-        status: response.status,
-        statusText: response.statusText,
-        headers: response.headers
-          ? Object.fromEntries(response.headers.entries())
-          : {},
-      });
-
+      // Handle different response types
       if (!response.ok) {
-        // Try to get the error response body for better debugging
-        let errorDetails = `HTTP error! status: ${response.status}`;
-        try {
-          const errorBody = await response.text();
-          console.log("API Error Body:", errorBody);
-          if (errorBody) {
-            errorDetails += ` - ${errorBody}`;
+        const errorText = await response.text();
+        console.error(
+          `❌ API Error: ${response.status} ${response.statusText}`,
+          {
+            url,
+            method: requestOptions.method || "GET",
+            status: response.status,
+            statusText: response.statusText,
+            body: errorText,
           }
-        } catch (e) {
-          console.log("Could not parse error response body");
+        );
+
+        // Handle specific error cases
+        if (response.status === 401) {
+          throw new Error("Authentication required. Please log in.");
         }
-        throw new Error(errorDetails);
+        if (response.status === 403) {
+          throw new Error("Access denied. Insufficient permissions.");
+        }
+        if (response.status === 404) {
+          throw new Error("Resource not found.");
+        }
+
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
       }
 
-      return await response.json();
+      // Parse JSON response
+      const data = await response.json();
+      console.log(`✅ API Response: ${response.status}`, { hasData: !!data });
+      return data;
     } catch (error) {
-      console.error("API request failed:", error);
+      console.error(`❌ API Request failed:`, {
+        url,
+        method: requestOptions.method || "GET",
+        error: error instanceof Error ? error.message : String(error),
+      });
       throw error;
     }
   }

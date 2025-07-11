@@ -327,56 +327,6 @@ const ProjectManagement: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Project Management
-          </h1>
-          <p className="mt-2 text-gray-600">
-            Manage and monitor your solar installation projects
-          </p>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="mb-8">
-          <nav className="flex space-x-1 bg-white rounded-lg shadow-sm border border-gray-200 p-1">
-            {tabs
-              .filter((tab) => {
-                // Filter tabs based on role requirements
-                if (tab.requiredRole) {
-                  return (
-                    (tab.requiredRole.includes("Admin") && isAdmin) ||
-                    (tab.requiredRole.includes("Manager") && isManager)
-                  );
-                }
-                return true;
-              })
-              .map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 px-4 py-3 text-sm font-medium rounded-md transition-colors ${
-                    activeTab === tab.id
-                      ? "bg-blue-600 text-white shadow-sm"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                  }`}
-                >
-                  <div className="flex items-center justify-center space-x-2">
-                    <span className="text-lg">{tab.icon}</span>
-                    <span className="hidden sm:inline">{tab.label}</span>
-                  </div>
-                </button>
-              ))}
-          </nav>
-        </div>
-
-        {/* Tab Description */}
-        <div className="mb-6">
-          <p className="text-sm text-gray-600">
-            {tabs.find((tab) => tab.id === activeTab)?.description}
-          </p>
-        </div>
-
         {/* Loading State */}
         {loading && (
           <div className="flex justify-center items-center py-12">

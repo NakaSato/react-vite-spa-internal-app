@@ -10,6 +10,8 @@ import {
   Register,
   DailyReports,
   NotFound,
+  ProjectDetail,
+  ApiDebugTest,
 } from "../pages";
 import { Navigation, RealTimeNotifications } from "../widgets";
 import { RealTimeProjectDashboard } from "../features/projects";
@@ -70,12 +72,32 @@ const AppRoutesContent: React.FC = () => {
             }
           />
 
+          {/* Project Detail Page */}
+          <Route
+            path="/projects/:projectId"
+            element={
+              <ProtectedRoute redirectToIndex={true}>
+                <ProjectDetail />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Daily Reports Management */}
           <Route
             path="/daily-reports"
             element={
               <ProtectedRoute redirectToIndex={true}>
                 <DailyReports />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* API Debug Test - Development Only */}
+          <Route
+            path="/api-debug"
+            element={
+              <ProtectedRoute redirectToIndex={true}>
+                <ApiDebugTest />
               </ProtectedRoute>
             }
           />

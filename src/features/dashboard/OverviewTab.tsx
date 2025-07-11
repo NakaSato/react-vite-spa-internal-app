@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ProjectDto, GetProjectsParams } from "../../shared/types/project";
-import { EnhancedPagedResult } from "../../shared/types/api";
 import {
   getStatusColor,
   formatCurrency,
@@ -26,6 +25,12 @@ interface PaginatedProjectsData {
   hasNextPage: boolean;
   hasPreviousPage: boolean;
   totalPages: number;
+}
+
+interface ActiveProjectsData {
+  totalCount: number;
+  loading: boolean;
+  error: string | null;
 }
 
 interface OverviewTabProps {
@@ -55,6 +60,14 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("name");
 
+  // Separate state for active projects count
+  const [activeProjectsData, setActiveProjectsData] =
+    useState<ActiveProjectsData>({
+      totalCount: 0,
+      loading: true,
+      error: null,
+    });
+
   // Get recent daily reports
   const { reports: recentReports, loading: reportsLoading } = useDailyReports();
   const todayReports = recentReports.filter((report) => {
@@ -63,43 +76,98 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
     return reportDate.toDateString() === today.toDateString();
   });
 
-  // Fetch paginated projects from API
-  const fetchPaginatedProjects = useCallback(async (params: GetProjectsParams) => {
+  // Fetch active projects count from API
+  const fetchActiveProjectsCount = useCallback(async () => {
     try {
-      setProjectsLoading(true);
-      setProjectsError(null);
-      
-      console.log("🔄 [OverviewTab] Fetching paginated projects with params:", params);
-      
-      const response = await projectsApi.getAllProjects(params);
-      
-      console.log("✅ [OverviewTab] API Response:", {
-        totalCount: response.totalCount,
-        pageNumber: response.pageNumber,
-        pageSize: response.pageSize,
-        hasNextPage: response.hasNextPage,
-        hasPreviousPage: response.hasPreviousPage,
-        itemsLength: response.items?.length || 0,
+      setActiveProjectsData((prev) => ({
+        ...prev,
+        loading: true,
+        error: null,
+      }));
+
+      console.log("🔄 [OverviewTab] Fetching active projects count");
+
+      // Fetch only active project statuses (not Completed or Cancelled)
+      const response = await projectsApi.getAllProjects({
+        pageNumber: 1,
+        pageSize: 1, // We only need the count, not the actual data
+        status: "InProgress,Planning,OnHold", // Active statuses
       });
 
-      const totalPages = Math.ceil(response.totalCount / response.pageSize);
-      
-      setPaginatedData({
-        projects: response.items || [],
+      console.log(
+        "✅ [OverviewTab] Active projects count:",
+        response.totalCount
+      );
+
+      setActiveProjectsData({
         totalCount: response.totalCount,
-        pageNumber: response.pageNumber,
-        pageSize: response.pageSize,
-        hasNextPage: response.hasNextPage,
-        hasPreviousPage: response.hasPreviousPage,
-        totalPages,
+        loading: false,
+        error: null,
       });
     } catch (error) {
-      console.error("❌ [OverviewTab] Error fetching paginated projects:", error);
-      setProjectsError(error instanceof Error ? error.message : "Failed to fetch projects");
-    } finally {
-      setProjectsLoading(false);
+      console.error(
+        "❌ [OverviewTab] Error fetching active projects count:",
+        error
+      );
+      setActiveProjectsData({
+        totalCount: 0,
+        loading: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch active projects count",
+      });
     }
   }, []);
+
+  // Fetch paginated projects from API
+  const fetchPaginatedProjects = useCallback(
+    async (params: GetProjectsParams) => {
+      try {
+        setProjectsLoading(true);
+        setProjectsError(null);
+
+        console.log(
+          "🔄 [OverviewTab] Fetching paginated projects with params:",
+          params
+        );
+
+        const response = await projectsApi.getAllProjects(params);
+
+        console.log("✅ [OverviewTab] API Response:", {
+          totalCount: response.totalCount,
+          pageNumber: response.pageNumber,
+          pageSize: response.pageSize,
+          hasNextPage: response.hasNextPage,
+          hasPreviousPage: response.hasPreviousPage,
+          itemsLength: response.items?.length || 0,
+        });
+
+        const totalPages = Math.ceil(response.totalCount / response.pageSize);
+
+        setPaginatedData({
+          projects: response.items || [],
+          totalCount: response.totalCount,
+          pageNumber: response.pageNumber,
+          pageSize: response.pageSize,
+          hasNextPage: response.hasNextPage,
+          hasPreviousPage: response.hasPreviousPage,
+          totalPages,
+        });
+      } catch (error) {
+        console.error(
+          "❌ [OverviewTab] Error fetching paginated projects:",
+          error
+        );
+        setProjectsError(
+          error instanceof Error ? error.message : "Failed to fetch projects"
+        );
+      } finally {
+        setProjectsLoading(false);
+      }
+    },
+    []
+  );
 
   // Initial load and when filters change
   useEffect(() => {
@@ -113,18 +181,25 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
     };
 
     fetchPaginatedProjects(params);
-  }, [paginatedData.pageNumber, paginatedData.pageSize, searchTerm, statusFilter, sortBy, fetchPaginatedProjects]);
+  }, [
+    paginatedData.pageNumber,
+    paginatedData.pageSize,
+    searchTerm,
+    statusFilter,
+    sortBy,
+    fetchPaginatedProjects,
+  ]);
 
   // Pagination handlers
   const handlePageChange = (newPage: number) => {
-    setPaginatedData(prev => ({
+    setPaginatedData((prev) => ({
       ...prev,
       pageNumber: newPage,
     }));
   };
 
   const handlePageSizeChange = (newPageSize: number) => {
-    setPaginatedData(prev => ({
+    setPaginatedData((prev) => ({
       ...prev,
       pageSize: newPageSize,
       pageNumber: 1, // Reset to first page
@@ -133,7 +208,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setPaginatedData(prev => ({
+    setPaginatedData((prev) => ({
       ...prev,
       pageNumber: 1, // Reset to first page
     }));
@@ -141,7 +216,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
 
   const handleStatusFilter = (status: string) => {
     setStatusFilter(status);
-    setPaginatedData(prev => ({
+    setPaginatedData((prev) => ({
       ...prev,
       pageNumber: 1, // Reset to first page
     }));
@@ -149,10 +224,20 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
 
   const handleSortChange = (sort: string) => {
     setSortBy(sort);
-    setPaginatedData(prev => ({
+    setPaginatedData((prev) => ({
       ...prev,
       pageNumber: 1, // Reset to first page
     }));
+  };
+
+  // Handle clicking on project cards to open detail page in new tab
+  const handleProjectClick = (projectId: string) => {
+    const projectUrl = `/projects/${projectId}`;
+    window.open(projectUrl, "_blank");
+    console.log(
+      "🔗 [OverviewTab] Opening project detail in new tab:",
+      projectId
+    );
   };
 
   // Fallback to local calculation if stats not available
@@ -168,7 +253,9 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
   const budgetUtilization =
     stats?.budgetUtilization ??
     (totalBudget > 0 ? (totalSpent / totalBudget) * 100 : 0);
-  const totalProjects = stats?.totalProjects ?? projects.length;
+  // Use API total count for active projects, fallback to local projects length
+  const totalProjects =
+    stats?.totalProjects ?? (paginatedData.totalCount || projects.length);
 
   return (
     <div className="space-y-8">
@@ -356,8 +443,18 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
             <div className="flex-1 min-w-64">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  <svg
+                    className="h-5 w-5 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
                   </svg>
                 </div>
                 <input
@@ -409,18 +506,31 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
 
             {/* Refresh Button */}
             <button
-              onClick={() => fetchPaginatedProjects({
-                pageNumber: paginatedData.pageNumber,
-                pageSize: paginatedData.pageSize,
-                search: searchTerm || undefined,
-                status: statusFilter !== "all" ? statusFilter : undefined,
-                sortBy: sortBy || undefined,
-                sortOrder: "asc",
-              })}
+              onClick={() => {
+                fetchPaginatedProjects({
+                  pageNumber: paginatedData.pageNumber,
+                  pageSize: paginatedData.pageSize,
+                  search: searchTerm || undefined,
+                  status: statusFilter !== "all" ? statusFilter : undefined,
+                  sortBy: sortBy || undefined,
+                  sortOrder: "asc",
+                });
+                fetchActiveProjectsCount();
+              }}
               className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              <svg
+                className="h-4 w-4 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
               </svg>
               Refresh
             </button>
@@ -441,14 +551,17 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
               </h3>
               <p className="text-gray-500 mb-4">{projectsError}</p>
               <button
-                onClick={() => fetchPaginatedProjects({
-                  pageNumber: paginatedData.pageNumber,
-                  pageSize: paginatedData.pageSize,
-                  search: searchTerm || undefined,
-                  status: statusFilter !== "all" ? statusFilter : undefined,
-                  sortBy: sortBy || undefined,
-                  sortOrder: "asc",
-                })}
+                onClick={() => {
+                  fetchPaginatedProjects({
+                    pageNumber: paginatedData.pageNumber,
+                    pageSize: paginatedData.pageSize,
+                    search: searchTerm || undefined,
+                    status: statusFilter !== "all" ? statusFilter : undefined,
+                    sortBy: sortBy || undefined,
+                    sortOrder: "asc",
+                  });
+                  fetchActiveProjectsCount();
+                }}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Try Again
@@ -461,7 +574,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
                 No projects found
               </h3>
               <p className="text-gray-500">
-                {searchTerm || statusFilter !== "all" 
+                {searchTerm || statusFilter !== "all"
                   ? "Try adjusting your search or filter criteria."
                   : "Get started by creating your first project."}
               </p>
@@ -471,7 +584,11 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
               {paginatedData.projects.map((project) => (
                 <div
                   key={project.projectId}
-                  className="bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:border-blue-300"
+                  className="bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:border-blue-300 cursor-pointer"
+                  onClick={() => handleProjectClick(project.projectId)} // Add click handler
+                  title={`Click to view details for ${
+                    project.projectName || "Unnamed Project"
+                  }`}
                 >
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="text-lg font-bold text-gray-900 truncate">
@@ -536,7 +653,8 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
                       </div>
                       {project.startDate && (
                         <div className="mt-1 text-xs text-gray-500">
-                          📅 Started: {new Date(project.startDate).toLocaleDateString()}
+                          📅 Started:{" "}
+                          {new Date(project.startDate).toLocaleDateString()}
                         </div>
                       )}
                     </div>
@@ -551,9 +669,17 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
             <div className="mt-8 flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-700">
-                  Showing {Math.min((paginatedData.pageNumber - 1) * paginatedData.pageSize + 1, paginatedData.totalCount)} to{" "}
-                  {Math.min(paginatedData.pageNumber * paginatedData.pageSize, paginatedData.totalCount)} of{" "}
-                  {paginatedData.totalCount} projects
+                  Showing{" "}
+                  {Math.min(
+                    (paginatedData.pageNumber - 1) * paginatedData.pageSize + 1,
+                    paginatedData.totalCount
+                  )}{" "}
+                  to{" "}
+                  {Math.min(
+                    paginatedData.pageNumber * paginatedData.pageSize,
+                    paginatedData.totalCount
+                  )}{" "}
+                  of {paginatedData.totalCount} projects
                 </span>
               </div>
 
@@ -568,38 +694,53 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
                       : "text-gray-400 bg-gray-100 cursor-not-allowed"
                   }`}
                 >
-                  <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  <svg
+                    className="h-4 w-4 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
                   </svg>
                   Previous
                 </button>
 
                 {/* Page Numbers */}
                 <div className="flex items-center space-x-1">
-                  {Array.from({ length: Math.min(5, paginatedData.totalPages) }, (_, i) => {
-                    const page = i + 1;
-                    const isCurrentPage = page === paginatedData.pageNumber;
-                    
-                    return (
-                      <button
-                        key={page}
-                        onClick={() => handlePageChange(page)}
-                        className={`inline-flex items-center px-3 py-2 text-sm font-medium border rounded-lg transition-colors ${
-                          isCurrentPage
-                            ? "text-blue-600 bg-blue-50 border-blue-500"
-                            : "text-gray-700 bg-white border-gray-300 hover:bg-gray-50"
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    );
-                  })}
-                  
+                  {Array.from(
+                    { length: Math.min(5, paginatedData.totalPages) },
+                    (_, i) => {
+                      const page = i + 1;
+                      const isCurrentPage = page === paginatedData.pageNumber;
+
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => handlePageChange(page)}
+                          className={`inline-flex items-center px-3 py-2 text-sm font-medium border rounded-lg transition-colors ${
+                            isCurrentPage
+                              ? "text-blue-600 bg-blue-50 border-blue-500"
+                              : "text-gray-700 bg-white border-gray-300 hover:bg-gray-50"
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      );
+                    }
+                  )}
+
                   {paginatedData.totalPages > 5 && (
                     <>
                       <span className="px-2 text-gray-500">...</span>
                       <button
-                        onClick={() => handlePageChange(paginatedData.totalPages)}
+                        onClick={() =>
+                          handlePageChange(paginatedData.totalPages)
+                        }
                         className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                       >
                         {paginatedData.totalPages}
@@ -619,8 +760,18 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
                   }`}
                 >
                   Next
-                  <svg className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg
+                    className="h-4 w-4 ml-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 </button>
               </div>

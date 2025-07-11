@@ -125,20 +125,56 @@ export class ProjectsApiService {
   }
 
   /**
-   * Get project by ID
+   * Get project by ID with enhanced error handling
    * GET /api/v1/projects/{id}
    */
   async getProjectById(id: string): Promise<ProjectDto> {
     try {
+      console.log(`🔍 [ProjectsAPI] Fetching project by ID: ${id}`);
+      console.log(`🔗 [ProjectsAPI] Full URL will be: ${this.endpoint}/${id}`);
+
       const response = await apiClient.get<ApiResponse<ProjectDto>>(
         `${this.endpoint}/${id}`
       );
-      if (!response.data) {
-        throw new Error("Project not found");
+
+      console.log(`📦 [ProjectsAPI] API Response:`, {
+        success: response.success,
+        message: response.message,
+        hasData: !!response.data,
+        errors: response.errors,
+      });
+
+      if (!response.success) {
+        const errorMsg = response.message || "Failed to fetch project";
+        const errors = response.errors?.join(", ") || "";
+        throw new Error(errors ? `${errorMsg}: ${errors}` : errorMsg);
       }
+
+      if (!response.data) {
+        throw new Error(`Project with ID ${id} not found`);
+      }
+
+      console.log(
+        `✅ [ProjectsAPI] Project fetched successfully: ${response.data.projectName}`
+      );
       return response.data;
     } catch (error) {
-      console.error(`Failed to fetch project ${id}:`, error);
+      console.error(`❌ [ProjectsAPI] Failed to fetch project ${id}:`, error);
+
+      // Enhanced error information
+      console.error(`🔧 [ProjectsAPI] Debug info:`, {
+        projectId: id,
+        endpoint: this.endpoint,
+        fullUrl: `${this.endpoint}/${id}`,
+        errorType:
+          error instanceof Error ? error.constructor.name : typeof error,
+        errorMessage: error instanceof Error ? error.message : String(error),
+      });
+
+      if (error instanceof Error) {
+        throw error; // Re-throw the original error with message
+      }
+
       throw new Error(`Failed to fetch project ${id}`);
     }
   }

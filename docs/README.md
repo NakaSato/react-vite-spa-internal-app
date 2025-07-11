@@ -13,6 +13,8 @@ This directory contains comprehensive documentation for the Solar Projects Manag
 - **[Real-time Project Management](features/REALTIME_PROJECT_MANAGEMENT.md)** - Live project updates and notifications
 - **[Master Plan Integration](features/MASTER_PLAN_INTEGRATION_SUMMARY.md)** - Master plan functionality and API integration
 - **[Project Status Overview Pagination](features/PROJECT_STATUS_OVERVIEW_PAGINATION.md)** - Database-driven pagination with search, filtering, and sorting
+- **[Project Detail Page Implementation](features/PROJECT_DETAIL_PAGE_IMPLEMENTATION.md)** - Clickable dashboard cards opening detailed project pages in new tabs
+- **[API Response Enhancement](features/API_RESPONSE_ENHANCEMENT.md)** - Enhanced API response handling matching the documented API structure
 
 ### Technical Documentation
 - **[404 & Protected Routes](404_AND_PROTECTED_ROUTES.md)** - Error handling and route protection
