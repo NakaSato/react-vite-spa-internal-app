@@ -12,6 +12,8 @@ import {
   GetDailyReportsParams,
 } from "../../shared/types/project";
 import { EnhancedAnalyticsLoader } from "../../components";
+import PredictiveAnalytics from "./components/PredictiveAnalytics";
+import InteractiveCharts from "./components/InteractiveCharts";
 
 interface DailyReportsManagementProps {
   projectId?: string;
@@ -26,7 +28,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
 }) => {
   const { isAdmin, isManager } = useRole();
   const [selectedTab, setSelectedTab] = useState<
-    "reports" | "analytics" | "templates"
+    "reports" | "analytics" | "predictive" | "charts" | "templates"
   >("reports");
   const [filters, setFilters] = useState<GetDailyReportsParams>({
     projectId,
@@ -277,7 +279,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
-            Reports
+            📋 Reports
           </button>
           {showAnalytics && (
             <button
@@ -288,7 +290,31 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                   : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
               }`}
             >
-              Analytics
+              📊 Analytics
+            </button>
+          )}
+          {showAnalytics && analytics && (
+            <button
+              onClick={() => setSelectedTab("predictive")}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                selectedTab === "predictive"
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              🔮 Predictive AI
+            </button>
+          )}
+          {showAnalytics && analytics && (
+            <button
+              onClick={() => setSelectedTab("charts")}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                selectedTab === "charts"
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              📊 Interactive Charts
             </button>
           )}
         </nav>
@@ -670,6 +696,23 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
           analytics={analytics}
           projectId={projectId || ""}
         />
+      )}
+
+      {/* Predictive Analytics Tab */}
+      {selectedTab === "predictive" && analytics && (
+        <PredictiveAnalytics
+          analytics={analytics}
+          projectId={projectId || ""}
+          onInsightAction={(action, data) => {
+            console.log("Insight action:", action, data);
+            // TODO: Implement insight actions like applying resource recommendations
+          }}
+        />
+      )}
+
+      {/* Interactive Charts Tab */}
+      {selectedTab === "charts" && analytics && (
+        <InteractiveCharts analytics={analytics} projectId={projectId || ""} />
       )}
     </div>
   );

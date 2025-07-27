@@ -106,7 +106,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
       });
     } catch (error) {
       console.error(
-        "❌ [OverviewTab] Error fetching active projects count:",
+        "[OverviewTab] Error fetching active projects count:",
         error
       );
       setActiveProjectsData({
@@ -128,7 +128,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         setProjectsError(null);
 
         console.log(
-          "🔄 [OverviewTab] Fetching paginated projects with params:",
+          "[OverviewTab] Fetching paginated projects with params:",
           params
         );
 
@@ -156,7 +156,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         });
       } catch (error) {
         console.error(
-          "❌ [OverviewTab] Error fetching paginated projects:",
+          "[OverviewTab] Error fetching paginated projects:",
           error
         );
         setProjectsError(

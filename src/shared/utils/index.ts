@@ -5,6 +5,7 @@ export * from "./authService";
 export * from "./projectHelpers";
 export * from "./projectsApi";
 export * from "./reportService";
+export * from "./simpleReportsService";
 export * from "./progressCalculation";
 export * from "./solarProjectTemplate";
 export * from "./masterPlanApi";

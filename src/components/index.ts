@@ -4,6 +4,7 @@
 export { default as Footer } from "./Footer";
 // export { default as EnhancedAnalytics } from "./EnhancedAnalytics"; // Moved to lazy loader for bundle optimization
 export { default as QuickReportForm } from "./QuickReportForm";
+export { default as SimpleReports } from "./SimpleReports";
 export { default as ErrorReport } from "./ErrorReport";
 
 // Lazy-loaded components for bundle optimization
