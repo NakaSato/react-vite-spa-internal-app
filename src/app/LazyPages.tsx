@@ -5,9 +5,6 @@ const LazyDashboard = lazy(() => import("../pages/Dashboard"));
 const LazyProjectDetail = lazy(() => import("../pages/ProjectDetail"));
 const LazyDailyReports = lazy(() => import("../pages/DailyReports"));
 const LazyProjectSchedule = lazy(() => import("../pages/ProjectSchedule"));
-const LazyTestIntegrationPage = lazy(
-  () => import("../pages/TestIntegrationPage")
-);
 const LazyRealTimeProjectDashboard = lazy(
   () => import("../features/projects/RealTimeProjectDashboard")
 );
@@ -42,12 +39,6 @@ export const DailyReportsLazy: React.FC = () => (
 export const ProjectScheduleLazy: React.FC = () => (
   <Suspense fallback={<PageLoader />}>
     <LazyProjectSchedule />
-  </Suspense>
-);
-
-export const TestIntegrationPageLazy: React.FC = () => (
-  <Suspense fallback={<PageLoader />}>
-    <LazyTestIntegrationPage />
   </Suspense>
 );
 

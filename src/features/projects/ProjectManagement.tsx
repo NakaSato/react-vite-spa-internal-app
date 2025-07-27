@@ -73,25 +73,10 @@ const ProjectManagement: React.FC = () => {
 
   // Log project data changes for debugging
   React.useEffect(() => {
-    console.log("🔍 [ProjectManagement] Projects data updated:", {
-      projectsCount: projects.length,
-      loading,
-      error,
-      firstProject: projects[0] || null,
-      projectIds: projects.map((p) => p.projectId),
-      projectNames: projects.map((p) => p.projectName),
-    });
+    // Projects data updated successfully
   }, [projects, loading, error]);
 
-  // Log user context for debugging
-  React.useEffect(() => {
-    console.log("👤 [ProjectManagement] User context:", {
-      user: user?.email || "No user",
-      isAdmin,
-      isManager,
-      roleName,
-    });
-  }, [user, isAdmin, isManager, roleName]);
+  // User context initialized
 
   // Internal state management
   const [activeTab, setActiveTab] = useState<

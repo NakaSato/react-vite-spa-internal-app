@@ -1,8 +1,8 @@
 import React, { Suspense, lazy } from "react";
 import { DailyReportAnalyticsDto } from "../shared/types/reports";
 
-// Lazy load the simple charts for debugging
-const AnalyticsCharts = lazy(() => import("./AnalyticsCharts.simple"));
+// Lazy load the full analytics charts component
+const AnalyticsCharts = lazy(() => import("./AnalyticsCharts"));
 
 interface AnalyticsChartLoaderProps {
   analytics: DailyReportAnalyticsDto;

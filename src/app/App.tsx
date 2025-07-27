@@ -20,7 +20,7 @@ class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("🚨 Global Error Boundary caught an error:", {
+    console.error("Global Error Boundary caught an error:", {
       error: error.message,
       stack: error.stack,
       componentStack: errorInfo.componentStack,
@@ -45,7 +45,7 @@ class ErrorBoundary extends React.Component<
             {import.meta.env.DEV && this.state.error && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-left">
                 <h3 className="text-lg font-semibold text-red-900 mb-2">
-                  🐛 Error Details (Development Mode)
+                  Error Details (Development Mode)
                 </h3>
                 <pre className="text-sm text-red-800 overflow-x-auto whitespace-pre-wrap">
                   {this.state.error.message}

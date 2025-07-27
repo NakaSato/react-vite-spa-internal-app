@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { solarProjectApi } from "../api/solarProjectApi";
+import { solarProjectApi } from "../api/solarProjectApiRefactored";
 import {
   DailyReportDto,
   CreateDailyReportRequest,
@@ -57,7 +57,9 @@ export const useDailyReports = (projectId?: string) => {
             }
           : undefined;
 
-        const response = await solarProjectApi.getDailyReports(apiParams);
+        const response = await solarProjectApi.dailyReports.getDailyReports(
+          apiParams
+        );
 
         if (response.success && response.data) {
           setReports(response.data.items || []);
@@ -94,10 +96,11 @@ export const useDailyReports = (projectId?: string) => {
 
     const pollForUpdates = async () => {
       try {
-        const response = await solarProjectApi.getDailyReportUpdates(
-          projectId,
-          lastUpdateRef.current
-        );
+        const response =
+          await solarProjectApi.dailyReports.getDailyReportUpdates(
+            projectId,
+            lastUpdateRef.current
+          );
 
         if (response.success && response.data && response.data.length > 0) {
           setRealTimeUpdates((prev) =>
@@ -123,7 +126,9 @@ export const useDailyReports = (projectId?: string) => {
   ): Promise<DailyReportDto | null> => {
     try {
       setError(null);
-      const response = await solarProjectApi.createDailyReport(reportData);
+      const response = await solarProjectApi.dailyReports.createDailyReport(
+        reportData
+      );
 
       if (response.success && response.data) {
         await fetchReports();
@@ -147,7 +152,10 @@ export const useDailyReports = (projectId?: string) => {
   ): Promise<DailyReportDto | null> => {
     try {
       setError(null);
-      const response = await solarProjectApi.updateDailyReport(id, reportData);
+      const response = await solarProjectApi.dailyReports.updateDailyReport(
+        id,
+        reportData
+      );
 
       if (response.success && response.data) {
         setReports((prev) =>
@@ -170,7 +178,7 @@ export const useDailyReports = (projectId?: string) => {
   const deleteReport = async (id: string): Promise<boolean> => {
     try {
       setError(null);
-      const response = await solarProjectApi.deleteDailyReport(id);
+      const response = await solarProjectApi.dailyReports.deleteDailyReport(id);
 
       if (response.success) {
         setReports((prev) => prev.filter((report) => report.id !== id));
@@ -191,7 +199,9 @@ export const useDailyReports = (projectId?: string) => {
   const approveReport = async (id: string): Promise<boolean> => {
     try {
       setError(null);
-      const response = await solarProjectApi.approveDailyReport(id);
+      const response = await solarProjectApi.dailyReports.approveDailyReport(
+        id
+      );
 
       if (response.success && response.data) {
         setReports((prev) =>
@@ -224,7 +234,7 @@ export const useDailyReports = (projectId?: string) => {
   ): Promise<boolean> => {
     try {
       setError(null);
-      const response = await solarProjectApi.rejectDailyReport(
+      const response = await solarProjectApi.dailyReports.rejectDailyReport(
         id,
         rejectionReason
       );
@@ -257,7 +267,8 @@ export const useDailyReports = (projectId?: string) => {
   const submitForApproval = async (id: string): Promise<boolean> => {
     try {
       setError(null);
-      const response = await solarProjectApi.submitDailyReportForApproval(id);
+      const response =
+        await solarProjectApi.dailyReports.submitDailyReportForApproval(id);
 
       if (response.success && response.data) {
         setReports((prev) =>
@@ -289,7 +300,9 @@ export const useDailyReports = (projectId?: string) => {
   ): Promise<DailyReportValidationResult | null> => {
     try {
       setError(null);
-      const response = await solarProjectApi.validateDailyReport(reportData);
+      const response = await solarProjectApi.dailyReports.validateDailyReport(
+        reportData
+      );
 
       if (response.success && response.data) {
         return response.data;
@@ -344,11 +357,12 @@ export const useDailyReportAnalytics = (projectId: string) => {
         setLoading(true);
         setError(null);
 
-        const response = await solarProjectApi.getDailyReportAnalytics(
-          projectId,
-          startDate,
-          endDate
-        );
+        const response =
+          await solarProjectApi.dailyReports.getDailyReportAnalytics(
+            projectId,
+            startDate,
+            endDate
+          );
 
         if (response.success && response.data) {
           setAnalytics(response.data);
@@ -388,7 +402,8 @@ export const useDailyReportTemplates = (projectId?: string) => {
       setLoading(true);
       setError(null);
 
-      const response = await solarProjectApi.getDailyReportTemplates(projectId);
+      const response =
+        await solarProjectApi.dailyReports.getDailyReportTemplates(projectId);
 
       if (response.success && response.data) {
         setTemplates(response.data);
@@ -413,9 +428,10 @@ export const useDailyReportTemplates = (projectId?: string) => {
   ): Promise<DailyReportTemplate | null> => {
     try {
       setError(null);
-      const response = await solarProjectApi.createDailyReportTemplate(
-        templateData
-      );
+      const response =
+        await solarProjectApi.dailyReports.createDailyReportTemplate(
+          templateData
+        );
 
       if (response.success && response.data) {
         setTemplates((prev) => [...prev, response.data!]);
@@ -438,10 +454,11 @@ export const useDailyReportTemplates = (projectId?: string) => {
   ): Promise<DailyReportTemplate | null> => {
     try {
       setError(null);
-      const response = await solarProjectApi.updateDailyReportTemplate(
-        id,
-        templateData
-      );
+      const response =
+        await solarProjectApi.dailyReports.updateDailyReportTemplate(
+          id,
+          templateData
+        );
 
       if (response.success && response.data) {
         setTemplates((prev) =>
@@ -465,7 +482,8 @@ export const useDailyReportTemplates = (projectId?: string) => {
   const deleteTemplate = async (id: string): Promise<boolean> => {
     try {
       setError(null);
-      const response = await solarProjectApi.deleteDailyReportTemplate(id);
+      const response =
+        await solarProjectApi.dailyReports.deleteDailyReportTemplate(id);
 
       if (response.success) {
         setTemplates((prev) => prev.filter((template) => template.id !== id));
@@ -508,7 +526,8 @@ export const useDailyReportBulkOperations = () => {
       setLoading(true);
       setError(null);
 
-      const response = await solarProjectApi.bulkApproveDailyReports(request);
+      const response =
+        await solarProjectApi.dailyReports.bulkApproveDailyReports(request);
 
       if (response.success && response.data) {
         return response.data;
@@ -533,7 +552,8 @@ export const useDailyReportBulkOperations = () => {
       setLoading(true);
       setError(null);
 
-      const response = await solarProjectApi.bulkRejectDailyReports(request);
+      const response =
+        await solarProjectApi.dailyReports.bulkRejectDailyReports(request);
 
       if (response.success && response.data) {
         return response.data;
@@ -558,7 +578,9 @@ export const useDailyReportBulkOperations = () => {
       setLoading(true);
       setError(null);
 
-      const response = await solarProjectApi.exportDailyReports(request);
+      const response = await solarProjectApi.dailyReports.exportDailyReports(
+        request
+      );
 
       if (response.success && response.data) {
         return response.data;

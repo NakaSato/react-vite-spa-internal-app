@@ -11,9 +11,19 @@ export default defineConfig({
   output: {
     dir: "dist",
     format: "es",
-    entryFileNames: "[name]-[hash].js",
-    chunkFileNames: "[name]-[hash].js",
-    assetFileNames: "[name]-[hash][extname]",
+    entryFileNames: () => {
+      const randomId = Math.random().toString(36).substring(2, 15);
+      return `js/${randomId}.js`;
+    },
+    chunkFileNames: () => {
+      const randomId = Math.random().toString(36).substring(2, 15);
+      return `js/${randomId}.js`;
+    },
+    assetFileNames: (assetInfo) => {
+      const ext = assetInfo.name?.split(".").pop() || "unknown";
+      const randomId = Math.random().toString(36).substring(2, 15);
+      return `assets/${randomId}.${ext}`;
+    },
     manualChunks: (id) => {
       // Split @react-pdf/renderer into its own chunk for better caching
       if (id.includes("@react-pdf/renderer")) {

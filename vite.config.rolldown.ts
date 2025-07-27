@@ -62,17 +62,16 @@ export default defineConfig({
     // Optimized development server for Rolldown
     fs: {
       strict: false,
-      allow: ['..'], // Allow parent directory access for better module resolution
+      allow: [".."], // Allow parent directory access for better module resolution
     },
     // Enhanced warmup for faster cold starts
     warmup: {
-      clientFiles: ['./src/main.tsx', './src/app/App.tsx'],
+      clientFiles: ["./src/main.tsx", "./src/app/App.tsx"],
     },
   },
 
   build: {
     outDir: "dist",
-    sourcemap: isProduction ? false : true, // No sourcemaps in Rolldown production builds
     target: "esnext",
 
     // Rolldown-optimized settings with best practices
@@ -92,16 +91,19 @@ export default defineConfig({
       // Enhanced external dependencies handling
       external: (id) => {
         // Keep large libraries external in development for faster rebuilds
-        if (!isProduction && (id.includes('chart.js') || id.includes('@react-pdf'))) {
+        if (
+          !isProduction &&
+          (id.includes("chart.js") || id.includes("@react-pdf"))
+        ) {
           return false; // Include in development for easier debugging
         }
         return false;
       },
 
       output: {
-        // Advanced chunking strategy optimized for Rolldown
+        // Optimized chunking strategy for Rolldown best practices
         manualChunks: (id) => {
-          // React core libraries - keep small and separate
+          // React ecosystem - small and fast loading
           if (
             id.includes("node_modules/react") ||
             id.includes("node_modules/react-dom")
@@ -109,12 +111,12 @@ export default defineConfig({
             return "react-core";
           }
 
-          // React Router - separate for routing
+          // Router - separate for code splitting
           if (id.includes("node_modules/react-router")) {
             return "router";
           }
 
-          // PDF generation ecosystem - major contributor to bundle size
+          // PDF ecosystem - isolate heavy libraries for lazy loading
           if (
             id.includes("@react-pdf") ||
             id.includes("fontkit") ||
@@ -123,12 +125,13 @@ export default defineConfig({
             id.includes("restructure") ||
             id.includes("brotli") ||
             id.includes("pako") ||
-            id.includes("events")
+            id.includes("events") ||
+            id.includes("media-engine")
           ) {
             return "pdf-ecosystem";
           }
 
-          // Charts and data visualization
+          // Charts - separate for performance
           if (
             id.includes("recharts") ||
             id.includes("chart.js") ||
@@ -136,154 +139,219 @@ export default defineConfig({
             id.includes("d3-") ||
             id.includes("victory")
           ) {
-            return "charts";
+            return "charts-lib";
           }
 
-          // UI component libraries
+          // UI libraries - group related components
           if (
             id.includes("@headlessui") ||
             id.includes("@heroicons") ||
-            id.includes("tailwindcss") ||
             id.includes("@emotion") ||
             id.includes("goober")
           ) {
-            return "ui-components";
+            return "ui-framework";
           }
 
-          // Authentication, HTTP, and API
+          // HTTP and auth - critical path
           if (
             id.includes("axios") ||
             id.includes("jwt-decode") ||
-            id.includes("signalr")
+            id.includes("signalr") ||
+            id.includes("@microsoft/signalr")
           ) {
-            return "api-auth";
+            return "network-auth";
           }
 
-          // Utility libraries
+          // Utilities - commonly used
           if (
             id.includes("node_modules") &&
             (id.includes("lodash") ||
               id.includes("moment") ||
               id.includes("date-fns") ||
               id.includes("uuid") ||
-              id.includes("set-cookie-parser"))
+              id.includes("set-cookie-parser") ||
+              id.includes("crypto-js"))
           ) {
-            return "utilities";
+            return "utils-lib";
           }
 
-          // Feature-based chunks for application code
-          if (id.includes("/features/auth/")) return "auth-feature";
-          if (id.includes("/features/projects/")) return "projects-feature";
-          if (id.includes("/features/reports/")) return "reports-feature";
-          if (id.includes("/features/dashboard/")) return "dashboard-feature";
+          // Application features - feature-based splitting
+          if (id.includes("/features/auth/")) return "app-auth";
+          if (id.includes("/features/projects/")) return "app-projects";
+          if (id.includes("/features/reports/")) return "app-reports";
+          if (id.includes("/features/dashboard/")) return "app-dashboard";
 
-          // Default vendor chunk for remaining node_modules
+          // Shared application code
+          if (id.includes("/shared/")) return "app-shared";
+
+          // Default vendor chunk for remaining libraries
           if (id.includes("node_modules")) {
-            return "vendor";
+            return "vendor-libs";
           }
         },
 
-        // Random naming with file names for security and cache busting
-        entryFileNames: (chunkInfo) => {
-          const name = chunkInfo.name || "entry";
+        // Enhanced file naming for production optimization - pure random for security
+        entryFileNames: () => {
           const randomId = Math.random().toString(36).substring(2, 15);
-          return `assets/${name}-${randomId}.js`;
+          return `js/${randomId}.js`;
         },
-        chunkFileNames: (chunkInfo) => {
-          // Use random IDs instead of content hashes for security
-          const name = chunkInfo.name || "chunk";
-          const facadeModuleId = chunkInfo.facadeModuleId;
+        chunkFileNames: () => {
           const randomId = Math.random().toString(36).substring(2, 15);
-
-          if (facadeModuleId) {
-            // Extract meaningful file name from path
-            const fileName =
-              facadeModuleId
-                .split("/")
-                .pop()
-                ?.replace(/\.(tsx?|jsx?)$/, "") || "unknown";
-            return `assets/${name}-${fileName}-${randomId}.js`;
-          }
-
-          return `assets/${name}-${randomId}.js`;
+          return `js/${randomId}.js`;
         },
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name?.split(".") ?? [];
-          const ext = info[info.length - 1];
-          const baseName = assetInfo.name?.replace(/\.[^/.]+$/, "") || "asset";
+          const ext = assetInfo.name?.split(".").pop() || "unknown";
           const randomId = Math.random().toString(36).substring(2, 15);
 
-          if (/\.(css)$/.test(assetInfo.name ?? "")) {
-            return `assets/styles/${baseName}-${randomId}.${ext}`;
+          if (/\.(css)$/i.test(assetInfo.name ?? "")) {
+            return `css/${randomId}.css`;
           }
           if (
-            /\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name ?? "")
+            /\.(png|jpe?g|svg|gif|webp|avif|tiff|bmp|ico)$/i.test(
+              assetInfo.name ?? ""
+            )
           ) {
-            return `assets/images/${baseName}-${randomId}.${ext}`;
+            return `img/${randomId}.${ext}`;
           }
-          return `assets/${baseName}-${randomId}.${ext}`;
+          if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name ?? "")) {
+            return `fonts/${randomId}.${ext}`;
+          }
+          return `assets/${randomId}.${ext}`;
         },
 
-        // Optimize for HTTP/2
-        experimentalMinChunkSize: 20000, // 20KB minimum chunk size
+        // Production optimizations
+        compact: isProduction,
+        generatedCode: {
+          preset: "es2015",
+          arrowFunctions: true,
+          constBindings: true,
+          objectShorthand: true,
+        },
+
+        // Enhanced HTTP/2 optimization
+        experimentalMinChunkSize: 25000, // 25KB minimum for better HTTP/2 performance
       },
     },
 
-    // Rolldown-specific chunk size limits
-    chunkSizeWarningLimit: 800, // Higher limit for Rolldown efficiency
+    // Optimized chunk size limits for Rolldown
+    chunkSizeWarningLimit: 1000, // Higher limit for Rolldown's efficient chunking
 
-    // Enhanced CSS handling
+    // Enhanced CSS handling with best practices
     cssCodeSplit: true,
-    cssMinify: "esbuild",
+    cssMinify: isProduction ? "esbuild" : false, // Only minify in production
 
-    // Rolldown build optimizations
-    ...(isRolldownBuild && {
-      minify: "esbuild", // Use esbuild for faster minification
-      sourcemap: false, // Disable sourcemaps for Rolldown production
-    }),
+    // Rolldown-specific optimizations
+    minify: isProduction ? "esbuild" : false, // Conditional minification
+    sourcemap: isProduction ? false : "inline", // Inline sourcemaps for development
+
+    // Enhanced asset optimization
+    assetsInlineLimit: 4096, // 4KB limit for inlining assets
+    reportCompressedSize: !isProduction, // Skip size reporting in production for faster builds
+
+    // Rolldown performance optimizations
+    emptyOutDir: true,
+    copyPublicDir: true,
+
+    // Ensure CSS is properly handled
+    cssTarget: "esnext",
   },
 
-  // Rolldown-optimized dependency handling
+  // Enhanced dependency optimization for Rolldown
   optimizeDeps: {
     esbuildOptions: {
       target: "esnext",
       treeShaking: true,
       platform: "browser",
+      // Enhanced optimization for Rolldown
+      keepNames: false,
+      minifyIdentifiers: isProduction,
+      minifySyntax: isProduction,
     },
-    include: ["react", "react-dom", "react-router-dom", "react-hot-toast"],
-    exclude: ["@react-pdf/renderer", "chart.js", "react-chartjs-2"],
-    // Force include for better performance
-    force: isRolldownBuild,
+    // Strategic pre-bundling for faster dev server
+    include: [
+      "react",
+      "react-dom",
+      "react-router-dom",
+      "react-hot-toast",
+      // Note: removed axios and jwt-decode as they may not be available
+    ],
+    // Exclude heavy libraries for better dev performance
+    exclude: [
+      "@react-pdf/renderer",
+      "chart.js",
+      "react-chartjs-2",
+      "recharts", // Heavy visualization library
+      "fontkit", // Large PDF dependency
+    ],
+    // Force rebuild when switching to Rolldown
+    force: true,
   },
 
-  // Enhanced esbuild configuration for Rolldown
+  // Enhanced esbuild configuration optimized for Rolldown
   esbuild: {
     target: "esnext",
     platform: "browser",
     format: "esm",
-    // Production optimizations
+    // Enhanced production optimizations
     ...(isProduction && {
-      drop: ["console", "debugger"],
+      drop: ["console", "debugger"], // Valid drop options only
       legalComments: "none",
       minifyIdentifiers: true,
       minifySyntax: true,
       minifyWhitespace: true,
+      treeShaking: true,
+    }),
+    // Development optimizations
+    ...(!isProduction && {
+      keepNames: true, // Preserve function names for debugging
+      sourcemap: true,
     }),
   },
 
-  // Rolldown experimental features
+  // Rolldown experimental features with best practices
   ...(isRolldownBuild && rolldownConfig),
 
-  // Performance optimizations
+  // Enhanced performance optimizations
   define: {
-    __DEV__: !isProduction,
-    __ROLLDOWN__: isRolldownBuild,
+    __DEV__: JSON.stringify(!isProduction),
+    __PROD__: JSON.stringify(isProduction),
+    __ROLLDOWN__: JSON.stringify(isRolldownBuild),
     __BUILD_TARGET__: JSON.stringify(process.env.BUILD_TARGET || "rolldown"),
+    // Runtime feature flags for better tree shaking
+    __ENABLE_ANALYTICS__: JSON.stringify(true),
+    __ENABLE_PDF_REPORTS__: JSON.stringify(true),
+    __ENABLE_REALTIME__: JSON.stringify(true),
   },
 
-  // Worker optimizations for Rolldown
+  // Enhanced worker optimizations for Rolldown
   worker: {
     format: "es",
-    plugins: () => [react()],
+    plugins: () => [
+      react({
+        jsxRuntime: "automatic",
+        // Worker-specific optimizations
+      }),
+    ],
+    rollupOptions: {
+      output: {
+        format: "es",
+        entryFileNames: () => {
+          const randomId = Math.random().toString(36).substring(2, 15);
+          return `workers/${randomId}.js`;
+        },
+      },
+    },
+  },
+
+  // CSS preprocessing optimizations
+  css: {
+    devSourcemap: !isProduction,
+    preprocessorOptions: {
+      // Add any CSS preprocessor options here
+    },
+    // Use external postcss.config.js file
+    postcss: undefined, // Let Vite auto-detect postcss.config.js
+    // Disable CSS modules to prevent loading issues
+    modules: false,
   },
 });

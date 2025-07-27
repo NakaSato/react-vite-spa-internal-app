@@ -7,5 +7,3 @@ export { default as Register } from "./Register";
 export { default as NotFound } from "./NotFound";
 // export { default as ProjectDetail } from "./ProjectDetail";
 // export { default as ProjectSchedule } from "./ProjectSchedule"; // Moved to lazy loader in LazyPages
-export { default as ApiDebugTest } from "./ApiDebugTest";
-// export { default as TestIntegrationPage } from "./TestIntegrationPage"; // Moved to lazy loader in LazyPages

@@ -2,13 +2,12 @@ import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../shared/hooks/useAuth";
 import { DashboardProvider } from "../shared/contexts";
-import { Home, About, Login, Register, NotFound, ApiDebugTest } from "../pages";
+import { Home, About, Login, Register, NotFound } from "../pages";
 import {
   DashboardLazy,
   ProjectDetailLazy,
   DailyReportsLazy,
   ProjectScheduleLazy,
-  TestIntegrationPageLazy,
   RealTimeProjectDashboardLazy,
 } from "./LazyPages";
 import { Navigation, RealTimeNotifications } from "../widgets";
@@ -98,27 +97,6 @@ const AppRoutesContent: React.FC = () => {
               </ProtectedRoute>
             }
           />
-
-          {/* API Debug Test - Development Only */}
-          <Route
-            path="/api-debug"
-            element={
-              <ProtectedRoute redirectToIndex={true}>
-                <ApiDebugTest />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Integration Test Dashboard - Development Only */}
-          <Route
-            path="/integration-test"
-            element={
-              <ProtectedRoute redirectToIndex={true}>
-                <TestIntegrationPageLazy />
-              </ProtectedRoute>
-            }
-          />
-
           {/* 404 Not Found - This will catch all unmatched routes */}
           <Route path="*" element={<NotFound />} />
         </Routes>

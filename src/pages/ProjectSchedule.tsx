@@ -219,7 +219,7 @@ const TabContent: React.FC<TabContentProps> = ({
           project={project}
           criticalPath={["task1", "task2", "task3"]} // Mock critical path
           onTaskUpdate={(taskId, updates) => {
-            console.log("Task update:", taskId, updates);
+            // Task update handled by parent component
           }}
         />
       );
@@ -229,13 +229,13 @@ const TabContent: React.FC<TabContentProps> = ({
         <TaskManager
           project={project}
           onTaskCreate={(taskData) => {
-            console.log("Task create:", taskData);
+            // Task creation handled by parent component
           }}
           onTaskUpdate={(taskId, updates) => {
-            console.log("Task update:", taskId, updates);
+            // Task update handled by parent component
           }}
           onTaskDelete={(taskId) => {
-            console.log("Task delete:", taskId);
+            // Task deletion handled by parent component
           }}
         />
       );
