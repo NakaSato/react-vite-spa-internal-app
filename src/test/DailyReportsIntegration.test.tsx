@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { DailyReportsManagement } from "../features/reports";
+import { DailyReportsManagementLoader } from "../features/reports";
 
 // Mock the hooks module
 vi.mock("../shared/hooks", async () => {
@@ -82,7 +82,7 @@ describe("Daily Reports Integration", () => {
   });
 
   it("renders the daily reports management component", async () => {
-    renderWithProviders(<DailyReportsManagement />);
+    renderWithProviders(<DailyReportsManagementLoader />);
 
     await waitFor(() => {
       expect(screen.getByText("Daily Reports")).toBeInTheDocument();
@@ -93,7 +93,7 @@ describe("Daily Reports Integration", () => {
   });
 
   it("displays the main navigation tabs", async () => {
-    renderWithProviders(<DailyReportsManagement showAnalytics={true} />);
+    renderWithProviders(<DailyReportsManagementLoader showAnalytics={true} />);
 
     await waitFor(() => {
       expect(screen.getByText("Reports")).toBeInTheDocument();
@@ -102,7 +102,7 @@ describe("Daily Reports Integration", () => {
   });
 
   it("shows create report button", async () => {
-    renderWithProviders(<DailyReportsManagement />);
+    renderWithProviders(<DailyReportsManagementLoader />);
 
     await waitFor(() => {
       expect(screen.getByText("Create Report")).toBeInTheDocument();
@@ -110,7 +110,7 @@ describe("Daily Reports Integration", () => {
   });
 
   it("displays filters section", async () => {
-    renderWithProviders(<DailyReportsManagement />);
+    renderWithProviders(<DailyReportsManagementLoader />);
 
     await waitFor(() => {
       expect(screen.getByText("Filters")).toBeInTheDocument();
@@ -121,7 +121,7 @@ describe("Daily Reports Integration", () => {
   });
 
   it("shows admin controls when user is admin", async () => {
-    renderWithProviders(<DailyReportsManagement />);
+    renderWithProviders(<DailyReportsManagementLoader />);
 
     await waitFor(() => {
       expect(screen.getByText("Export Reports")).toBeInTheDocument();
@@ -129,7 +129,7 @@ describe("Daily Reports Integration", () => {
   });
 
   it("displays empty state when no reports", async () => {
-    renderWithProviders(<DailyReportsManagement />);
+    renderWithProviders(<DailyReportsManagementLoader />);
 
     await waitFor(() => {
       expect(screen.getByText("No daily reports found")).toBeInTheDocument();

@@ -2,20 +2,16 @@ import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../shared/hooks/useAuth";
 import { DashboardProvider } from "../shared/contexts";
+import { Home, About, Login, Register, NotFound, ApiDebugTest } from "../pages";
 import {
-  Home,
-  About,
-  Login,
-  Dashboard,
-  Register,
-  DailyReports,
-  NotFound,
-  ProjectDetail,
-  ApiDebugTest,
-  TestIntegrationPage,
-} from "../pages";
+  DashboardLazy,
+  ProjectDetailLazy,
+  DailyReportsLazy,
+  ProjectScheduleLazy,
+  TestIntegrationPageLazy,
+  RealTimeProjectDashboardLazy,
+} from "./LazyPages";
 import { Navigation, RealTimeNotifications } from "../widgets";
-import { RealTimeProjectDashboard } from "../features/projects";
 import Footer from "../components/Footer";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 
@@ -58,7 +54,7 @@ const AppRoutesContent: React.FC = () => {
             path="/dashboard"
             element={
               <ProtectedRoute redirectToIndex={true}>
-                <Dashboard />
+                <DashboardLazy />
               </ProtectedRoute>
             }
           />
@@ -68,7 +64,7 @@ const AppRoutesContent: React.FC = () => {
             path="/projects/realtime"
             element={
               <ProtectedRoute redirectToIndex={true}>
-                <RealTimeProjectDashboard />
+                <RealTimeProjectDashboardLazy />
               </ProtectedRoute>
             }
           />
@@ -78,7 +74,17 @@ const AppRoutesContent: React.FC = () => {
             path="/projects/:projectId"
             element={
               <ProtectedRoute redirectToIndex={true}>
-                <ProjectDetail />
+                <ProjectDetailLazy />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Project Schedule Management Page */}
+          <Route
+            path="/projects/:projectId/schedule"
+            element={
+              <ProtectedRoute redirectToIndex={true}>
+                <ProjectScheduleLazy />
               </ProtectedRoute>
             }
           />
@@ -88,7 +94,7 @@ const AppRoutesContent: React.FC = () => {
             path="/daily-reports"
             element={
               <ProtectedRoute redirectToIndex={true}>
-                <DailyReports />
+                <DailyReportsLazy />
               </ProtectedRoute>
             }
           />
@@ -108,7 +114,7 @@ const AppRoutesContent: React.FC = () => {
             path="/integration-test"
             element={
               <ProtectedRoute redirectToIndex={true}>
-                <TestIntegrationPage />
+                <TestIntegrationPageLazy />
               </ProtectedRoute>
             }
           />

@@ -19,6 +19,29 @@ export type {
   ActivityStatus,
   ProjectStatus,
 } from "./project-management";
+export type {
+  ProjectSchedule,
+  ScheduleHealth,
+  Milestone,
+  GanttData,
+  GanttTask,
+} from "./schedule";
+export type {
+  TaskFilters,
+  TaskDependency,
+  CreateTaskRequest,
+  UpdateTaskRequest,
+  TaskDto,
+} from "./task";
+export type {
+  ProjectKPIs,
+  ProgressTrends,
+  PerformanceMetrics,
+  RiskIndicator,
+  BurndownData,
+  ResourceAllocation,
+  KPITarget,
+} from "./kpi";
 
 export interface User {
   id: number;

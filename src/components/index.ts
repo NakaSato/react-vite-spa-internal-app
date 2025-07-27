@@ -2,6 +2,13 @@
 // Most components have been moved to feature-specific directories
 
 export { default as Footer } from "./Footer";
+// export { default as EnhancedAnalytics } from "./EnhancedAnalytics"; // Moved to lazy loader for bundle optimization
+export { default as QuickReportForm } from "./QuickReportForm";
+export { default as ErrorReport } from "./ErrorReport";
+
+// Lazy-loaded components for bundle optimization
+export { default as AnalyticsLoader } from "./AnalyticsLoader";
+export { default as EnhancedAnalyticsLoader } from "./EnhancedAnalyticsLoader";
 
 // Re-export commonly used components from their new locations
 export { ProtectedRoute } from "../features/auth";

@@ -25,6 +25,24 @@ export enum ConnectionType {
   HV = "HV", // High Voltage
 }
 
+// Legacy Project interface for mock data and components (compatibility)
+export interface Project {
+  id: string;
+  name: string;
+  client: string;
+  clientName?: string;
+  status: string;
+  progress: number;
+  startDate: string;
+  expectedCompletion: string;
+  systemSize: string;
+  location: string;
+  priority: string;
+  assignedTeam: string[];
+  budget: number;
+  spent: number;
+}
+
 // Project types based on your API schema
 export interface ProjectDto {
   projectId: string;
@@ -988,10 +1006,10 @@ export interface DailyReportUpdateNotification {
 // ============================================================================
 
 /**
- * Legacy type alias for ProjectDto
- * @deprecated Use ProjectDto instead
+ * Legacy type alias - now using the Project interface defined above for backward compatibility
+ * @deprecated Use ProjectDto instead for new code
  */
-export type Project = ProjectDto;
+// export type Project = ProjectDto; // Commented out to use interface above
 
 /**
  * Legacy type alias for CreateProjectRequest

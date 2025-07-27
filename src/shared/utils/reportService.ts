@@ -1,5 +1,6 @@
 import React from "react";
 import { ProjectDto } from "../types/project";
+import { projectDtosToProjects } from "./projectTypeAdapter";
 
 export interface ProjectStats {
   totalProjects: number;
@@ -50,7 +51,7 @@ export class ReportService {
         Document,
         {},
         React.createElement(ProjectReport, {
-          projects,
+          projects: projectDtosToProjects(projects),
           stats,
           reportType: options.reportType,
           dateRange: options.dateRange,
@@ -104,7 +105,7 @@ export class ReportService {
         Document,
         {},
         React.createElement(ProjectReport, {
-          projects,
+          projects: projectDtosToProjects(projects),
           stats,
           reportType: options.reportType,
           dateRange: options.dateRange,

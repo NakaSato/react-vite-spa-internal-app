@@ -23,7 +23,7 @@ export const calculatePercentage = (value: number, total: number): number => {
 };
 
 export const debounce = (func: Function, delay: number) => {
-  let timeoutId: number;
+  let timeoutId: NodeJS.Timeout;
   return (...args: any[]) => {
     if (timeoutId) {
       clearTimeout(timeoutId);

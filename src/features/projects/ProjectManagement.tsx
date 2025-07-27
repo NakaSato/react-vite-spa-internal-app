@@ -5,12 +5,13 @@ import { OverviewTab } from "../dashboard";
 import ProjectsDisplay from "./ProjectsDisplay";
 import ConstructionTab from "./ConstructionTab";
 import ProgressDashboard from "./ProgressDashboard";
-import GanttChart from "./GanttChart";
+import GanttChartLoader from "./GanttChartLoader";
 import { ReportsTab } from "../reports";
 import {
   ProjectEntity,
   ProjectStatus,
 } from "../../shared/types/project-management";
+import { projectDtosToProjects } from "../../shared/utils/projectTypeAdapter";
 
 // Tab definitions for internal navigation
 const tabs: {
@@ -238,7 +239,7 @@ const ProjectManagement: React.FC = () => {
         );
 
       case "construction":
-        return <ConstructionTab projects={projects} />;
+        return <ConstructionTab projects={projectDtosToProjects(projects)} />;
 
       case "planning":
         return (
@@ -251,14 +252,14 @@ const ProjectManagement: React.FC = () => {
                 Interactive Gantt chart for project planning and timeline
                 management.
               </p>
-              <GanttChart project={demoProject} />
+              <GanttChartLoader project={demoProject} />
             </div>
             <ProgressDashboard project={demoProject} />
           </div>
         );
 
       case "reports":
-        return <ReportsTab projects={projects} />;
+        return <ReportsTab projects={projectDtosToProjects(projects)} />;
 
       case "analytics":
         return (

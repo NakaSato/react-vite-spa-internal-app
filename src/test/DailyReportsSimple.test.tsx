@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import React from "react";
-import { DailyReportsManagement } from "../features/reports";
+import { DailyReportsManagementLoader } from "../features/reports";
 
 // Mock the components directly
 const MockDailyReportsManagement = () => {
@@ -26,14 +26,14 @@ describe("Daily Reports Integration", () => {
   };
 
   it("should render daily reports management component", () => {
-    renderWithRouter(<DailyReportsManagement />);
+    renderWithRouter(<DailyReportsManagementLoader />);
 
     expect(screen.getByTestId("daily-reports-management")).toBeInTheDocument();
     expect(screen.getByText("Daily Reports Management")).toBeInTheDocument();
   });
 
   it("should display main tab sections", () => {
-    renderWithRouter(<DailyReportsManagement />);
+    renderWithRouter(<DailyReportsManagementLoader />);
 
     expect(screen.getByText("Reports Tab")).toBeInTheDocument();
     expect(screen.getByText("Analytics Tab")).toBeInTheDocument();

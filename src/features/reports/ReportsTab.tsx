@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Project } from "../../shared/types/project";
 import { ReportService } from "../../shared/utils";
+import { projectsToProjectDtos } from "../../shared/utils/projectTypeAdapter";
 
 interface ReportsTabProps {
   projects: Project[];
@@ -58,7 +59,7 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
 
         // Generate filtered report
         await ReportService.generateFilteredReport(
-          projects,
+          projectsToProjectDtos(projects),
           stats,
           dateRange.startDate,
           dateRange.endDate,
@@ -66,12 +67,16 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
         );
       } else {
         // Generate full report
-        await ReportService.generateAndDownloadReport(projects, stats, {
-          reportType,
-          filename: `solar-projects-${reportType}-report-${
-            new Date().toISOString().split("T")[0]
-          }.pdf`,
-        });
+        await ReportService.generateAndDownloadReport(
+          projectsToProjectDtos(projects),
+          stats,
+          {
+            reportType,
+            filename: `solar-projects-${reportType}-report-${
+              new Date().toISOString().split("T")[0]
+            }.pdf`,
+          }
+        );
       }
 
       // Show success message

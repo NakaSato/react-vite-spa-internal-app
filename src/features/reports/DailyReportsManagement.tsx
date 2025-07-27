@@ -11,6 +11,7 @@ import {
   DailyReportApprovalStatus,
   GetDailyReportsParams,
 } from "../../shared/types/project";
+import { EnhancedAnalyticsLoader } from "../../components";
 
 interface DailyReportsManagementProps {
   projectId?: string;
@@ -665,171 +666,10 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
 
       {/* Analytics Tab */}
       {selectedTab === "analytics" && analytics && (
-        <div className="space-y-6">
-          {/* Analytics Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm font-medium">
-                        {analytics.totalReports}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Total Reports
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {analytics.totalReports}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm font-medium">
-                        {analytics.averageSafetyScore.toFixed(1)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Avg Safety Score
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {analytics.averageSafetyScore.toFixed(1)}/10
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm font-medium">
-                        {analytics.averageQualityScore.toFixed(1)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Avg Quality Score
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {analytics.averageQualityScore.toFixed(1)}/10
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm font-medium">
-                        {analytics.totalHoursLogged.toFixed(0)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Total Hours
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {analytics.totalHoursLogged.toFixed(1)}h
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Analytics Details */}
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">
-                Project Analytics Details
-              </h3>
-              <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">
-                    Average Hours Per Day
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900">
-                    {analytics.averageHoursPerDay.toFixed(1)} hours
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">
-                    Progress Contribution
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900">
-                    {analytics.totalProgressContribution.toFixed(1)}%
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">
-                    Critical Issues
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900">
-                    {analytics.totalCriticalIssues}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">
-                    Weather Delay Days
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900">
-                    {analytics.weatherDelayDays}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">
-                    Productivity Index
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900">
-                    {analytics.productivityIndex.toFixed(2)}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">
-                    Schedule Status
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900">
-                    {analytics.daysAheadBehindSchedule > 0
-                      ? `${analytics.daysAheadBehindSchedule} days ahead`
-                      : analytics.daysAheadBehindSchedule < 0
-                      ? `${Math.abs(
-                          analytics.daysAheadBehindSchedule
-                        )} days behind`
-                      : "On schedule"}
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </div>
+        <EnhancedAnalyticsLoader
+          analytics={analytics}
+          projectId={projectId || ""}
+        />
       )}
     </div>
   );
