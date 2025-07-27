@@ -57,9 +57,9 @@ export class ApiClient {
       const token = this.getAuthToken();
       if (token) {
         headers.Authorization = `Bearer ${token}`;
-        console.log("🔑 API Client: Using token from localStorage");
+        console.log("API Client: Using token from localStorage");
       } else {
-        console.log("🔑 API Client: No authentication token available");
+        console.log("API Client: No authentication token available");
       }
     }
 
@@ -115,18 +115,41 @@ export class ApiClient {
           }
         );
 
+        // Create enhanced error with response details
+        const error = new Error(
+          `API Error: ${response.status} ${response.statusText}`
+        );
+
+        // Attach response details to the error for better error handling
+        (error as any).response = {
+          status: response.status,
+          statusText: response.statusText,
+          body: errorText,
+          url: url,
+        };
+
         // Handle specific error cases
         if (response.status === 401) {
-          throw new Error("Authentication required. Please log in.");
+          const authError = new Error(
+            "Authentication required. Please log in."
+          );
+          (authError as any).response = { status: 401, body: errorText };
+          throw authError;
         }
         if (response.status === 403) {
-          throw new Error("Access denied. Insufficient permissions.");
+          const forbiddenError = new Error(
+            "Access denied. Insufficient permissions."
+          );
+          (forbiddenError as any).response = { status: 403, body: errorText };
+          throw forbiddenError;
         }
         if (response.status === 404) {
-          throw new Error("Resource not found.");
+          const notFoundError = new Error("Resource not found.");
+          (notFoundError as any).response = { status: 404, body: errorText };
+          throw notFoundError;
         }
 
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+        throw error;
       }
 
       // Parse JSON response

@@ -2,10 +2,11 @@ import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../shared/hooks/useAuth";
 import { DashboardProvider } from "../shared/contexts";
-import { Home, About, Login, Register, NotFound } from "../pages";
+import { Home, About, Login, Register, NotFound, ProjectDebug } from "../pages";
 import {
   DashboardLazy,
   ProjectDetailLazy,
+  ProjectDetailRefactoredLazy,
   DailyReportsLazy,
   ProjectScheduleLazy,
   RealTimeProjectDashboardLazy,
@@ -74,6 +75,26 @@ const AppRoutesContent: React.FC = () => {
             element={
               <ProtectedRoute redirectToIndex={true}>
                 <ProjectDetailLazy />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Refactored Project Detail Page (for testing) */}
+          <Route
+            path="/projects/:projectId/refactored"
+            element={
+              <ProtectedRoute redirectToIndex={true}>
+                <ProjectDetailRefactoredLazy />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Project Debug Page */}
+          <Route
+            path="/debug/projects"
+            element={
+              <ProtectedRoute redirectToIndex={true}>
+                <ProjectDebug />
               </ProtectedRoute>
             }
           />

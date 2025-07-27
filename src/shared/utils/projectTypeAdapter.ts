@@ -1,4 +1,57 @@
 import { Project, ProjectDto } from "../types/project";
+import { ProjectEntity, ProjectStatus } from "../types/project-management";
+
+// Convert ProjectDto to ProjectEntity for project management components
+export function projectDtoToProjectEntity(dto: ProjectDto): ProjectEntity {
+  // Map status from string to enum
+  const mapStatus = (status: string | null): ProjectStatus => {
+    switch (status?.toLowerCase()) {
+      case "planning":
+        return ProjectStatus.PLANNING;
+      case "inprogress":
+        return ProjectStatus.IN_PROGRESS;
+      case "onhold":
+        return ProjectStatus.ON_HOLD;
+      case "completed":
+        return ProjectStatus.COMPLETED;
+      case "cancelled":
+        return ProjectStatus.CANCELLED;
+      default:
+        return ProjectStatus.PLANNING;
+    }
+  };
+
+  // Calculate overall completion from task progress
+  const overallCompletion =
+    dto.taskCount > 0 ? dto.completedTaskCount / dto.taskCount : 0;
+
+  return {
+    projectId: dto.projectId,
+    projectName: dto.projectName || "Unnamed Project",
+    projectOwner: dto.clientInfo || "Unknown Owner",
+    mainContractor: dto.projectManager?.fullName || "Unknown Contractor",
+    plannedStartDate: new Date(dto.startDate),
+    plannedEndDate: dto.estimatedEndDate
+      ? new Date(dto.estimatedEndDate)
+      : new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // Default 90 days
+    actualStartDate: dto.startDate ? new Date(dto.startDate) : undefined,
+    actualEndDate: dto.actualEndDate ? new Date(dto.actualEndDate) : undefined,
+    status: mapStatus(dto.status),
+    overallCompletion,
+    phases: [], // Will be populated from separate API calls if needed
+    createdAt: new Date(dto.createdAt),
+    updatedAt: dto.updatedAt
+      ? new Date(dto.updatedAt)
+      : new Date(dto.createdAt),
+  };
+}
+
+// Convert array of ProjectDto to ProjectEntity array
+export function projectDtosToProjectEntities(
+  dtos: ProjectDto[]
+): ProjectEntity[] {
+  return dtos.map(projectDtoToProjectEntity);
+}
 
 // Temporary adapter function to convert ProjectDto to Project for legacy components
 export function projectDtoToProject(dto: ProjectDto): Project {

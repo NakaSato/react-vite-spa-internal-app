@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ProjectDto } from "../../shared/types/project";
 import { useAuth, useRole } from "../../shared/hooks/useAuth";
 
@@ -18,6 +19,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
   onCreateProject,
 }) => {
   const { isAdmin, isManager } = useRole();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("name");
@@ -409,9 +411,16 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                     {/* Project Header */}
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex-1">
-                        <h4 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
-                          {project.projectName || "Unnamed Project"}
-                        </h4>
+                        <button
+                          onClick={() =>
+                            navigate(`/projects/${project.projectId}`)
+                          }
+                          className="text-left hover:text-blue-600 transition-colors mb-2"
+                        >
+                          <h4 className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors line-clamp-2">
+                            {project.projectName || "Unnamed Project"}
+                          </h4>
+                        </button>
                         <div className="flex items-center space-x-2">
                           <span
                             className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(
@@ -506,7 +515,9 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                     {/* Action Buttons */}
                     <div className="mt-6 flex space-x-2">
                       <button
-                        onClick={() => setSelectedProject(project)}
+                        onClick={() =>
+                          navigate(`/projects/${project.projectId}`)
+                        }
                         className="flex-1 bg-blue-50 text-blue-700 py-2 px-4 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium border border-blue-200"
                       >
                         👁️ View Details
@@ -524,9 +535,16 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                     {/* Project Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-3 mb-2">
-                        <h4 className="text-lg font-semibold text-gray-900 truncate">
-                          {project.projectName || "Unnamed Project"}
-                        </h4>
+                        <button
+                          onClick={() =>
+                            navigate(`/projects/${project.projectId}`)
+                          }
+                          className="text-left hover:text-blue-600 transition-colors"
+                        >
+                          <h4 className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors truncate">
+                            {project.projectName || "Unnamed Project"}
+                          </h4>
+                        </button>
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(
                             project.status
@@ -584,7 +602,9 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                     {/* Actions */}
                     <div className="flex space-x-2">
                       <button
-                        onClick={() => setSelectedProject(project)}
+                        onClick={() =>
+                          navigate(`/projects/${project.projectId}`)
+                        }
                         className="bg-blue-50 text-blue-700 py-2 px-3 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
                       >
                         👁️ View

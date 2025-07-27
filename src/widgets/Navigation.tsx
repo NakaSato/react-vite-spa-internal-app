@@ -50,6 +50,20 @@ const Navigation: React.FC = () => {
                   >
                     📊 Daily Reports
                   </Link>
+
+                  {/* Debug link for development */}
+                  {process.env.NODE_ENV === "development" && (
+                    <Link
+                      to="/debug/projects"
+                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                        location.pathname === "/debug/projects"
+                          ? "bg-red-700 text-white"
+                          : "text-red-100 hover:text-white hover:bg-red-700"
+                      }`}
+                    >
+                      🧪 Debug
+                    </Link>
+                  )}
                 </div>
               )}
             </div>

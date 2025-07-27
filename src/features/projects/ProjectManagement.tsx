@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useAuth, useRole } from "../../shared/hooks/useAuth";
 import { useProjects } from "../../shared/hooks/useProjects";
 import { OverviewTab } from "../dashboard";
@@ -11,7 +11,11 @@ import {
   ProjectEntity,
   ProjectStatus,
 } from "../../shared/types/project-management";
-import { projectDtosToProjects } from "../../shared/utils/projectTypeAdapter";
+import {
+  projectDtosToProjects,
+  projectDtosToProjectEntities,
+  projectDtoToProjectEntity,
+} from "../../shared/utils/projectTypeAdapter";
 
 // Tab definitions for internal navigation
 const tabs: {
@@ -95,22 +99,35 @@ const ProjectManagement: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
-  // Demo project for components that need project data
-  const demoProject: ProjectEntity = {
-    projectId: "demo-001",
-    projectName: "Solar Installation Demo",
-    projectOwner: "Demo Owner",
-    mainContractor: "Demo Contractor",
-    plannedStartDate: new Date(),
-    plannedEndDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-    actualStartDate: new Date(),
-    actualEndDate: undefined,
-    status: ProjectStatus.IN_PROGRESS,
-    overallCompletion: 0.25,
-    phases: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
+  // Convert API project data to ProjectEntity format for internal components
+  const projectEntities = useMemo(() => {
+    return projectDtosToProjectEntities(projects);
+  }, [projects]);
+
+  // Get the first project entity for components that need a single project
+  // In a real app, this would be selected based on user interaction or route params
+  const selectedProjectEntity = useMemo(() => {
+    if (projectEntities.length > 0) {
+      return projectEntities[0];
+    }
+
+    // Fallback demo project only if no real projects exist
+    return {
+      projectId: "demo-001",
+      projectName: "Demo Solar Installation",
+      projectOwner: "Demo Owner",
+      mainContractor: "Demo Contractor",
+      plannedStartDate: new Date(),
+      plannedEndDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      actualStartDate: new Date(),
+      actualEndDate: undefined,
+      status: ProjectStatus.IN_PROGRESS,
+      overallCompletion: 0.25,
+      phases: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as ProjectEntity;
+  }, [projectEntities]);
 
   // Filter and search logic
   const filteredProjects = projects.filter((project) => {
@@ -237,9 +254,9 @@ const ProjectManagement: React.FC = () => {
                 Interactive Gantt chart for project planning and timeline
                 management.
               </p>
-              <GanttChartLoader project={demoProject} />
+              <GanttChartLoader project={selectedProjectEntity} />
             </div>
-            <ProgressDashboard project={demoProject} />
+            <ProgressDashboard project={selectedProjectEntity} />
           </div>
         );
 

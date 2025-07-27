@@ -3,6 +3,9 @@ import React, { Suspense, lazy } from "react";
 // Lazy load heavy pages to reduce initial bundle size
 const LazyDashboard = lazy(() => import("../pages/Dashboard"));
 const LazyProjectDetail = lazy(() => import("../pages/ProjectDetail"));
+const LazyProjectDetailRefactored = lazy(
+  () => import("../pages/ProjectDetail")
+);
 const LazyDailyReports = lazy(() => import("../pages/DailyReports"));
 const LazyProjectSchedule = lazy(() => import("../pages/ProjectSchedule"));
 const LazyRealTimeProjectDashboard = lazy(
@@ -27,6 +30,12 @@ export const DashboardLazy: React.FC = () => (
 export const ProjectDetailLazy: React.FC = () => (
   <Suspense fallback={<PageLoader />}>
     <LazyProjectDetail />
+  </Suspense>
+);
+
+export const ProjectDetailRefactoredLazy: React.FC = () => (
+  <Suspense fallback={<PageLoader />}>
+    <LazyProjectDetailRefactored />
   </Suspense>
 );
 

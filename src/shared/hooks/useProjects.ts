@@ -46,7 +46,7 @@ export interface UseProjectsReturn {
 
 export const useProjects = (): UseProjectsReturn => {
   // Log hook initialization
-  console.log("⚡ [useProjects] Hook initialized");
+  console.log("[useProjects] Hook initialized");
 
   // State
   const [projects, setProjects] = useState<ProjectDto[]>([]);
@@ -59,13 +59,13 @@ export const useProjects = (): UseProjectsReturn => {
   // Fetch all projects from API
   const fetchProjects = useCallback(async () => {
     try {
-      console.log("🚀 [Get All Projects] Starting API call...");
+      console.log("[Get All Projects] Starting API call...");
       setLoading(true);
       setError(null);
 
       const fetchedProjects = await projectsApi.getAllProjects();
 
-      console.log("✅ [Get All Projects] API Response:", {
+      console.log("[Get All Projects] API Response:", {
         success: !!fetchedProjects,
         totalCount: fetchedProjects?.totalCount || 0,
         itemsLength: fetchedProjects?.items?.length || 0,
@@ -76,13 +76,13 @@ export const useProjects = (): UseProjectsReturn => {
       });
 
       const projects = fetchedProjects.items || [];
-      console.log("📊 [Get All Projects] Setting projects:", projects);
+      console.log("[Get All Projects] Setting projects:", projects);
 
       setProjects(projects);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to fetch projects";
-      console.error("❌ [Get All Projects] Error:", {
+      console.error("[Get All Projects] Error:", {
         error: err,
         message: errorMessage,
         stack: err instanceof Error ? err.stack : undefined,
@@ -90,7 +90,7 @@ export const useProjects = (): UseProjectsReturn => {
       setError(errorMessage);
     } finally {
       setLoading(false);
-      console.log("🏁 [Get All Projects] Fetch complete");
+      console.log("[Get All Projects] Fetch complete");
     }
   }, []);
 

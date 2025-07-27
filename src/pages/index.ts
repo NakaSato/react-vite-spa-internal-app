@@ -5,5 +5,6 @@ export { default as Register } from "./Register";
 // export { default as Dashboard } from "./Dashboard"; // Moved to lazy loader in LazyPages
 // export { default as DailyReports } from "./DailyReports"; // Moved to lazy loader in LazyPages
 export { default as NotFound } from "./NotFound";
+export { default as ProjectDebug } from "./ProjectDebug";
 // export { default as ProjectDetail } from "./ProjectDetail";
 // export { default as ProjectSchedule } from "./ProjectSchedule"; // Moved to lazy loader in LazyPages

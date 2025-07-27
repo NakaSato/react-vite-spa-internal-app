@@ -125,16 +125,28 @@ export class ProjectsApiService {
   }
 
   /**
-   * Get project by ID with enhanced error handling
+   * Get project by ID
    * GET /api/v1/projects/{id}
    */
   async getProjectById(id: string): Promise<ProjectDto> {
     try {
       console.log(`🔍 [ProjectsAPI] Fetching project by ID: ${id}`);
       console.log(`🔗 [ProjectsAPI] Full URL will be: ${this.endpoint}/${id}`);
+      console.log(
+        `📏 [ProjectsAPI] Project ID length: ${id.length} characters`
+      );
+      console.log(`🔤 [ProjectsAPI] Project ID format: ${typeof id} - "${id}"`);
+
+      // Validate project ID format
+      if (!id || id.trim() === "") {
+        throw new Error("Project ID cannot be empty");
+      }
+
+      const trimmedId = id.trim();
+      console.log(`✂️ [ProjectsAPI] Trimmed ID: "${trimmedId}"`);
 
       const response = await apiClient.get<ApiResponse<ProjectDto>>(
-        `${this.endpoint}/${id}`
+        `${this.endpoint}/${encodeURIComponent(trimmedId)}`
       );
 
       console.log(`📦 [ProjectsAPI] API Response:`, {
@@ -142,16 +154,29 @@ export class ProjectsApiService {
         message: response.message,
         hasData: !!response.data,
         errors: response.errors,
+        statusCode: (response as any)?.status,
+        fullResponse: response,
       });
 
       if (!response.success) {
         const errorMsg = response.message || "Failed to fetch project";
         const errors = response.errors?.join(", ") || "";
-        throw new Error(errors ? `${errorMsg}: ${errors}` : errorMsg);
+        const fullError = errors ? `${errorMsg}: ${errors}` : errorMsg;
+
+        console.error(`🚨 [ProjectsAPI] API Error Details:`, {
+          message: errorMsg,
+          errors: response.errors,
+          projectId: trimmedId,
+          endpoint: `${this.endpoint}/${trimmedId}`,
+        });
+
+        throw new Error(fullError);
       }
 
       if (!response.data) {
-        throw new Error(`Project with ID ${id} not found`);
+        throw new Error(
+          `Project with ID ${trimmedId} not found - API returned empty data`
+        );
       }
 
       console.log(
@@ -164,18 +189,19 @@ export class ProjectsApiService {
       // Enhanced error information
       console.error(`🔧 [ProjectsAPI] Debug info:`, {
         projectId: id,
+        trimmedId: id.trim(),
         endpoint: this.endpoint,
         fullUrl: `${this.endpoint}/${id}`,
         errorType:
           error instanceof Error ? error.constructor.name : typeof error,
         errorMessage: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
       });
 
-      if (error instanceof Error) {
-        throw error; // Re-throw the original error with message
-      }
-
-      throw new Error(`Failed to fetch project ${id}`);
+      // Re-throw with enhanced context
+      throw error instanceof Error
+        ? error
+        : new Error(`Unknown error fetching project ${id}: ${String(error)}`);
     }
   }
 
