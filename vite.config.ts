@@ -14,12 +14,6 @@ export default defineConfig({
     react({
       // Optimize JSX for production
       jsxRuntime: "automatic",
-      // Skip type checking in development for speed
-      babel: isDevelopment
-        ? undefined
-        : {
-            plugins: ["@babel/plugin-transform-react-jsx"],
-          },
     }),
 
     // Bundle analyzer - enabled only when ANALYZE=true
@@ -89,20 +83,20 @@ export default defineConfig({
             return `feature-${feature}`;
           }
         },
-        // Optimize asset naming
-        chunkFileNames: (chunkInfo) => {
-          return `js/[name]-[hash].js`;
+        // Optimize asset naming - hash only for cleaner output
+        chunkFileNames: () => {
+          return `js/[hash].js`;
         },
-        entryFileNames: "js/[name]-[hash].js",
+        entryFileNames: "js/[hash].js",
         assetFileNames: (assetInfo) => {
           const extType = assetInfo.name?.split(".").at(-1);
-          if (extType === "css") return "css/[name]-[hash][extname]";
+          if (extType === "css") return "css/[hash][extname]";
           if (
             ["png", "jpg", "jpeg", "svg", "gif", "webp"].includes(extType || "")
           ) {
-            return "images/[name]-[hash][extname]";
+            return "images/[hash][extname]";
           }
-          return "assets/[name]-[hash][extname]";
+          return "assets/[hash][extname]";
         },
       },
       // External dependencies (if needed)
@@ -128,14 +122,21 @@ export default defineConfig({
       "chart.js",
       "framer-motion",
       "zustand",
-      // Pre-bundle commonly used utilities
-      "date-fns",
-      "clsx",
-      "tailwind-merge",
+      // Chart.js components for better performance
+      "chart.js/auto",
+      "react-chartjs-2",
+      // Other installed dependencies
+      "immer",
+      "d3",
+      "socket.io-client",
+      // Node.js polyfills for PDF libraries
+      "buffer",
     ],
     exclude: [
       "@react-pdf/renderer", // Large dependency, load on demand
       "@rollup/rollup-darwin-arm64", // Native binary
+      "tesseract.js", // Large WASM dependency
+      "fontkit", // PDF font library with Node.js dependencies
     ],
     // Force rebuild only when dependencies change
     force: isDevelopment && process.env.FORCE_OPTIMIZE === "true",
@@ -172,20 +173,29 @@ export default defineConfig({
       "@shared": "/src/shared",
       "@pages": "/src/pages",
       "@widgets": "/src/widgets",
+      "@lib": "/src/shared/lib",
+      "@utils": "/src/shared/utils",
+      "@types": "/src/shared/types",
+      "@api": "/src/shared/api",
+      "@hooks": "/src/shared/hooks",
+      // Node.js polyfills for PDF libraries
+      buffer: "buffer",
     },
     // Improve module resolution performance
     mainFields: ["module", "jsnext:main", "jsnext"],
     conditions: ["import", "module", "browser", "default"],
   },
 
-  // Environment variables configuration
-  envPrefix: ["VITE_", "REACT_APP_"],
-
-  // Define globals for better optimization
+  // Define globals for better optimization and PDF library compatibility
   define: {
     __DEV__: isDevelopment,
     __PROD__: isProduction,
+    // Provide global object for PDF libraries
+    global: "globalThis",
   },
+
+  // Environment variables configuration
+  envPrefix: ["VITE_", "REACT_APP_"],
 
   // Cache configuration for better performance
   cacheDir: "node_modules/.vite",

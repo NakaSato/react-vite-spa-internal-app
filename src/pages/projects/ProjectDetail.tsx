@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAuth, useRole } from "../shared/hooks/useAuth";
-import ProtectedRoute from "../features/auth/ProtectedRoute";
+import { useAuth, useRole } from "@hooks/useAuth";
+import ProtectedRoute from "@features/auth/ProtectedRoute";
 
 // Import refactored hooks and components
 import {
@@ -9,20 +9,20 @@ import {
   useProjectAnalytics,
   useProjectPerformance,
   useProjectActions,
-} from "../features/projects/hooks";
+} from "@features/projects/hooks";
 
 import {
   ProjectHeader,
   AnalyticsBanner,
   ErrorBanner,
-} from "../features/projects/components";
+} from "@features/projects/components";
 
 // Import utility functions
 import {
   formatDate,
   calculateProgress,
   formatCurrency,
-} from "../features/projects/utils/projectHelpers";
+} from "@features/projects/utils/projectHelpers";
 
 const ProjectDetail = () => {
   const { projectId } = useParams<{ projectId: string }>();

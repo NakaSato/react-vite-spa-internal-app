@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { DailyReportAnalyticsDto } from "../shared/types/reports";
+import { DailyReportAnalyticsDto } from "@shared/types/reports";
 
 // Lazy load the full analytics charts component
 const AnalyticsCharts = lazy(() => import("./AnalyticsCharts"));

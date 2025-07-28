@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../shared/hooks/useAuth";
-import { LoginForm } from "../features/auth";
+import { useAuth } from "@hooks/useAuth";
+import { LoginForm } from "@features/auth";
 
 const Login: React.FC = () => {
   const { isAuthenticated } = useAuth();

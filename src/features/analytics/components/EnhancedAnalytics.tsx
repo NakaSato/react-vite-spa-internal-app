@@ -12,7 +12,7 @@ import {
   BarElement,
 } from "chart.js";
 import { Line, Doughnut, Bar } from "react-chartjs-2";
-import { DailyReportAnalytics, TopPerformer } from "../shared/types/project";
+import { DailyReportAnalytics, TopPerformer } from "@shared/types/project";
 
 ChartJS.register(
   CategoryScale,

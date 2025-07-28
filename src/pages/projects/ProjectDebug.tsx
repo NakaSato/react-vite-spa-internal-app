@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useProjects } from "../shared/hooks/useProjects";
-import { projectsApi } from "../shared/utils/projectsApi";
-import { useAuth } from "../shared/hooks/useAuth";
-import ProtectedRoute from "../features/auth/ProtectedRoute";
+import { useProjects } from "@hooks/useProjects";
+import { projectsApi } from "@shared/utils/projectsApi";
+import { useAuth } from "@hooks/useAuth";
+import ProtectedRoute from "@features/auth/ProtectedRoute";
 
 const ProjectDebug: React.FC = () => {
   const navigate = useNavigate();

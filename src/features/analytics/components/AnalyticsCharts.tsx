@@ -15,7 +15,7 @@ import { Line, Doughnut, Bar } from "react-chartjs-2";
 import {
   DailyReportAnalyticsDto,
   PersonnelPerformanceDto,
-} from "../shared/types/reports";
+} from "@shared/types/reports";
 
 ChartJS.register(
   CategoryScale,

@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { DailyReportAnalyticsDto } from "../shared/types/reports";
+import { DailyReportAnalyticsDto } from "@shared/types/reports";
 
 // Lazy load the Analytics component to reduce bundle size
 const LazyAnalytics = lazy(() => import("./Analytics"));

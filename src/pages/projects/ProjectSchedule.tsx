@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "../shared/hooks/useAuth";
-import ProtectedRoute from "../features/auth/ProtectedRoute";
-import {
-  ProjectEntity,
-  ProjectStatus,
-} from "../shared/types/project-management";
-import { useProjectSchedule } from "../shared/hooks/useProjectSchedule";
+import { useAuth } from "@hooks/useAuth";
+import ProtectedRoute from "@features/auth/ProtectedRoute";
+import { ProjectEntity, ProjectStatus } from "@shared/types/project-management";
+import { useProjectSchedule } from "@hooks/useProjectSchedule";
 import {
   ScheduleOverview,
   TaskManager,
   ProgressAnalytics,
   KPIDashboard,
-} from "../features/projects/schedule";
+} from "@features/projects/schedule";
 
 // Tab configuration
 const SCHEDULE_TABS = [

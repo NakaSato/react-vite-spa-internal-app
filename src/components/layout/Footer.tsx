@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { NavbarApiStatus } from "../widgets";
+import { NavbarApiStatus } from "../../widgets";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();

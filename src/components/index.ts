@@ -1,17 +1,21 @@
 // This file exports various reusable components used throughout the application.
-// Most components have been moved to feature-specific directories
+// Components are now organized by category and feature
 
-export { default as Footer } from "./Footer";
-// export { default as EnhancedAnalytics } from "./EnhancedAnalytics"; // Moved to lazy loader for bundle optimization
+// Layout Components
+export * from "./layout";
+
+// Feedback Components
+export * from "./feedback";
+
+// Form Components (remaining in components)
 export { default as QuickReportForm } from "./QuickReportForm";
 export { default as SimpleReports } from "./SimpleReports";
-export { default as ErrorReport } from "./ErrorReport";
 
-// Lazy-loaded components for bundle optimization
-export { default as AnalyticsLoader } from "./AnalyticsLoader";
-export { default as EnhancedAnalyticsLoader } from "./EnhancedAnalyticsLoader";
+// Feature Re-exports (for backward compatibility)
+export * from "../features/analytics";
+export * from "../features/charts";
 
-// Re-export commonly used components from their new locations
+// Re-export commonly used components from their feature locations
 export { ProtectedRoute } from "../features/auth";
 export { LoginForm, RegisterForm } from "../features/auth";
 export {

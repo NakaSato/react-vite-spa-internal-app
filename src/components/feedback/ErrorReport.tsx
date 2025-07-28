@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { EnhancedError } from "../shared/utils/errorHandler";
+import { EnhancedError } from "@utils/errorHandler";
 
 interface ErrorReportProps {
   error: EnhancedError;

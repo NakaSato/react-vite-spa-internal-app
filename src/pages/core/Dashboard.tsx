@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useAuth, useRole } from "../shared/hooks/useAuth";
-import { useDashboard } from "../shared/contexts";
-import { ProtectedRoute } from "../features/auth";
-import { ProjectManagement } from "../features/projects";
-import { CreateProjectRequest } from "../shared/types/project";
+import { useAuth, useRole } from "@hooks/useAuth";
+import { useDashboard } from "@shared/contexts";
+import { ProtectedRoute } from "@features/auth";
+import { ProjectManagement } from "@features/projects";
+import { CreateProjectRequest } from "@shared/types/project";
 import {
   ProjectEntity,
   ActivityStatus,
   ProjectStatus,
-} from "../shared/types/project-management";
-import { useProjects } from "../shared/hooks/useProjects";
+} from "@shared/types/project-management";
+import { useProjects } from "@hooks/useProjects";
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();

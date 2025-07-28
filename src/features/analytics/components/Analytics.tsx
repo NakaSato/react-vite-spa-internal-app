@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DailyReportAnalyticsDto } from "../shared/types/reports";
+import { DailyReportAnalyticsDto } from "../../../shared/types/reports";
 import AnalyticsChartLoader from "./AnalyticsChartLoader";
 
 interface AnalyticsProps {

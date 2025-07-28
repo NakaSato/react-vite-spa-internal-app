@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { DailyReportsManagementLoader } from "../features/reports";
-import { useAuth, useRole } from "../shared/hooks";
-import { QuickReportForm, SimpleReports } from "../components";
+import { DailyReportsManagementLoader } from "@features/reports";
+import { useAuth, useRole } from "@shared/hooks";
+import { QuickReportForm, SimpleReports } from "@components";
 
 const DailyReports: React.FC = () => {
   const { user } = useAuth();

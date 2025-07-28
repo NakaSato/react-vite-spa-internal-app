@@ -12,7 +12,7 @@ import {
   RealTimeProjectDashboardLazy,
 } from "./LazyPages";
 import { Navigation, RealTimeNotifications } from "../widgets";
-import Footer from "../components/Footer";
+import Footer from "../components/layout/Footer";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 
 const AppRoutesContent: React.FC = () => {
@@ -38,10 +38,6 @@ const AppRoutesContent: React.FC = () => {
     <div className="App min-h-screen bg-gray-50 flex flex-col">
       {!isIndexPage && <Navigation />}
       <main className="flex-grow">
-        {/* Real-time notifications for authenticated users */}
-        {/* TEMPORARILY DISABLED: RealTimeNotifications until backend endpoint is implemented */}
-        {/* {isAuthenticated && <RealTimeNotifications position="top-right" />} */}
-
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
