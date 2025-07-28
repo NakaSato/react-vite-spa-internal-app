@@ -1,13 +1,15 @@
 import React, { Suspense, lazy } from "react";
 
 // Lazy load heavy pages to reduce initial bundle size
-const LazyDashboard = lazy(() => import("../pages/Dashboard"));
-const LazyProjectDetail = lazy(() => import("../pages/ProjectDetail"));
+const LazyDashboard = lazy(() => import("../pages/core/Dashboard"));
+const LazyProjectDetail = lazy(() => import("../pages/projects/ProjectDetail"));
 const LazyProjectDetailRefactored = lazy(
-  () => import("../pages/ProjectDetail")
+  () => import("../pages/projects/ProjectDetail")
 );
-const LazyDailyReports = lazy(() => import("../pages/DailyReports"));
-const LazyProjectSchedule = lazy(() => import("../pages/ProjectSchedule"));
+const LazyDailyReports = lazy(() => import("../pages/reports/DailyReports"));
+const LazyProjectSchedule = lazy(
+  () => import("../pages/projects/ProjectSchedule")
+);
 const LazyRealTimeProjectDashboard = lazy(
   () => import("../features/projects/RealTimeProjectDashboard")
 );
