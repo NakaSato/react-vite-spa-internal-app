@@ -1,0 +1,50 @@
+# Development Dockerfile using Bun
+FROM oven/bun:1-alpine as base
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies for native modules
+RUN apk add --no-cache \
+    git \
+    python3 \
+    make \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    musl-dev \
+    giflib-dev \
+    pixman-dev \
+    pangomm-dev \
+    libjpeg-turbo-dev \
+    freetype-dev
+
+# Development stage
+FROM base as development
+
+# Copy package files first for better caching
+COPY package.json bun.lockb ./
+
+# Install dependencies
+RUN bun install --frozen-lockfile
+
+# Copy source code
+COPY . .
+
+# Create non-root user for security
+RUN addgroup -g 1001 -S bunuser && \
+    adduser -S bunuser -u 1001 -G bunuser && \
+    chown -R bunuser:bunuser /app
+
+USER bunuser
+
+# Expose ports
+EXPOSE 3000 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3000 || exit 1
+
+# Development command with hot reload
+CMD ["bun", "dev"]
