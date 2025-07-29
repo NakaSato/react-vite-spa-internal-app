@@ -17,7 +17,8 @@ export type Environment = typeof env;
 
 // Validate required environment variables
 const validateEnv = () => {
-  if (!env.API_BASE_URL) {
+  // In production, allow empty API_BASE_URL for static demos
+  if (!env.API_BASE_URL && env.IS_DEVELOPMENT) {
     throw new Error("API_BASE_URL is required and must be configured");
   }
 

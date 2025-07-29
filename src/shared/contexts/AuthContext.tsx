@@ -49,18 +49,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setToken(storedToken);
           setUser(storedUser);
         } else {
-          // Try to refresh token
-          const refreshed = await AuthService.refreshToken();
-          if (refreshed) {
-            const newToken = AuthService.getToken();
-            const newUser = AuthService.getUser();
-            setToken(newToken);
-            setUser(newUser);
+          // Try to refresh token only if we have API available
+          try {
+            const refreshed = await AuthService.refreshToken();
+            if (refreshed) {
+              const newToken = AuthService.getToken();
+              const newUser = AuthService.getUser();
+              setToken(newToken);
+              setUser(newUser);
+            }
+          } catch (refreshError) {
+            console.warn(
+              "Token refresh failed (API might be unavailable):",
+              refreshError
+            );
+            // Don't throw error, just continue without auth
           }
         }
       } catch (error) {
         console.error("Auth initialization failed:", error);
-        AuthService.logout();
+        // In production, don't logout if it's just an API issue
+        if (import.meta.env.DEV) {
+          AuthService.logout();
+        }
       } finally {
         setIsLoading(false);
       }
@@ -81,20 +92,31 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         // Refresh token if it expires in less than 5 minutes
         if (timeUntilExpiry < 300 && timeUntilExpiry > 0) {
-          AuthService.refreshToken().then((success) => {
-            if (success) {
-              const newToken = AuthService.getToken();
-              const newUser = AuthService.getUser();
-              setToken(newToken);
-              setUser(newUser);
-            } else {
-              logout();
-            }
-          });
+          AuthService.refreshToken()
+            .then((success) => {
+              if (success) {
+                const newToken = AuthService.getToken();
+                const newUser = AuthService.getUser();
+                setToken(newToken);
+                setUser(newUser);
+              } else {
+                logout();
+              }
+            })
+            .catch((error) => {
+              console.warn("Token refresh failed:", error);
+              // Don't logout in production if it's just an API issue
+              if (import.meta.env.DEV) {
+                logout();
+              }
+            });
         }
       } catch (error) {
         console.error("Token validation failed:", error);
-        logout();
+        // Don't logout in production if it's just an API issue
+        if (import.meta.env.DEV) {
+          logout();
+        }
       }
     };
 
