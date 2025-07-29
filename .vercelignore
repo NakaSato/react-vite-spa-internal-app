@@ -2,24 +2,42 @@
 node_modules/
 bun.lockb
 
-# Development files
+# Development and CI/CD files
 .env.local
 .env.development
 .env.test
+.github/
+.circleci/
+.travis.yml
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# Docker files
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+Makefile
 
 # Build files
 dist/
 build/
+.vite/
 
 # IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 Thumbs.db
+ehthumbs.db
 
 # Logs
 *.log
@@ -29,29 +47,99 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Testing
+# Testing files
 coverage/
 .nyc_output/
+test/
+tests/
+__tests__/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+vitest.config.ts
+jest.config.js
+playwright.config.ts
 
 # Temporary files
 *.tmp
 *.temp
 .cache/
+tmp/
+temp/
 
 # Documentation (keep only essential docs)
 docs/
 *.md
 !README.md
+!CHANGELOG.md
+CICD.md
+DOCKER.md
 
-# Git
+# Configuration files not needed for deployment
+.eslintrc*
+.prettierrc*
+.stylelintrc*
+.editorconfig
+tsconfig.node.json
+lighthouserc.json
+
+# Git files
 .git/
 .gitignore
+.gitattributes
+.gitmodules
 
-# Local environment
+# Local environment files
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# TypeScript
+# TypeScript build info
 *.tsbuildinfo
+
+# Analysis and profiling files
+bundle-analysis.html
+stats.json
+.bundle-analyzer/
+
+# Package manager alternative lock files
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+.yarn/
+.pnpm/
+
+# Cache directories
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+.parcel-cache/
+
+# Backup files
+*.backup
+*.bak
+
+# Raw assets (if processed)
+src/assets/raw/
+public/raw/
+
+# Development scripts and tools
+scripts/dev/
+tools/dev/
+
+# Mock API files
+mock-api/
+
+# Local certificates
+*.pem
+*.key
+*.crt
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
