@@ -10,9 +10,9 @@ This repository contains a React + Vite + TypeScript SPA for solar project manag
 - **Build**: Vite with Bun package manager + experimental Rolldown support
 - **Testing**: Vitest + React Testing Library (with jsdom environment)
 - **Auth**: JWT with role-based access (Admin/Manager/User/Viewer)
-- **API**: Type-safe client with environment switching (local Docker/Azure prod)
+- **API**: Type-safe client with environment switching (local/Azure prod)
 - **Reports**: PDF generation via @react-pdf/renderer
-- **Deployment**: Docker containerization with CI/CD automation via GitHub Actions
+- **Deployment**: CI/CD automation via GitHub Actions
 
 ## Development Standards
 
@@ -258,34 +258,12 @@ The project uses automated build and test via `.github/workflows/build-and-test.
    - Development build (`bun build:dev`)
    - Bundle analysis (`bun build:analyze`)
 
-**Docker Deployment**:
-
-- **Development**: Uses `docker-compose.yml` with development profile
-- **Production**: Multi-stage Docker builds with Nginx serving
-- **Staging**: Automated deployment via Docker containers
-
 **Artifacts & Retention**:
 
 - Uploads build artifacts for each configuration
 - 14-day retention policy for build artifacts
 - Coverage reports with 7-day retention
 - Build information and statistics
-
-### Docker Configuration
-
-**Core Setup**:
-
-- **Development**: `Dockerfile.dev` with Bun runtime and hot reload
-- **Production**: `Dockerfile.prod` with multi-stage build and Nginx
-- **Orchestration**: `docker-compose.yml` with profiles for different environments
-- **Management**: `Makefile` with convenient commands
-
-**Container Features**:
-
-- Bun-based builds for faster performance
-- Multi-platform support (AMD64/ARM64)
-- Health checks and monitoring
-- Volume mounts for development
 
 ### Vercel Deployment
 
