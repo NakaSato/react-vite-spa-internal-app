@@ -1,7 +1,11 @@
 // Environment configuration
 export const env = {
   // API Configuration - uses environment variable with fallback
-  API_BASE_URL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5001",
+  API_BASE_URL:
+    import.meta.env.VITE_API_BASE_URL ||
+    (import.meta.env.PROD
+      ? "https://your-api-domain.com"
+      : "http://localhost:5001"),
 
   // Environment info
   NODE_ENV: import.meta.env.MODE || "development",
@@ -17,7 +21,8 @@ export type Environment = typeof env;
 
 // Validate required environment variables
 const validateEnv = () => {
-  if (!env.API_BASE_URL) {
+  // In production, we can still proceed even without API if it's a static demo
+  if (!env.API_BASE_URL && env.IS_DEVELOPMENT) {
     throw new Error("API_BASE_URL is required and must be configured");
   }
 
