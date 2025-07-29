@@ -287,6 +287,43 @@ The project uses automated build and test via `.github/workflows/build-and-test.
 - Health checks and monitoring
 - Volume mounts for development
 
+### Vercel Deployment
+
+**Quick Deploy to Vercel**:
+
+The project is configured for optimal Vercel deployment with SPA routing support.
+
+**Core Commands**:
+
+- `bun run vercel:build` - Production build optimized for Vercel
+- `bun run vercel:dev` - Development server for Vercel preview
+
+**Configuration**:
+
+- `vercel.json` - Deployment configuration with SPA rewrites
+- `.vercelignore` - Excludes unnecessary files from deployment
+- Automatic redirect of all routes to `/index.html` for client-side routing
+
+**Environment Variables** (set in Vercel dashboard):
+
+- `BUILD_TARGET=production` - Ensures optimized production build
+- API endpoints should be configured for production environment
+
+**Key Features**:
+
+- ✅ SPA routing support (no 404s on refresh)
+- ✅ Optimized asset caching (1 year for static assets)
+- ✅ Bun runtime for faster builds
+- ✅ Automatic compression and optimization
+
+**Deployment Steps**:
+
+1. Connect repository to Vercel
+2. Set environment variables in dashboard
+3. Deploy automatically on push to main branch
+
+For detailed instructions, see `VERCEL_DEPLOY.md`
+
 ### Build Target Environment Variables
 
 **Critical for consistent builds**:
