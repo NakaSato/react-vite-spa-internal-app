@@ -1,7 +1,5 @@
-// Analytics Feature Components
-export { default as Analytics } from "./Analytics";
-export { default as AnalyticsCharts } from "./AnalyticsCharts";
-export { default as EnhancedAnalytics } from "./EnhancedAnalytics";
+// Analytics Feature Components - Only export loaders to avoid circular dependencies
+// The actual components are lazy-loaded and should not be statically exported
 
 // Analytics Loaders
 export { default as AnalyticsLoader } from "./AnalyticsLoader";

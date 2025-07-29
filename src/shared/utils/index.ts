@@ -9,6 +9,7 @@ export * from "./simpleReportsService";
 export * from "./progressCalculation";
 export * from "./solarProjectTemplate";
 export * from "./masterPlanApi";
+export * from "./debugHelper";
 
 export const formatDate = (date: Date): string => {
   return date.toLocaleDateString("en-US", {

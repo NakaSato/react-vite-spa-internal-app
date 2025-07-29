@@ -11,9 +11,13 @@ export * from "./feedback";
 export { default as QuickReportForm } from "./QuickReportForm";
 export { default as SimpleReports } from "./SimpleReports";
 
-// Feature Re-exports (for backward compatibility)
-export * from "../features/analytics";
-export * from "../features/charts";
+// Feature Re-exports (for backward compatibility) - Only export loaders to avoid circular dependencies
+export {
+  AnalyticsLoader,
+  AnalyticsChartLoader,
+  EnhancedAnalyticsLoader,
+} from "../features/analytics";
+export { GanttChartLoader } from "../features/charts";
 
 // Re-export commonly used components from their feature locations
 export { ProtectedRoute } from "../features/auth";
