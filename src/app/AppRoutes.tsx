@@ -2,7 +2,8 @@ import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../shared/hooks/useAuth";
 import { DashboardProvider } from "../shared/contexts";
-import { Home, About, Login, Register, NotFound, ProjectDebug } from "../pages";
+import { About, Login, Register, NotFound, ProjectDebug } from "../pages";
+import SimpleHome from "../pages/core/SimpleHome";
 import {
   DashboardLazy,
   ProjectDetailLazy,
@@ -40,7 +41,7 @@ const AppRoutesContent: React.FC = () => {
       <main className="flex-grow">
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<SimpleHome />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

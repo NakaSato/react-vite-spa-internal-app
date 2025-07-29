@@ -4,7 +4,7 @@ export const env = {
   API_BASE_URL:
     import.meta.env.VITE_API_BASE_URL ||
     (import.meta.env.PROD
-      ? "https://your-api-domain.com"
+      ? "" // No API in production demo mode
       : "http://localhost:5001"),
 
   // Environment info
