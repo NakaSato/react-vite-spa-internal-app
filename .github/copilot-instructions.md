@@ -114,7 +114,7 @@ src/
 - Use base `apiClient` from `src/shared/utils/apiClient.ts` for custom endpoints
 - Define TypeScript interfaces in `src/shared/types/api.ts`
 - Handle loading/error states consistently with try/catch
-- Environment-aware endpoints via `src/shared/config/env.ts` (local:5001, Docker:5002, Azure prod)
+- Environment-aware endpoints via `src/shared/config/env.ts` (local:5001, production endpoints)
 - All API services support real-time updates and SignalR broadcasting
 
 ### Role-Based Development
@@ -203,8 +203,8 @@ export const useDataHook = () => {
 
 ### Environment Configuration
 
-- `.env.local` for local development (Docker API on port 5002)
-- `.env.production` for Azure deployment
+- `.env.local` for local development
+- `.env.production` for production deployment
 - Validate env vars in `src/shared/config/env.ts`
 - Use `import.meta.env` for Vite environment variables
 
