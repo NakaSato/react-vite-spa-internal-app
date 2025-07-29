@@ -12,7 +12,7 @@ This repository contains a React + Vite + TypeScript SPA for solar project manag
 - **Auth**: JWT with role-based access (Admin/Manager/User/Viewer)
 - **API**: Type-safe client with environment switching (local Docker/Azure prod)
 - **Reports**: PDF generation via @react-pdf/renderer
-- **Deployment**: Multi-target (Vercel, standard builds) with GitHub Actions
+- **Deployment**: Docker containerization with CI/CD automation via GitHub Actions
 
 ## Development Standards
 
@@ -34,7 +34,6 @@ This repository contains a React + Vite + TypeScript SPA for solar project manag
 - `bun run test:watch` for watch mode testing
 - `bun build` for production builds (standard)
 - `bun build:rolldown` for Rolldown-optimized builds
-- `bun build:vercel` for Vercel deployment builds
 
 **Script Execution:**
 
@@ -65,7 +64,6 @@ The project supports three build configurations:
 
 - **Standard Vite** (`vite.config.ts`) - default stable builds
 - **Rolldown-optimized** (`vite.config.rolldown.ts`) - faster Rust-based bundling
-- **Vercel-specific** (`vite.config.vercel.ts`) - deployment-optimized with disabled sourcemaps
 
 **Important**: Always specify build target with `BUILD_TARGET` env var for consistent chunking strategy.
 
@@ -240,73 +238,74 @@ When suggesting code, prioritize type safety, proper error handling, and consist
 
 ### GitHub Actions Workflow
 
-The project uses automated deployment via `.github/workflows/vercel-deploy.yml`:
+The project uses automated build and test via `.github/workflows/build-and-test.yml`:
 
-**Workflow Name**: `Vercel Deployment with Rolldown`
+**Workflow Name**: `Build and Test`
 
 **Triggers**:
 
-- Push to `main` branch (production deployment)
-- Pull requests to `main` (preview deployment)
+- Push to `main` and `develop` branches
+- Pull requests to `main` and `develop`
+- Manual workflow dispatch
 
 **Build Pipeline**:
 
 1. **Setup**: Checkout code → Setup Bun (latest) → Install dependencies (`bun install`)
-2. **Quality Gate**: Run test suite (`bun test:run`) - deployment fails if tests fail
-3. **Build**: Execute Rolldown-optimized build (`bun build:vercel`) with environment variables:
-   - `BUILD_TARGET=vercel`
-   - `NODE_ENV=production`
+2. **Quality Gate**: TypeScript type check and code linting
+3. **Testing**: Run test suite (`bun test:run`) with coverage reporting
+4. **Build**: Execute multi-config builds:
+   - Production build (`bun build:vite`)
+   - Development build (`bun build:dev`)
+   - Bundle analysis (`bun build:analyze`)
 
-**Deployment Strategy**:
+**Docker Deployment**:
 
-- **Production**: Deploys to Vercel production when pushed to `main` branch
-  - Uses `--prod` flag for production deployment
-  - Requires secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
-- **Preview**: Deploys preview builds for all PRs
-  - Automatically comments on PR with preview URL
-  - Uses GitHub script to extract `VERCEL_URL` and post comment
+- **Development**: Uses `docker-compose.yml` with development profile
+- **Production**: Multi-stage Docker builds with Nginx serving
+- **Staging**: Automated deployment via Docker containers
 
 **Artifacts & Retention**:
 
-- Uploads `dist/` directory as build artifacts
-- 7-day retention policy for build artifacts
-- Useful for debugging deployment issues
+- Uploads build artifacts for each configuration
+- 14-day retention policy for build artifacts
+- Coverage reports with 7-day retention
+- Build information and statistics
 
-### Vercel Configuration
+### Docker Configuration
 
-**Core Config** (`vercel.json`):
+**Core Setup**:
 
-- **Build Command**: `bun build:rolldown` (uses Rolldown optimization)
-- **Install Command**: `bun install` (uses Bun package manager)
-- **Dev Command**: `bun dev:rolldown` (development with Rolldown)
-- **Output Directory**: `dist/`
-- **Framework**: Vite with custom commands
+- **Development**: `Dockerfile.dev` with Bun runtime and hot reload
+- **Production**: `Dockerfile.prod` with multi-stage build and Nginx
+- **Orchestration**: `docker-compose.yml` with profiles for different environments
+- **Management**: `Makefile` with convenient commands
 
-**SPA Routing Setup**:
+**Container Features**:
 
-- All routes fallback to `/index.html` for client-side routing
-- Filesystem handling for static assets
-- Proper routing for React Router DOM
+- Bun-based builds for faster performance
+- Multi-platform support (AMD64/ARM64)
+- Health checks and monitoring
+- Volume mounts for development
 
 ### Build Target Environment Variables
 
 **Critical for consistent builds**:
 
 ```bash
-# Vercel deployment (optimized for production)
-BUILD_TARGET=vercel bun build:vercel
+# Production deployment (standard Vite)
+BUILD_TARGET=production bun build
 
 # Local Rolldown builds (experimental features)
 BUILD_TARGET=rolldown bun build:rolldown
 
-# Standard Vite builds (fallback/development)
-bun build  # No BUILD_TARGET required
+# Development builds
+BUILD_TARGET=development bun build:dev
 ```
 
 **Environment Variable Impact**:
 
 - Controls chunk splitting strategy
-- Affects sourcemap generation (disabled for Vercel)
+- Affects sourcemap generation
 - Determines plugin configuration and optimizations
 
 ## Real-Time Architecture

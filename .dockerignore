@@ -108,9 +108,6 @@ pids
 # Local development certificates
 *.pem
 
-# Vercel
-.vercel
-
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 

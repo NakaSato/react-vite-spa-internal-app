@@ -1080,7 +1080,7 @@ describe('Performance Tests', () => {
 ### **Build Configuration**
 ```bash
 # Use existing multi-build system
-BUILD_TARGET=vercel bun build:vercel     # Production deployment
+BUILD_TARGET=production bun build        # Production deployment
 BUILD_TARGET=rolldown bun build:rolldown # Development with Rolldown
 ```
 
