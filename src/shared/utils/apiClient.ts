@@ -7,12 +7,16 @@ export class ApiClient {
 
   constructor() {
     // Normalize the base URL by removing trailing slash if present
-    this.baseURL = env.API_BASE_URL.replace(/\/$/, "");
+    // Handle empty API_BASE_URL for demo mode
+    this.baseURL = env.API_BASE_URL ? env.API_BASE_URL.replace(/\/$/, "") : "";
     this.defaultHeaders = {
       "Content-Type": "application/json",
       Accept: "application/json",
     };
-    console.log("API Client initialized with base URL:", this.baseURL);
+    console.log(
+      "API Client initialized with base URL:",
+      this.baseURL || "(Demo Mode - No API)"
+    );
   }
 
   // Update base URL - useful for testing or switching endpoints
@@ -80,6 +84,21 @@ export class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
+    // Handle demo mode (no API base URL)
+    if (!this.baseURL) {
+      console.warn(
+        "🎭 Demo Mode: No API configured, simulating error response"
+      );
+      const error = new Error("Demo Mode: API not available");
+      (error as any).response = {
+        status: 503,
+        statusText: "Service Unavailable",
+        body: "Demo Mode - No API configured",
+        url: endpoint,
+      };
+      throw error;
+    }
+
     const url = this.buildUrl(endpoint);
     const headers = this.getHeaders();
 

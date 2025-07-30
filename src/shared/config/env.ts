@@ -17,9 +17,9 @@ export type Environment = typeof env;
 
 // Validate required environment variables
 const validateEnv = () => {
-  // In development, require API URL
+  // In production, allow empty API_BASE_URL for demo/static deployment
   if (env.IS_DEVELOPMENT && !env.API_BASE_URL) {
-    throw new Error("API_BASE_URL is required and must be configured");
+    console.warn("⚠️ No API_BASE_URL configured in development mode");
   }
 
   // Log the API URL being used for debugging
