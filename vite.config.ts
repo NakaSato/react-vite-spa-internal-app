@@ -26,11 +26,38 @@ export default defineConfig({
     target: "esnext",
     outDir: "dist",
     sourcemap: false,
+    // Increase chunk size warning limit for PDF library
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
+        // Generate random hash-based filenames for better caching
+        entryFileNames: "assets/[hash].js",
+        chunkFileNames: "assets/[hash].js",
+        assetFileNames: (assetInfo) => {
+          if (!assetInfo.name) return "assets/[hash][extname]";
+          const info = assetInfo.name.split(".");
+          const ext = info[info.length - 1];
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
+            return `assets/images/[hash][extname]`;
+          }
+          if (/css/i.test(ext)) {
+            return `assets/css/[hash][extname]`;
+          }
+          return `assets/[hash][extname]`;
+        },
         manualChunks: {
+          // Core React libraries
           vendor: ["react", "react-dom"],
           router: ["react-router-dom"],
+
+          // UI and Animation libraries
+          ui: ["framer-motion", "react-hot-toast"],
+
+          // PDF and Charts (large libraries)
+          pdf: ["@react-pdf/renderer"],
+
+          // Utilities and smaller libraries
+          utils: ["crypto-js"],
         },
       },
     },
