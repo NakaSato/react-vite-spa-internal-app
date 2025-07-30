@@ -38,11 +38,12 @@ validateEnv();
 
 // Export for logging/debugging
 export const logEnvironment = () => {
-  if (env.IS_DEVELOPMENT) {
-    console.log("🌍 Environment Configuration:", {
-      API_BASE_URL: env.API_BASE_URL,
-      NODE_ENV: env.NODE_ENV,
-      ENVIRONMENT: env.ENVIRONMENT,
-    });
-  }
+  // Always log in production for debugging deployment issues
+  console.log("🌍 Environment Configuration:", {
+    API_BASE_URL: env.API_BASE_URL || "(Demo Mode - No API)",
+    NODE_ENV: env.NODE_ENV,
+    ENVIRONMENT: env.ENVIRONMENT,
+    IS_DEVELOPMENT: env.IS_DEVELOPMENT,
+    IS_PRODUCTION: env.IS_PRODUCTION,
+  });
 };
