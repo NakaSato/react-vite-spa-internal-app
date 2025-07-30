@@ -6,7 +6,6 @@ import { visualizer } from "rollup-plugin-visualizer";
 const isProduction = process.env.NODE_ENV === "production";
 const enableAnalyzer = process.env.ANALYZE === "true";
 const isDevelopment = !isProduction;
-const buildTarget = process.env.BUILD_TARGET || "development";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -28,33 +27,19 @@ export default defineConfig({
   ].filter(Boolean),
 
   server: {
-    // Enhanced development server configuration
-    host: isDevelopment ? "localhost" : "0.0.0.0",
+    // Development server configuration
+    host: true,
     port: 3000,
     strictPort: false,
-    // Improved HMR for better development experience
-    hmr: {
-      port: 3001,
-      overlay: true,
-    },
     // Enable CORS for API communication
     cors: true,
-    // Pre-transform known dependencies for faster cold starts
-    preTransformRequests: true,
-    // Optimize file watching for large projects
-    watch: {
-      usePolling: false,
-      interval: 100,
-      binaryInterval: 300,
-      ignored: ["**/node_modules/**", "**/.git/**", "**/dist/**"],
-    },
   },
 
   build: {
-    // Build optimization based on target environment
-    target: buildTarget === "production" ? "es2018" : "esnext",
+    // Build optimization for production
+    target: "es2018",
     outDir: "dist",
-    sourcemap: buildTarget === "development",
+    sourcemap: false, // Disable sourcemaps for production
     emptyOutDir: true,
     // Smart chunking strategy
     rollupOptions: {
@@ -84,26 +69,24 @@ export default defineConfig({
           }
         },
         // Optimize asset naming - hash only for cleaner output
-        chunkFileNames: () => {
-          return `js/[hash].js`;
-        },
-        entryFileNames: "js/[hash].js",
+        chunkFileNames: "js/[name].[hash].js",
+        entryFileNames: "js/[name].[hash].js",
         assetFileNames: (assetInfo) => {
           const extType = assetInfo.name?.split(".").at(-1);
-          if (extType === "css") return "css/[hash][extname]";
+          if (extType === "css") return "css/[name].[hash][extname]";
           if (
             ["png", "jpg", "jpeg", "svg", "gif", "webp"].includes(extType || "")
           ) {
-            return "images/[hash][extname]";
+            return "images/[name].[hash][extname]";
           }
-          return "assets/[hash][extname]";
+          return "assets/[name].[hash][extname]";
         },
       },
       // External dependencies (if needed)
       external: [],
     },
-    // Minification settings
-    minify: buildTarget === "production" ? "esbuild" : false,
+    // Minification settings - always enable for production builds
+    minify: "esbuild",
     // Build performance optimizations
     chunkSizeWarningLimit: 1000,
     // Enable CSS code splitting
@@ -122,37 +105,19 @@ export default defineConfig({
       "chart.js",
       "framer-motion",
       "zustand",
-      // Chart.js components for better performance
-      "chart.js/auto",
-      "react-chartjs-2",
-      // Other installed dependencies
       "immer",
       "d3",
       "socket.io-client",
-      // Node.js polyfills for PDF libraries
       "buffer",
     ],
-    exclude: [
-      "@react-pdf/renderer", // Large dependency, load on demand
-      "@rollup/rollup-darwin-arm64", // Native binary
-      "tesseract.js", // Large WASM dependency
-      "fontkit", // PDF font library with Node.js dependencies
-    ],
-    // Force rebuild only when dependencies change
-    force: isDevelopment && process.env.FORCE_OPTIMIZE === "true",
-    // Enable esbuild dependency scanning for faster discovery
-    esbuildOptions: {
-      target: "esnext",
-      mainFields: ["module", "main"],
-      conditions: ["module", "import"],
-    },
+    exclude: ["@react-pdf/renderer", "tesseract.js", "fontkit"],
   },
 
   // Enhanced esbuild configuration for optimal performance
   esbuild: {
-    target: buildTarget === "production" ? "es2018" : "esnext",
+    target: "es2018",
     // Remove console logs and debugger in production
-    ...(buildTarget === "production" && {
+    ...(isProduction && {
       drop: ["console", "debugger"],
       legalComments: "none", // Remove license comments to reduce bundle size
     }),

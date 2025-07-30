@@ -16,6 +16,34 @@ export class AuthService {
   private static readonly REFRESH_TOKEN_KEY = "solar_refresh_token";
   private static readonly USER_KEY = "solar_user";
 
+  // Safe localStorage access with fallback
+  private static isStorageAvailable(): boolean {
+    try {
+      return typeof window !== "undefined" && window.localStorage !== undefined;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  private static setStorage(key: string, value: string): void {
+    if (this.isStorageAvailable()) {
+      localStorage.setItem(key, value);
+    }
+  }
+
+  private static getStorage(key: string): string | null {
+    if (this.isStorageAvailable()) {
+      return localStorage.getItem(key);
+    }
+    return null;
+  }
+
+  private static removeStorage(key: string): void {
+    if (this.isStorageAvailable()) {
+      localStorage.removeItem(key);
+    }
+  }
+
   // Login user
   static async login(credentials: LoginRequest): Promise<LoginResponse> {
     console.log("AuthService: Attempting login with credentials:", {
@@ -269,37 +297,37 @@ export class AuthService {
     } finally {
       // Always clear local storage regardless of API call success
       console.log("AuthService: Clearing local authentication data");
-      localStorage.removeItem(this.TOKEN_KEY);
-      localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-      localStorage.removeItem(this.USER_KEY);
+      this.removeStorage(this.TOKEN_KEY);
+      this.removeStorage(this.REFRESH_TOKEN_KEY);
+      this.removeStorage(this.USER_KEY);
       apiClient.clearAuthToken();
     }
   }
 
   // Token management
   static setToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
+    this.setStorage(this.TOKEN_KEY, token);
   }
 
   static getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    return this.getStorage(this.TOKEN_KEY);
   }
 
   static setRefreshToken(token: string): void {
-    localStorage.setItem(this.REFRESH_TOKEN_KEY, token);
+    this.setStorage(this.REFRESH_TOKEN_KEY, token);
   }
 
   static getRefreshToken(): string | null {
-    return localStorage.getItem(this.REFRESH_TOKEN_KEY);
+    return this.getStorage(this.REFRESH_TOKEN_KEY);
   }
 
   // User management
   static setUser(user: User): void {
-    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+    this.setStorage(this.USER_KEY, JSON.stringify(user));
   }
 
   static getUser(): User | null {
-    const userData = localStorage.getItem(this.USER_KEY);
+    const userData = this.getStorage(this.USER_KEY);
     return userData ? JSON.parse(userData) : null;
   }
 

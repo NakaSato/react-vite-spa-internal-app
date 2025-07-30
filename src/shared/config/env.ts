@@ -19,12 +19,12 @@ export type Environment = typeof env;
 const validateEnv = () => {
   // In production, allow empty API_BASE_URL for demo/static deployment
   if (env.IS_DEVELOPMENT && !env.API_BASE_URL) {
-    console.warn("⚠️ No API_BASE_URL configured in development mode");
+    console.warn("No API_BASE_URL configured in development mode");
   }
 
   // Log the API URL being used for debugging
   if (env.IS_DEVELOPMENT) {
-    console.log("🔗 API Configuration:", {
+    console.log("API Configuration:", {
       API_BASE_URL: env.API_BASE_URL,
       source: import.meta.env.VITE_API_BASE_URL
         ? "environment variable"
@@ -39,7 +39,7 @@ validateEnv();
 // Export for logging/debugging
 export const logEnvironment = () => {
   // Always log in production for debugging deployment issues
-  console.log("🌍 Environment Configuration:", {
+  console.log("Environment Configuration:", {
     API_BASE_URL: env.API_BASE_URL || "(Demo Mode - No API)",
     NODE_ENV: env.NODE_ENV,
     ENVIRONMENT: env.ENVIRONMENT,
