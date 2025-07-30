@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useAuth } from "../shared/hooks/useAuth";
 import { DashboardProvider } from "../shared/contexts";
 import { Home, About, Login, Register, NotFound, ProjectDebug } from "../pages";
@@ -11,12 +11,12 @@ import {
   ProjectScheduleLazy,
   RealTimeProjectDashboardLazy,
 } from "./LazyPages";
-import { Navigation, RealTimeNotifications } from "../widgets";
+import { Navigation } from "../widgets";
 import Footer from "../components/layout/Footer";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 
 const AppRoutesContent: React.FC = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isLoading } = useAuth();
   const location = useLocation();
 
   // Check if we're on the index page

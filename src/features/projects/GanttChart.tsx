@@ -235,7 +235,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
           backgroundColor = "#10B981"; // Green
           borderColor = "#059669";
           break;
-        case "activity":
+        case "activity": {
           // Check activity status
           const activity = project.phases
             .flatMap((p) => p.activities)
@@ -261,6 +261,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
             }
           }
           break;
+        }
       }
     }
 

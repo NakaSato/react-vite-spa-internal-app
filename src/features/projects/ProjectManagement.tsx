@@ -158,13 +158,14 @@ const ProjectManagement: React.FC = () => {
       case "budget":
         // Using totalCapacityKw as a proxy for budget since budget isn't in the current schema
         return (b.totalCapacityKw || 0) - (a.totalCapacityKw || 0);
-      case "progress":
+      case "progress": {
         // Calculate progress from task completion
         const aProgress =
           a.taskCount > 0 ? (a.completedTaskCount / a.taskCount) * 100 : 0;
         const bProgress =
           b.taskCount > 0 ? (b.completedTaskCount / b.taskCount) * 100 : 0;
         return bProgress - aProgress;
+      }
       default:
         return 0;
     }

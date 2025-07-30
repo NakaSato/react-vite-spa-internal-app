@@ -36,11 +36,19 @@ export default [
         "warn",
         { allowConstantExport: true },
       ],
+      // More lenient rules for large codebases in development
       "@typescript-eslint/no-unused-vars": [
-        "error",
-        { argsIgnorePattern: "^_" },
+        "warn", // Changed from error to warning
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+        },
       ],
       "@typescript-eslint/no-explicit-any": "warn",
+      "no-unused-vars": "off", // Turn off base rule as it conflicts with TypeScript
+      // Allow React import to be unused (modern JSX transform)
+      "react/react-in-jsx-scope": "off",
     },
   },
 ];

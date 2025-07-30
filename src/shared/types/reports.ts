@@ -110,6 +110,7 @@ export interface CreateDailyReportRequest {
 export interface EnhancedCreateDailyReportRequest
   extends CreateDailyReportRequest {
   // Enhanced fields for advanced reporting
+  enhancedMetadata?: Record<string, unknown>;
 }
 
 export interface UpdateDailyReportRequest {

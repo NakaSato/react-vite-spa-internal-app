@@ -38,7 +38,7 @@ const Navigation: React.FC = () => {
                         : "text-blue-100 hover:text-white hover:bg-blue-700"
                     }`}
                   >
-                    🔴 Live Projects
+                    Live Projects
                   </Link>
                   <Link
                     to="/daily-reports"
@@ -48,11 +48,11 @@ const Navigation: React.FC = () => {
                         : "text-blue-100 hover:text-white hover:bg-blue-700"
                     }`}
                   >
-                    📊 Daily Reports
+                    Daily Reports
                   </Link>
 
                   {/* Debug link for development */}
-                  {process.env.NODE_ENV === "development" && (
+                  {import.meta.env.DEV && (
                     <Link
                       to="/debug/projects"
                       className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -61,7 +61,7 @@ const Navigation: React.FC = () => {
                           : "text-red-100 hover:text-white hover:bg-red-700"
                       }`}
                     >
-                      🧪 Debug
+                      Debug
                     </Link>
                   )}
                 </div>
