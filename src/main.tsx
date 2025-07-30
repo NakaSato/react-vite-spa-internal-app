@@ -1,14 +1,20 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import App from "./app/App";
 import "./index.css";
-import { logEnvironment } from "./shared/config/env";
 
-// Log environment configuration in development
-logEnvironment();
+const container = document.getElementById("root");
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+if (!container) {
+  throw new Error(
+    "Failed to find the root element. Make sure you have a <div id='root'></div> in your index.html"
+  );
+}
+
+const root = createRoot(container);
+
+root.render(
+  <StrictMode>
     <App />
-  </React.StrictMode>
+  </StrictMode>
 );
