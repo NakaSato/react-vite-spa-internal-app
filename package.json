@@ -3,20 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "bun x vite --host",
-    "dev:fast": "FORCE_OPTIMIZE=false bun x vite --host --force",
-    "dev:turbo": "FORCE_OPTIMIZE=false bun x vite --host --force --no-deps",
-    "dev:prod": "bun x vite --host",
-    "build:dev": "bun x vite build",
-    "build:vite": "bun x vite build",
-    "build:analyze": "ANALYZE=true bun x vite build",
-    "build:fast": "bun x vite build --minify false",
-    "preview": "bun x vite preview",
-    "preview:port": "bun x vite preview --port 4173",
+    "dev": "bun vite --host",
+    "dev:fast": "FORCE_OPTIMIZE=false bun vite --host --force",
+    "dev:turbo": "FORCE_OPTIMIZE=false bun vite --host --force --no-deps",
+    "dev:prod": "bun vite --host",
+    "build:dev": "bun vite build",
+    "build:vite": "bun vite build",
+    "build:analyze": "ANALYZE=true bun vite build",
+    "build:fast": "bun vite build --minify false",
+    "preview": "bun vite preview",
+    "preview:port": "bun vite preview --port 4173",
     "clean": "rm -rf dist node_modules/.vite node_modules/.vite-dev .vite",
     "clean:cache": "rm -rf node_modules/.vite node_modules/.vite-dev .vite",
     "start": "bun dev",
-    "build": "bun x vite build",
+    "build": "bun vite build",
     "start:prod": "bun preview",
     "test": "vitest",
     "test:run": "vitest run",
@@ -74,5 +74,8 @@
     "vite": "^7.0.6",
     "vite-plugin-html": "^3.2.2",
     "vitest": "^3.2.4"
-  }
+  },
+  "trustedDependencies": [
+    "tesseract.js"
+  ]
 }
