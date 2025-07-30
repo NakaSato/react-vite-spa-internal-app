@@ -3,7 +3,7 @@ import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@hooks/useAuth";
 import { LoginForm } from "@features/auth";
 
-const Login: React.FC = () => {
+export default function Login() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,6 +39,4 @@ const Login: React.FC = () => {
       <LoginForm onSuccess={handleLoginSuccess} />
     </div>
   );
-};
-
-export default Login;
+}

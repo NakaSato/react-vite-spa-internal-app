@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../shared/hooks/useAuth";
 import { LogoutButton } from "../features/auth";
 
-const Navigation: React.FC = () => {
+export function Navigation() {
   const { user, isAuthenticated } = useAuth();
   const location = useLocation();
 
@@ -101,6 +101,6 @@ const Navigation: React.FC = () => {
       </nav>
     </>
   );
-};
+}
 
 export default Navigation;

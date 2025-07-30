@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../shared/hooks/useAuth";
 import { LoginRequest } from "../../shared/types/auth";
@@ -8,7 +8,7 @@ interface LoginFormProps {
   redirectTo?: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
+export default function LoginForm({ onSuccess }: LoginFormProps) {
   const { login, isLoading } = useAuth();
   const [formData, setFormData] = useState<LoginRequest>({
     username: "",
@@ -197,6 +197,4 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       </div>
     </div>
   );
-};
-
-export default LoginForm;
+}

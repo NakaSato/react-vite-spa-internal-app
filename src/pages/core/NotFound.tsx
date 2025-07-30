@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@hooks/useAuth";
 
-const NotFound: React.FC = () => {
+export default function NotFound() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
@@ -141,6 +141,4 @@ const NotFound: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default NotFound;
+}

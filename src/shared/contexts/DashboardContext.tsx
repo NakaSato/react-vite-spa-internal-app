@@ -14,9 +14,7 @@ interface DashboardProviderProps {
   children: ReactNode;
 }
 
-export const DashboardProvider: React.FC<DashboardProviderProps> = ({
-  children,
-}) => {
+export function DashboardProvider({ children }: DashboardProviderProps) {
   const [activeTab, setActiveTab] = useState<TabType>("overview");
 
   return (
@@ -24,7 +22,7 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({
       {children}
     </DashboardContext.Provider>
   );
-};
+}
 
 export const useDashboard = (): DashboardContextType => {
   const context = useContext(DashboardContext);

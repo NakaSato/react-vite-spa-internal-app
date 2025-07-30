@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "@hooks/useAuth";
 import { RegisterForm } from "@features/auth";
 
-const Register: React.FC = () => {
+export default function Register() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -27,6 +27,4 @@ const Register: React.FC = () => {
       onSwitchToLogin={handleSwitchToLogin}
     />
   );
-};
-
-export default Register;
+}

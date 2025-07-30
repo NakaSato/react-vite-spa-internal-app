@@ -8,12 +8,12 @@ interface QuickReportFormProps {
   isSubmitting?: boolean;
 }
 
-const QuickReportForm: React.FC<QuickReportFormProps> = ({
+export default function QuickReportForm({
   projectId,
   onSubmit,
   onCancel,
   isSubmitting = false,
-}) => {
+}: QuickReportFormProps) {
   const [formData, setFormData] = useState<CreateDailyReportRequest>({
     projectId,
     reportDate: new Date().toISOString().split("T")[0],
@@ -447,6 +447,4 @@ const QuickReportForm: React.FC<QuickReportFormProps> = ({
       </form>
     </div>
   );
-};
-
-export default QuickReportForm;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../shared/hooks/useAuth";
 
@@ -7,16 +7,16 @@ interface LogoutButtonProps {
   size?: "sm" | "md" | "lg";
   className?: string;
   redirectTo?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-const LogoutButton: React.FC<LogoutButtonProps> = ({
+export default function LogoutButton({
   variant = "primary",
   size = "md",
   className = "",
   redirectTo = "/",
   children,
-}) => {
+}: LogoutButtonProps) {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -113,6 +113,4 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({
       )}
     </button>
   );
-};
-
-export default LogoutButton;
+}

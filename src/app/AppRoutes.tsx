@@ -15,7 +15,7 @@ import { Navigation } from "../widgets";
 import Footer from "../components/layout/Footer";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 
-const AppRoutesContent: React.FC = () => {
+function AppRoutesContent() {
   const { isLoading } = useAuth();
   const location = useLocation();
 
@@ -121,14 +121,14 @@ const AppRoutesContent: React.FC = () => {
       {!isIndexPage && <Footer />}
     </div>
   );
-};
+}
 
-const AppRoutes: React.FC = () => {
+function AppRoutes() {
   return (
     <DashboardProvider>
       <AppRoutesContent />
     </DashboardProvider>
   );
-};
+}
 
 export default AppRoutes;

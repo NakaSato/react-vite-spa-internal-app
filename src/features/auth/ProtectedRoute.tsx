@@ -1,20 +1,20 @@
-import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth, useRole } from "../../shared/hooks/useAuth";
+import { ReactNode } from "react";
 
 interface ProtectedRouteProps {
-  children: React.ReactNode;
+  children: ReactNode;
   requiredRole?: number;
   requireAuth?: boolean;
   redirectToIndex?: boolean; // New prop to control redirect behavior
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+export default function ProtectedRoute({
   children,
   requiredRole,
   requireAuth = true,
   redirectToIndex = false,
-}) => {
+}: ProtectedRouteProps) {
   const { isAuthenticated, isLoading, user } = useAuth();
   const { hasRole } = useRole();
   const location = useLocation();
@@ -112,7 +112,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   return <>{children}</>;
-};
+}
 
 // Higher-order component for role-based access
 export const withAuth = <P extends object>(
@@ -127,20 +127,18 @@ export const withAuth = <P extends object>(
 };
 
 // Role-specific route components
-export const AdminRoute: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => <ProtectedRoute requiredRole={1}>{children}</ProtectedRoute>;
+export function AdminRoute({ children }: { children: React.ReactNode }) {
+  return <ProtectedRoute requiredRole={1}>{children}</ProtectedRoute>;
+}
 
-export const ManagerRoute: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => <ProtectedRoute requiredRole={2}>{children}</ProtectedRoute>;
+export function ManagerRoute({ children }: { children: React.ReactNode }) {
+  return <ProtectedRoute requiredRole={2}>{children}</ProtectedRoute>;
+}
 
-export const UserRoute: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => <ProtectedRoute requiredRole={3}>{children}</ProtectedRoute>;
+export function UserRoute({ children }: { children: React.ReactNode }) {
+  return <ProtectedRoute requiredRole={3}>{children}</ProtectedRoute>;
+}
 
-export const ViewerRoute: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => <ProtectedRoute requiredRole={4}>{children}</ProtectedRoute>;
-
-export default ProtectedRoute;
+export function ViewerRoute({ children }: { children: React.ReactNode }) {
+  return <ProtectedRoute requiredRole={4}>{children}</ProtectedRoute>;
+}

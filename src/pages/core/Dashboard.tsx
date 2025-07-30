@@ -11,7 +11,7 @@ import {
 } from "@shared/types/project-management";
 import { useProjects } from "@hooks/useProjects";
 
-const Dashboard: React.FC = () => {
+export default function Dashboard() {
   const { user } = useAuth();
   const { isAdmin, isManager, roleName } = useRole();
   const { activeTab } = useDashboard();
@@ -153,6 +153,4 @@ const Dashboard: React.FC = () => {
       <ProjectManagement />
     </ProtectedRoute>
   );
-};
-
-export default Dashboard;
+}

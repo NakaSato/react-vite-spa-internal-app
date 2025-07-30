@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../shared/hooks/useAuth";
 import { RegisterRequest, UserRole } from "../../shared/types/auth";
 
@@ -15,10 +15,10 @@ interface FormErrors {
   confirmPassword?: string;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({
+export default function RegisterForm({
   onSuccess,
   onSwitchToLogin,
-}) => {
+}: RegisterFormProps) {
   const { register, isLoading } = useAuth();
   const [formData, setFormData] = useState<
     RegisterRequest & { confirmPassword: string }
@@ -447,6 +447,4 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       </div>
     </div>
   );
-};
-
-export default RegisterForm;
+}

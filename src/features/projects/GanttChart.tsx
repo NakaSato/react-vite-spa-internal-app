@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   ProjectEntity,
   GanttTask,
@@ -27,13 +27,13 @@ interface GanttChartState {
   criticalPath: string[];
 }
 
-const GanttChart: React.FC<GanttChartProps> = ({
+export default function GanttChart({
   project,
   showBaseline = true,
   showCriticalPath = true,
   onTaskUpdate,
   viewMode = "weeks",
-}) => {
+}: GanttChartProps) {
   const [ganttState, setGanttState] = useState<GanttChartState | null>(null);
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [draggedTask, setDraggedTask] = useState<string | null>(null);
@@ -539,6 +539,4 @@ const GanttChart: React.FC<GanttChartProps> = ({
       </div>
     </div>
   );
-};
-
-export default GanttChart;
+}

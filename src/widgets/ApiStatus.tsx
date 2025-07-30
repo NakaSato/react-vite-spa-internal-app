@@ -5,7 +5,7 @@ interface ApiStatusProps {
   className?: string;
 }
 
-const ApiStatus: React.FC<ApiStatusProps> = ({ className = "" }) => {
+export default function ApiStatus({ className = "" }: ApiStatusProps) {
   const [status, setStatus] = useState<"checking" | "online" | "offline">(
     "checking"
   );
@@ -82,6 +82,4 @@ const ApiStatus: React.FC<ApiStatusProps> = ({ className = "" }) => {
       )}
     </div>
   );
-};
-
-export default ApiStatus;
+}
