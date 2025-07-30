@@ -6,7 +6,6 @@ import React, {
   ReactNode,
 } from "react";
 import { AuthService } from "../utils/authService";
-import { env } from "../config/env";
 import {
   User,
   AuthContextType,
@@ -35,13 +34,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const initializeAuth = async () => {
       try {
         setIsLoading(true);
-
-        // In demo mode, skip API calls and set loading to false
-        if (env.IS_DEMO_MODE) {
-          console.log("🎭 Running in demo mode - no API authentication");
-          setIsLoading(false);
-          return;
-        }
 
         // Initialize auth service
         AuthService.initializeAuth();
@@ -134,23 +126,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [token]);
 
   const login = async (credentials: LoginRequest): Promise<boolean> => {
-    // In demo mode, simulate successful login
-    if (env.IS_DEMO_MODE) {
-      console.log("🎭 Demo mode login simulation");
-      const demoUser: User = {
-        userId: "demo-user-id",
-        username: credentials.username,
-        email: "demo@example.com",
-        fullName: "Demo User",
-        roleName: "Admin",
-        roleId: 1, // Admin role for demo
-        isActive: true,
-      };
-      setUser(demoUser);
-      setToken("demo-token");
-      return true;
-    }
-
     try {
       setIsLoading(true);
       const response = await AuthService.login(credentials);
@@ -187,12 +162,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const register = async (userData: RegisterRequest): Promise<boolean> => {
-    // In demo mode, simulate successful registration
-    if (env.IS_DEMO_MODE) {
-      console.log("🎭 Demo mode registration simulation");
-      return true;
-    }
-
     try {
       setIsLoading(true);
       const response = await AuthService.register(userData);
