@@ -7,7 +7,6 @@
     "dev:fast": "BUILD_TARGET=development FORCE_OPTIMIZE=false bun x vite --host --force",
     "dev:turbo": "BUILD_TARGET=development FORCE_OPTIMIZE=false bun x vite --host --force --no-deps",
     "dev:prod": "BUILD_TARGET=production bun x vite --host",
-    "builds": "BUILD_TARGET=production bun run build:vite",
     "build:dev": "BUILD_TARGET=development bun x vite build",
     "build:vite": "BUILD_TARGET=production bun x vite build",
     "build:analyze": "BUILD_TARGET=production ANALYZE=true bun x vite build",
