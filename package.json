@@ -16,7 +16,7 @@
     "clean": "rm -rf dist node_modules/.vite node_modules/.vite-dev .vite",
     "clean:cache": "rm -rf node_modules/.vite node_modules/.vite-dev .vite",
     "start": "bun dev",
-    "build": "bun run build",
+    "build": "BUILD_TARGET=production bun x vite build",
     "start:prod": "bun preview",
     "test": "vitest",
     "test:run": "vitest run",
