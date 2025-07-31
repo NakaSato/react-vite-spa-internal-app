@@ -286,10 +286,10 @@ export class ErrorHandler {
       enhancedError.severity === "critical"
         ? "error"
         : enhancedError.severity === "high"
-        ? "error"
-        : enhancedError.severity === "medium"
-        ? "warn"
-        : "info";
+          ? "error"
+          : enhancedError.severity === "medium"
+            ? "warn"
+            : "info";
 
     console.group(
       `🚨 Enhanced Error [${

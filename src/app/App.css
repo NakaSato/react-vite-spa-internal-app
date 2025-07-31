@@ -1,9 +1,7 @@
-/* App-specific styles for MUI integration */
+/* App-specific styles for MUI + Tailwind integration */
 
-/* Remove Tailwind imports */
-/* @tailwind base; */
-/* @tailwind components; */
-/* @tailwind utilities; */
+/* Additional Tailwind utilities for this component */
+@tailwind utilities;
 
 /* Toast animations */
 @keyframes toast-enter {

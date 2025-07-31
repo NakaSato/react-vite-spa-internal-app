@@ -7,11 +7,11 @@ interface AnalyticsBannerProps {
 
 const AnalyticsBanner = ({ analytics, project }: AnalyticsBannerProps) => {
   return (
-    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4">
+    <div className="rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
       {/* Project Analytics Summary */}
       {analytics ? (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-6">
             <div className="text-center">
               <div className="text-lg font-bold text-blue-900">
                 {analytics.totalProjects.toLocaleString()}
@@ -51,7 +51,7 @@ const AnalyticsBanner = ({ analytics, project }: AnalyticsBannerProps) => {
           </div>
 
           {/* Additional Analytics Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-2 pt-2 border-t border-blue-100">
+          <div className="mt-2 grid grid-cols-2 gap-3 border-t border-blue-100 pt-2 md:grid-cols-4">
             <div className="text-center">
               <div className="text-sm font-bold text-yellow-700">
                 {analytics.planningProjects.toLocaleString()}
@@ -79,9 +79,9 @@ const AnalyticsBanner = ({ analytics, project }: AnalyticsBannerProps) => {
           </div>
         </>
       ) : (
-        <div className="text-center text-blue-700 bg-blue-50 rounded-lg p-4">
+        <div className="rounded-lg bg-blue-50 p-4 text-center text-blue-700">
           <div className="text-sm font-medium">📊 Analytics Unavailable</div>
-          <div className="text-xs mt-1">
+          <div className="mt-1 text-xs">
             Unable to load analytics data from API. Please check your connection
             and try refreshing.
           </div>

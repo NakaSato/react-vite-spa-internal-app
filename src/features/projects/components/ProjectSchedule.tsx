@@ -83,8 +83,8 @@ const ProjectSchedule = ({
           phase.status === "completed"
             ? 100
             : phase.status === "in-progress"
-            ? 60
-            : 0,
+              ? 60
+              : 0,
       };
     });
   };
@@ -94,71 +94,71 @@ const ProjectSchedule = ({
   const renderOverview = () => (
     <div className="space-y-6">
       {/* Project Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <div className="text-blue-600 text-sm font-medium">Progress</div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <div className="text-sm font-medium text-blue-600">Progress</div>
           <div className="text-2xl font-bold text-blue-900">
             {progressPercentage}%
           </div>
-          <div className="text-blue-600 text-xs mt-1">
+          <div className="mt-1 text-xs text-blue-600">
             {project.completedTaskCount} of {project.taskCount} tasks
           </div>
         </div>
 
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <div className="text-green-600 text-sm font-medium">Start Date</div>
+        <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+          <div className="text-sm font-medium text-green-600">Start Date</div>
           <div className="text-lg font-bold text-green-900">
             {startDate.toLocaleDateString()}
           </div>
         </div>
 
-        <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-          <div className="text-orange-600 text-sm font-medium">Target End</div>
+        <div className="rounded-lg border border-orange-200 bg-orange-50 p-4">
+          <div className="text-sm font-medium text-orange-600">Target End</div>
           <div className="text-lg font-bold text-orange-900">
             {endDate.toLocaleDateString()}
           </div>
         </div>
 
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-          <div className="text-purple-600 text-sm font-medium">Duration</div>
+        <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+          <div className="text-sm font-medium text-purple-600">Duration</div>
           <div className="text-lg font-bold text-purple-900">
             {totalDays} days
           </div>
-          <div className="text-purple-600 text-xs mt-1">
+          <div className="mt-1 text-xs text-purple-600">
             {daysElapsed} elapsed
           </div>
         </div>
       </div>
 
       {/* Progress Timeline */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h4 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="rounded-lg border border-gray-200 bg-white p-6">
+        <h4 className="mb-4 text-lg font-semibold text-gray-900">
           Project Phases
         </h4>
         <div className="space-y-4">
           {timelineData.map((phase, index) => (
             <div key={index} className="space-y-2">
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <span className="font-medium text-gray-900">{phase.name}</span>
                 <span className="text-sm text-gray-600">
                   {phase.startDate.toLocaleDateString()} -{" "}
                   {phase.endDate.toLocaleDateString()}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="h-3 w-full rounded-full bg-gray-200">
                 <div
                   className={`h-3 rounded-full ${phase.color} transition-all duration-300`}
                   style={{ width: `${phase.progress}%` }}
                 />
               </div>
-              <div className="flex justify-between items-center text-sm">
+              <div className="flex items-center justify-between text-sm">
                 <span
-                  className={`capitalize px-2 py-1 rounded text-xs font-medium ${
+                  className={`rounded px-2 py-1 text-xs font-medium capitalize ${
                     phase.status === "completed"
                       ? "bg-green-100 text-green-800"
                       : phase.status === "in-progress"
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-gray-100 text-gray-800"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-gray-100 text-gray-800"
                   }`}
                 >
                   {phase.status.replace("-", " ")}
@@ -175,14 +175,14 @@ const ProjectSchedule = ({
   );
 
   const renderGanttChart = () => (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-      <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+      <div className="border-b border-gray-200 bg-gray-50 px-4 py-3">
         <h4 className="font-medium text-gray-900">Project Timeline</h4>
       </div>
 
       {/* Simplified Gantt Chart */}
       <div className="p-4">
-        <div className="grid grid-cols-12 gap-1 mb-4 text-xs text-gray-600">
+        <div className="mb-4 grid grid-cols-12 gap-1 text-xs text-gray-600">
           {Array.from({ length: 12 }, (_, i) => (
             <div key={i} className="text-center">
               Week {i + 1}
@@ -192,24 +192,24 @@ const ProjectSchedule = ({
 
         <div className="space-y-3">
           {timelineData.map((phase, index) => (
-            <div key={index} className="grid grid-cols-12 gap-1 items-center">
-              <div className="col-span-3 text-sm font-medium text-gray-900 truncate">
+            <div key={index} className="grid grid-cols-12 items-center gap-1">
+              <div className="col-span-3 truncate text-sm font-medium text-gray-900">
                 {phase.name}
               </div>
-              <div className="col-span-9 relative">
-                <div className="h-8 bg-gray-100 rounded-lg overflow-hidden">
+              <div className="relative col-span-9">
+                <div className="h-8 overflow-hidden rounded-lg bg-gray-100">
                   <div
-                    className={`h-full ${phase.color} rounded-lg flex items-center px-2`}
+                    className={`h-full ${phase.color} flex items-center rounded-lg px-2`}
                     style={{ width: `${(phase.duration / 75) * 100}%` }}
                   >
                     <div
-                      className="h-full bg-white bg-opacity-30 rounded"
+                      className="h-full rounded bg-white bg-opacity-30"
                       style={{ width: `${phase.progress}%` }}
                     />
                   </div>
                 </div>
                 <div className="absolute inset-y-0 left-2 flex items-center">
-                  <span className="text-white text-xs font-medium">
+                  <span className="text-xs font-medium text-white">
                     {phase.duration}d
                   </span>
                 </div>
@@ -223,14 +223,14 @@ const ProjectSchedule = ({
 
   const renderTasks = () => (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <h4 className="text-lg font-semibold text-gray-900">Task Management</h4>
         <button
           onClick={() => onTaskCreate && onTaskCreate({})}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+          className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
         >
           <svg
-            className="w-4 h-4"
+            className="h-4 w-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -246,8 +246,8 @@ const ProjectSchedule = ({
         </button>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
+      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+        <div className="border-b border-gray-200 bg-gray-50 px-4 py-3">
           <div className="grid grid-cols-5 gap-4 text-sm font-medium text-gray-700">
             <div>Task Name</div>
             <div>Status</div>
@@ -261,13 +261,13 @@ const ProjectSchedule = ({
           {/* Mock task data based on project info */}
           {Array.from({ length: Math.min(project.taskCount, 5) }, (_, i) => (
             <div key={i} className="px-4 py-3 hover:bg-gray-50">
-              <div className="grid grid-cols-5 gap-4 text-sm items-center">
+              <div className="grid grid-cols-5 items-center gap-4 text-sm">
                 <div className="font-medium text-gray-900">
                   Task {i + 1} - {timelineData[i % timelineData.length]?.name}
                 </div>
                 <div>
                   <span
-                    className={`px-2 py-1 rounded text-xs font-medium ${
+                    className={`rounded px-2 py-1 text-xs font-medium ${
                       i < project.completedTaskCount
                         ? "bg-green-100 text-green-800"
                         : "bg-yellow-100 text-yellow-800"
@@ -317,14 +317,14 @@ const ProjectSchedule = ({
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      <div className="border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
               <svg
-                className="w-5 h-5 text-blue-600"
+                className="h-5 w-5 text-blue-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -338,22 +338,22 @@ const ProjectSchedule = ({
               </svg>
               Project Schedule
             </h3>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="mt-1 text-sm text-gray-600">
               Manage project timeline, tasks, and milestones
             </p>
           </div>
         </div>
 
         {/* View Tabs */}
-        <div className="flex gap-1 mt-4">
+        <div className="mt-4 flex gap-1">
           {viewTabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveView(tab.id as any)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 activeView === tab.id
-                  ? "bg-blue-100 text-blue-700 border border-blue-200"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  ? "border border-blue-200 bg-blue-100 text-blue-700"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
               }`}
             >
               <span>{tab.icon}</span>

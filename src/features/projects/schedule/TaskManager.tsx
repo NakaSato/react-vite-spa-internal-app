@@ -123,8 +123,8 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
   return (
     <div className="space-y-6">
       {/* Task controls and filters */}
-      <div className="bg-white rounded-lg shadow-sm border p-4">
-        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+      <div className="rounded-lg border bg-white p-4 shadow-sm">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           {/* Filters */}
           <div className="flex flex-wrap gap-3">
             <select
@@ -132,7 +132,7 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
               onChange={(e) =>
                 setFilters({ ...filters, status: e.target.value })
               }
-              className="px-3 py-1 border rounded-md text-sm"
+              className="rounded-md border px-3 py-1 text-sm"
             >
               <option value="">All Status</option>
               <option value="pending">Pending</option>
@@ -146,7 +146,7 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
               onChange={(e) =>
                 setFilters({ ...filters, priority: e.target.value })
               }
-              className="px-3 py-1 border rounded-md text-sm"
+              className="rounded-md border px-3 py-1 text-sm"
             >
               <option value="">All Priority</option>
               <option value="high">High</option>
@@ -161,14 +161,14 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
               onChange={(e) =>
                 setFilters({ ...filters, search: e.target.value })
               }
-              className="px-3 py-1 border rounded-md text-sm"
+              className="rounded-md border px-3 py-1 text-sm"
             />
           </div>
 
           {/* Actions */}
           <div className="flex space-x-2">
             {/* View Mode Toggle */}
-            <div className="flex border rounded-md">
+            <div className="flex rounded-md border">
               <button
                 onClick={() => setViewMode("list")}
                 className={`px-3 py-1 text-sm ${
@@ -181,7 +181,7 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
               </button>
               <button
                 onClick={() => setViewMode("kanban")}
-                className={`px-3 py-1 text-sm border-l ${
+                className={`border-l px-3 py-1 text-sm ${
                   viewMode === "kanban"
                     ? "bg-blue-50 text-blue-600"
                     : "hover:bg-gray-50"
@@ -191,7 +191,7 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
               </button>
               <button
                 onClick={() => setViewMode("calendar")}
-                className={`px-3 py-1 text-sm border-l ${
+                className={`border-l px-3 py-1 text-sm ${
                   viewMode === "calendar"
                     ? "bg-blue-50 text-blue-600"
                     : "hover:bg-gray-50"
@@ -202,7 +202,7 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
             </div>
 
             {selectedTasks.length > 0 && (
-              <select className="px-3 py-1 border rounded-md text-sm bg-blue-50">
+              <select className="rounded-md border bg-blue-50 px-3 py-1 text-sm">
                 <option>Bulk Actions ({selectedTasks.length})</option>
                 <option>Mark Complete</option>
                 <option>Assign to...</option>
@@ -213,7 +213,7 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
 
             <button
               onClick={() => setShowTaskForm(true)}
-              className="inline-flex items-center px-4 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+              className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-1 text-sm font-medium text-white hover:bg-blue-700"
             >
               <span className="mr-1">+</span>
               Create Task
@@ -223,9 +223,9 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
       </div>
 
       {/* Task list */}
-      <div className="bg-white rounded-lg shadow-sm border">
-        <div className="p-4 border-b">
-          <div className="flex justify-between items-center">
+      <div className="rounded-lg border bg-white shadow-sm">
+        <div className="border-b p-4">
+          <div className="flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">
               Tasks ({filteredTasks.length})
             </h3>
@@ -256,14 +256,14 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
                       </h4>
                       <div className="flex items-center space-x-2">
                         <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                          className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(
                             task.status
                           )}`}
                         >
                           {task.status.replace("_", " ")}
                         </span>
                         <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(
+                          className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${getPriorityColor(
                             task.priority
                           )}`}
                         >
@@ -280,9 +280,9 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
                         <div className="text-xs text-gray-500">
                           {task.progress}%
                         </div>
-                        <div className="w-16 bg-gray-200 rounded-full h-2">
+                        <div className="h-2 w-16 rounded-full bg-gray-200">
                           <div
-                            className="bg-blue-600 h-2 rounded-full"
+                            className="h-2 rounded-full bg-blue-600"
                             style={{ width: `${task.progress}%` }}
                           ></div>
                         </div>
@@ -306,7 +306,7 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
 
             {filteredTasks.length === 0 && (
               <div className="p-8 text-center text-gray-500">
-                <div className="text-2xl mb-2">📋</div>
+                <div className="mb-2 text-2xl">📋</div>
                 <p>No tasks found matching your filters</p>
               </div>
             )}
@@ -315,9 +315,9 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
 
         {viewMode === "kanban" && (
           <div className="p-4">
-            <div className="text-center py-8 text-gray-500">
-              <div className="text-4xl mb-4">📋</div>
-              <h4 className="text-lg font-medium text-gray-900 mb-2">
+            <div className="py-8 text-center text-gray-500">
+              <div className="mb-4 text-4xl">📋</div>
+              <h4 className="mb-2 text-lg font-medium text-gray-900">
                 Kanban View Coming Soon
               </h4>
               <p className="text-sm">
@@ -330,9 +330,9 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
 
         {viewMode === "calendar" && (
           <div className="p-4">
-            <div className="text-center py-8 text-gray-500">
-              <div className="text-4xl mb-4">📅</div>
-              <h4 className="text-lg font-medium text-gray-900 mb-2">
+            <div className="py-8 text-center text-gray-500">
+              <div className="mb-4 text-4xl">📅</div>
+              <h4 className="mb-2 text-lg font-medium text-gray-900">
                 Calendar View Coming Soon
               </h4>
               <p className="text-sm">
@@ -345,10 +345,10 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
 
       {/* Task Creation Modal Placeholder */}
       {showTaskForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="mx-4 w-full max-w-md rounded-lg bg-white shadow-xl">
             <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
+              <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-lg font-medium text-gray-900">
                   Create New Task
                 </h3>
@@ -359,20 +359,20 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
                   ✕
                 </button>
               </div>
-              <div className="text-center py-8 text-gray-500">
-                <div className="text-2xl mb-2">🚧</div>
+              <div className="py-8 text-center text-gray-500">
+                <div className="mb-2 text-2xl">🚧</div>
                 <p>Task creation form will be implemented in Phase 3</p>
               </div>
-              <div className="flex justify-end space-x-3 mt-6">
+              <div className="mt-6 flex justify-end space-x-3">
                 <button
                   onClick={() => setShowTaskForm(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => setShowTaskForm(false)}
-                  className="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+                  className="rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
                 >
                   Create Task
                 </button>

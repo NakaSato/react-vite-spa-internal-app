@@ -32,11 +32,11 @@ export default function NetworkError({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
           {/* Network Error Icon */}
-          <div className="mx-auto h-24 w-24 flex items-center justify-center rounded-full bg-orange-100 mb-8">
+          <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-orange-100">
             <svg
               className="h-12 w-12 text-orange-600"
               fill="none"
@@ -54,13 +54,13 @@ export default function NetworkError({
           </div>
 
           {/* Error Text */}
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="mb-4 text-4xl font-bold text-gray-900">
             {isOffline ? "You're Offline" : "Connection Problem"}
           </h1>
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">
+          <h2 className="mb-4 text-xl font-semibold text-gray-700">
             {isOffline ? "No Internet Connection" : "Network Error"}
           </h2>
-          <p className="text-gray-600 mb-8 max-w-md mx-auto">
+          <p className="mx-auto mb-8 max-w-md text-gray-600">
             {isOffline
               ? "Please check your internet connection and try again."
               : message ||
@@ -68,8 +68,8 @@ export default function NetworkError({
           </p>
 
           {/* Network Status */}
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-8 text-left max-w-sm mx-auto">
-            <h3 className="text-sm font-medium text-orange-800 mb-2">
+          <div className="mx-auto mb-8 max-w-sm rounded-lg border border-orange-200 bg-orange-50 p-4 text-left">
+            <h3 className="mb-2 text-sm font-medium text-orange-800">
               Connection Status
             </h3>
             <div className="space-y-2 text-sm text-orange-700">
@@ -93,13 +93,13 @@ export default function NetworkError({
           </div>
 
           {/* Action Buttons */}
-          <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+          <div className="space-y-4 sm:flex sm:justify-center sm:space-x-4 sm:space-y-0">
             <button
               onClick={handleRetry}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -116,10 +116,10 @@ export default function NetworkError({
 
             <button
               onClick={handleGoHome}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              className="inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -136,8 +136,8 @@ export default function NetworkError({
           </div>
 
           {/* Troubleshooting Tips */}
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <p className="text-sm text-gray-500 mb-4">Troubleshooting tips:</p>
+          <div className="mt-8 border-t border-gray-200 pt-8">
+            <p className="mb-4 text-sm text-gray-500">Troubleshooting tips:</p>
             <div className="space-y-1 text-xs text-gray-400">
               <p>• Check your internet connection</p>
               <p>• Try refreshing the page</p>

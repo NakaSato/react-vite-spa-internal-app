@@ -188,8 +188,8 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex items-center justify-center py-12">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
         <span className="ml-3 text-lg text-gray-600">Loading projects...</span>
       </div>
     );
@@ -197,9 +197,9 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+      <div className="rounded-lg border border-red-200 bg-red-50 p-6">
         <div className="flex items-center">
-          <div className="text-red-400 mr-3">
+          <div className="mr-3 text-red-400">
             <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
@@ -212,13 +212,13 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
             <h3 className="text-sm font-medium text-red-800">
               Error loading projects
             </h3>
-            <p className="text-sm text-red-700 mt-1">{error}</p>
+            <p className="mt-1 text-sm text-red-700">{error}</p>
           </div>
         </div>
         <div className="mt-4">
           <button
             onClick={onRefresh}
-            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+            className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
           >
             Try Again
           </button>
@@ -228,25 +228,25 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
   }
 
   return (
-    <div className="bg-white shadow-xl rounded-2xl border border-gray-200">
+    <div className="rounded-2xl border border-gray-200 bg-white shadow-xl">
       {/* Header */}
-      <div className="px-8 py-6 border-b border-gray-200">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+      <div className="border-b border-gray-200 px-8 py-6">
+        <div className="mb-6 flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
           <div>
             <h3 className="text-3xl font-bold text-gray-900">
               All Projects ({projects.length})
             </h3>
-            <p className="text-gray-600 mt-1">
+            <p className="mt-1 text-gray-600">
               {filteredProjects.length !== projects.length &&
                 `Showing ${filteredProjects.length} of ${projects.length} projects`}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             {/* View Mode Toggle */}
-            <div className="flex bg-gray-100 rounded-lg p-1">
+            <div className="flex rounded-lg bg-gray-100 p-1">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                className={`rounded-md px-3 py-1 text-sm font-medium transition-colors ${
                   viewMode === "grid"
                     ? "bg-white text-gray-900 shadow-sm"
                     : "text-gray-600 hover:text-gray-900"
@@ -256,7 +256,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                className={`rounded-md px-3 py-1 text-sm font-medium transition-colors ${
                   viewMode === "list"
                     ? "bg-white text-gray-900 shadow-sm"
                     : "text-gray-600 hover:text-gray-900"
@@ -269,21 +269,21 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
             {/* Filter Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+              className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
             >
               🔍 {showFilters ? "Hide" : "Show"} Filters
             </button>
 
             <button
               onClick={onRefresh}
-              className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+              className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
             >
               🔄 Refresh
             </button>
             {(isAdmin || isManager) && onCreateProject && (
               <button
                 onClick={onCreateProject}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="transform rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-2 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
               >
                 + New Project
               </button>
@@ -295,15 +295,15 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
         <div
           className={`transition-all duration-300 ${
             showFilters
-              ? "opacity-100 max-h-96"
-              : "opacity-0 max-h-0 overflow-hidden"
+              ? "max-h-96 opacity-100"
+              : "max-h-0 overflow-hidden opacity-0"
           }`}
         >
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="mb-6 rounded-lg bg-gray-50 p-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {/* Search */}
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   Search Projects
                 </label>
                 <div className="relative">
@@ -312,7 +312,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                     placeholder="Search by name, address, or client..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                   />
                   <div className="absolute left-3 top-2.5 text-gray-400">
                     🔍
@@ -330,13 +330,13 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
               {/* Status Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   Filter by Status
                 </label>
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Statuses ({projects.length})</option>
                   {uniqueStatuses.map((status) => {
@@ -354,13 +354,13 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
               {/* Sort Options */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   Sort By
                 </label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="name">📝 Project Name</option>
                   <option value="status">🏷️ Status</option>
@@ -377,9 +377,9 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
       {/* Projects Grid */}
       <div className="p-8">
         {sortedProjects.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🏗️</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <div className="py-12 text-center">
+            <div className="mb-4 text-6xl">🏗️</div>
+            <h3 className="mb-2 text-xl font-semibold text-gray-900">
               No projects found
             </h3>
             <p className="text-gray-600">
@@ -392,7 +392,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
           <div
             className={`${
               viewMode === "grid"
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                ? "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
                 : "space-y-4"
             }`}
           >
@@ -401,29 +401,29 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                 key={project.projectId}
                 className={`${
                   viewMode === "grid"
-                    ? "bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                    : "bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-200 flex items-center space-x-4"
+                    ? "transform rounded-xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                    : "flex items-center space-x-4 rounded-lg border border-gray-200 bg-white p-4 transition-all duration-200 hover:shadow-md"
                 }`}
               >
                 {viewMode === "grid" ? (
                   // Grid View
                   <>
                     {/* Project Header */}
-                    <div className="flex justify-between items-start mb-4">
+                    <div className="mb-4 flex items-start justify-between">
                       <div className="flex-1">
                         <button
                           onClick={() =>
                             navigate(`/projects/${project.projectId}`)
                           }
-                          className="text-left hover:text-blue-600 transition-colors mb-2"
+                          className="mb-2 text-left transition-colors hover:text-blue-600"
                         >
-                          <h4 className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors line-clamp-2">
+                          <h4 className="line-clamp-2 text-xl font-bold text-gray-900 transition-colors hover:text-blue-600">
                             {project.projectName || "Unnamed Project"}
                           </h4>
                         </button>
                         <div className="flex items-center space-x-2">
                           <span
-                            className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(
+                            className={`rounded-full border px-3 py-1 text-xs font-medium ${getStatusColor(
                               project.status
                             )}`}
                           >
@@ -446,7 +446,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                       {/* Address */}
                       {project.address && (
                         <div className="flex items-center text-sm text-gray-600">
-                          <span className="w-4 h-4 mr-2">📍</span>
+                          <span className="mr-2 h-4 w-4">📍</span>
                           <span className="truncate">{project.address}</span>
                         </div>
                       )}
@@ -454,7 +454,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                       {/* Client Info */}
                       {project.clientInfo && (
                         <div className="flex items-center text-sm text-gray-600">
-                          <span className="w-4 h-4 mr-2">👤</span>
+                          <span className="mr-2 h-4 w-4">👤</span>
                           <span className="truncate">{project.clientInfo}</span>
                         </div>
                       )}
@@ -462,7 +462,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                       {/* Capacity */}
                       {project.totalCapacityKw && (
                         <div className="flex items-center text-sm text-gray-600">
-                          <span className="w-4 h-4 mr-2">⚡</span>
+                          <span className="mr-2 h-4 w-4">⚡</span>
                           <span className="font-medium">
                             {project.totalCapacityKw.toLocaleString()} kW
                           </span>
@@ -471,13 +471,13 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
                       {/* Start Date */}
                       <div className="flex items-center text-sm text-gray-600">
-                        <span className="w-4 h-4 mr-2">📅</span>
+                        <span className="mr-2 h-4 w-4">📅</span>
                         Started: {formatDate(project.startDate)}
                       </div>
 
                       {/* Progress */}
                       <div className="mt-4">
-                        <div className="flex justify-between items-center mb-2">
+                        <div className="mb-2 flex items-center justify-between">
                           <span className="text-sm font-medium text-gray-700">
                             Progress
                           </span>
@@ -485,25 +485,25 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                             {calculateProgress(project)}%
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div className="h-2.5 w-full rounded-full bg-gray-200">
                           <div
-                            className="bg-gradient-to-r from-blue-500 to-purple-500 h-2.5 rounded-full transition-all duration-500"
+                            className="h-2.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500"
                             style={{ width: `${calculateProgress(project)}%` }}
                           ></div>
                         </div>
-                        <div className="text-xs text-gray-500 mt-2">
+                        <div className="mt-2 text-xs text-gray-500">
                           {project.completedTaskCount} of {project.taskCount}{" "}
                           tasks completed
                         </div>
-                        <div className="text-xs font-medium text-gray-600 mt-1">
+                        <div className="mt-1 text-xs font-medium text-gray-600">
                           {getCompletionMessage(project)}
                         </div>
                       </div>
 
                       {/* Project Manager */}
                       {project.projectManager && (
-                        <div className="flex items-center text-sm text-gray-600 mt-4">
-                          <span className="w-4 h-4 mr-2">👨‍💼</span>
+                        <div className="mt-4 flex items-center text-sm text-gray-600">
+                          <span className="mr-2 h-4 w-4">👨‍💼</span>
                           <span className="truncate">
                             {project.projectManager.fullName ||
                               project.projectManager.username}
@@ -518,12 +518,12 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                         onClick={() =>
                           navigate(`/projects/${project.projectId}`)
                         }
-                        className="flex-1 bg-blue-50 text-blue-700 py-2 px-4 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium border border-blue-200"
+                        className="flex-1 rounded-lg border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-100"
                       >
                         👁️ View Details
                       </button>
                       {(isAdmin || isManager) && (
-                        <button className="flex-1 bg-green-50 text-green-700 py-2 px-4 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium border border-green-200">
+                        <button className="flex-1 rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-sm font-medium text-green-700 transition-colors hover:bg-green-100">
                           ✏️ Edit
                         </button>
                       )}
@@ -533,20 +533,20 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                   // List View
                   <>
                     {/* Project Info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-3 mb-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-2 flex items-center space-x-3">
                         <button
                           onClick={() =>
                             navigate(`/projects/${project.projectId}`)
                           }
-                          className="text-left hover:text-blue-600 transition-colors"
+                          className="text-left transition-colors hover:text-blue-600"
                         >
-                          <h4 className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors truncate">
+                          <h4 className="truncate text-lg font-semibold text-gray-900 transition-colors hover:text-blue-600">
                             {project.projectName || "Unnamed Project"}
                           </h4>
                         </button>
                         <span
-                          className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(
+                          className={`rounded-full border px-2 py-1 text-xs font-medium ${getStatusColor(
                             project.status
                           )}`}
                         >
@@ -587,14 +587,14 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
                     {/* Progress */}
                     <div className="w-32">
-                      <div className="text-xs text-gray-500 mb-1">Progress</div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="mb-1 text-xs text-gray-500">Progress</div>
+                      <div className="h-2 w-full rounded-full bg-gray-200">
                         <div
-                          className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
+                          className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
                           style={{ width: `${calculateProgress(project)}%` }}
                         ></div>
                       </div>
-                      <div className="text-xs text-gray-600 mt-1">
+                      <div className="mt-1 text-xs text-gray-600">
                         {calculateProgress(project)}%
                       </div>
                     </div>
@@ -605,12 +605,12 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                         onClick={() =>
                           navigate(`/projects/${project.projectId}`)
                         }
-                        className="bg-blue-50 text-blue-700 py-2 px-3 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
+                        className="rounded-lg bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-100"
                       >
                         👁️ View
                       </button>
                       {(isAdmin || isManager) && (
-                        <button className="bg-green-50 text-green-700 py-2 px-3 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium">
+                        <button className="rounded-lg bg-green-50 px-3 py-2 text-sm font-medium text-green-700 transition-colors hover:bg-green-100">
                           ✏️ Edit
                         </button>
                       )}
@@ -625,17 +625,17 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
       {/* Project Details Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-2xl">
             <div className="p-6">
-              <div className="flex justify-between items-start mb-6">
+              <div className="mb-6 flex items-start justify-between">
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h3 className="mb-2 text-2xl font-bold text-gray-900">
                     {selectedProject.projectName || "Unnamed Project"}
                   </h3>
                   <div className="flex items-center space-x-3">
                     <span
-                      className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(
+                      className={`rounded-full border px-3 py-1 text-sm font-medium ${getStatusColor(
                         selectedProject.status
                       )}`}
                     >
@@ -653,13 +653,13 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                 </div>
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                  className="text-2xl text-gray-400 hover:text-gray-600"
                 >
                   ✕
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 {/* Project Information */}
                 <div className="space-y-4">
                   <h4 className="text-lg font-semibold text-gray-900">
@@ -668,7 +668,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
                   {selectedProject.address && (
                     <div className="flex items-start space-x-3">
-                      <span className="text-gray-400 mt-1">📍</span>
+                      <span className="mt-1 text-gray-400">📍</span>
                       <div>
                         <div className="font-medium text-gray-900">Address</div>
                         <div className="text-gray-600">
@@ -680,7 +680,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
                   {selectedProject.clientInfo && (
                     <div className="flex items-start space-x-3">
-                      <span className="text-gray-400 mt-1">👤</span>
+                      <span className="mt-1 text-gray-400">👤</span>
                       <div>
                         <div className="font-medium text-gray-900">Client</div>
                         <div className="text-gray-600">
@@ -692,7 +692,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
                   {selectedProject.totalCapacityKw && (
                     <div className="flex items-start space-x-3">
-                      <span className="text-gray-400 mt-1">⚡</span>
+                      <span className="mt-1 text-gray-400">⚡</span>
                       <div>
                         <div className="font-medium text-gray-900">
                           Total Capacity
@@ -705,7 +705,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                   )}
 
                   <div className="flex items-start space-x-3">
-                    <span className="text-gray-400 mt-1">📅</span>
+                    <span className="mt-1 text-gray-400">📅</span>
                     <div>
                       <div className="font-medium text-gray-900">
                         Start Date
@@ -718,7 +718,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
                   {selectedProject.estimatedEndDate && (
                     <div className="flex items-start space-x-3">
-                      <span className="text-gray-400 mt-1">🎯</span>
+                      <span className="mt-1 text-gray-400">🎯</span>
                       <div>
                         <div className="font-medium text-gray-900">
                           Estimated End Date
@@ -732,7 +732,7 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
                   {selectedProject.projectManager && (
                     <div className="flex items-start space-x-3">
-                      <span className="text-gray-400 mt-1">👨‍💼</span>
+                      <span className="mt-1 text-gray-400">👨‍💼</span>
                       <div>
                         <div className="font-medium text-gray-900">
                           Project Manager
@@ -752,8 +752,8 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                     Progress & Statistics
                   </h4>
 
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex justify-between items-center mb-3">
+                  <div className="rounded-lg bg-gray-50 p-4">
+                    <div className="mb-3 flex items-center justify-between">
                       <span className="font-medium text-gray-900">
                         Overall Progress
                       </span>
@@ -761,9 +761,9 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                         {calculateProgress(selectedProject)}%
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="h-3 w-full rounded-full bg-gray-200">
                       <div
-                        className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-500"
+                        className="h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500"
                         style={{
                           width: `${calculateProgress(selectedProject)}%`,
                         }}
@@ -780,8 +780,8 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
 
                   {/* Equipment Details */}
                   {selectedProject.equipmentDetails && (
-                    <div className="bg-gray-50 rounded-lg p-4">
-                      <h5 className="font-medium text-gray-900 mb-3">
+                    <div className="rounded-lg bg-gray-50 p-4">
+                      <h5 className="mb-3 font-medium text-gray-900">
                         Equipment Details
                       </h5>
                       <div className="grid grid-cols-2 gap-3 text-sm">
@@ -822,8 +822,8 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
                   )}
 
                   {/* Financial Information */}
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h5 className="font-medium text-gray-900 mb-3">
+                  <div className="rounded-lg bg-gray-50 p-4">
+                    <h5 className="mb-3 font-medium text-gray-900">
                       Financial Information
                     </h5>
                     <div className="space-y-2 text-sm">
@@ -860,12 +860,12 @@ const ProjectsDisplay: React.FC<ProjectsDisplayProps> = ({
               <div className="mt-6 flex justify-end space-x-3">
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
                 >
                   Close
                 </button>
                 {(isAdmin || isManager) && (
-                  <button className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                  <button className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
                     Edit Project
                   </button>
                 )}

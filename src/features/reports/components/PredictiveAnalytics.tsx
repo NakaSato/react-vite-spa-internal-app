@@ -116,10 +116,10 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
       (analytics.averageSafetyScore || 0) < 7
         ? "Critical"
         : (analytics.averageSafetyScore || 0) < 8
-        ? "High"
-        : (analytics.averageSafetyScore || 0) < 9
-        ? "Medium"
-        : "Low";
+          ? "High"
+          : (analytics.averageSafetyScore || 0) < 9
+            ? "Medium"
+            : "Low";
 
     const riskFactors: RiskFactor[] = [
       {
@@ -286,15 +286,15 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             factor.severity > 7
               ? "rgba(239, 68, 68, 0.8)"
               : factor.severity > 5
-              ? "rgba(245, 158, 11, 0.8)"
-              : "rgba(34, 197, 94, 0.8)"
+                ? "rgba(245, 158, 11, 0.8)"
+                : "rgba(34, 197, 94, 0.8)"
           ),
           borderColor: insights.riskAssessment.riskFactors.map((factor) =>
             factor.severity > 7
               ? "rgb(239, 68, 68)"
               : factor.severity > 5
-              ? "rgb(245, 158, 11)"
-              : "rgb(34, 197, 94)"
+                ? "rgb(245, 158, 11)"
+                : "rgb(34, 197, 94)"
           ),
           pointRadius: 8,
         },
@@ -304,15 +304,15 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="flex min-h-64 items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   if (!insights) {
     return (
-      <div className="text-center text-gray-500 min-h-64 flex items-center justify-center">
+      <div className="flex min-h-64 items-center justify-center text-center text-gray-500">
         <p>Unable to generate predictive insights. Please check your data.</p>
       </div>
     );
@@ -327,8 +327,8 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
       className="space-y-6"
     >
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-2">🔮 Predictive Analytics</h2>
+      <div className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+        <h2 className="mb-2 text-2xl font-bold">🔮 Predictive Analytics</h2>
         <p className="text-blue-100">
           AI-powered insights and forecasting for project optimization
         </p>
@@ -346,10 +346,10 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             <button
               key={tab.key}
               onClick={() => setActiveView(tab.key as any)}
-              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`border-b-2 px-1 py-2 text-sm font-medium transition-colors ${
                 activeView === tab.key
                   ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
               }`}
             >
               {tab.label}
@@ -370,12 +370,12 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             className="space-y-6"
           >
             {/* Completion Prediction Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="rounded-lg border-l-4 border-blue-500 bg-white p-6 shadow-md">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">
                   Estimated Completion
                 </h3>
-                <p className="text-3xl font-bold text-blue-600 mb-1">
+                <p className="mb-1 text-3xl font-bold text-blue-600">
                   {new Date(
                     insights.completionPrediction.estimatedDate
                   ).toLocaleDateString()}
@@ -392,21 +392,21 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
                 </p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <div className="rounded-lg border-l-4 border-green-500 bg-white p-6 shadow-md">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">
                   Confidence Level
                 </h3>
-                <p className="text-3xl font-bold text-green-600 mb-1">
+                <p className="mb-1 text-3xl font-bold text-green-600">
                   {insights.completionPrediction.confidence.toFixed(1)}%
                 </p>
                 <p className="text-sm text-gray-600">Based on current trends</p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <div className="rounded-lg border-l-4 border-purple-500 bg-white p-6 shadow-md">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">
                   Factors Analyzed
                 </h3>
-                <p className="text-3xl font-bold text-purple-600 mb-1">
+                <p className="mb-1 text-3xl font-bold text-purple-600">
                   {insights.completionPrediction.factorsAnalyzed.length}
                 </p>
                 <p className="text-sm text-gray-600">Data points considered</p>
@@ -414,8 +414,8 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             </div>
 
             {/* Completion Chart */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 Project Completion Forecast
               </h3>
               {completionChart && (
@@ -448,8 +448,8 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             </div>
 
             {/* Factors List */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 Analysis Factors
               </h3>
               <div className="space-y-3">
@@ -457,9 +457,9 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
                   (factor, index) => (
                     <div
                       key={index}
-                      className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg"
+                      className="flex items-center space-x-3 rounded-lg bg-gray-50 p-3"
                     >
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="h-2 w-2 rounded-full bg-blue-500"></div>
                       <span className="text-gray-700">{factor}</span>
                     </div>
                   )
@@ -479,28 +479,28 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             className="space-y-6"
           >
             {/* Risk Level Card */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center justify-between mb-4">
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900">
                   Overall Risk Level
                 </h3>
                 <span
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  className={`rounded-full px-3 py-1 text-sm font-medium ${
                     insights.riskAssessment.riskLevel === "Critical"
                       ? "bg-red-100 text-red-800"
                       : insights.riskAssessment.riskLevel === "High"
-                      ? "bg-orange-100 text-orange-800"
-                      : insights.riskAssessment.riskLevel === "Medium"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : "bg-green-100 text-green-800"
+                        ? "bg-orange-100 text-orange-800"
+                        : insights.riskAssessment.riskLevel === "Medium"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-green-100 text-green-800"
                   }`}
                 >
                   {insights.riskAssessment.riskLevel}
                 </span>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">
+                  <h4 className="mb-3 font-medium text-gray-900">
                     Risk Factors vs Probability
                   </h4>
                   {riskScatterChart && (
@@ -539,7 +539,7 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
                   )}
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">
+                  <h4 className="mb-3 font-medium text-gray-900">
                     Mitigation Strategies
                   </h4>
                   <div className="space-y-3">
@@ -547,9 +547,9 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
                       (strategy, index) => (
                         <div
                           key={index}
-                          className="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg"
+                          className="flex items-start space-x-3 rounded-lg bg-blue-50 p-3"
                         >
-                          <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold mt-0.5">
+                          <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">
                             {index + 1}
                           </div>
                           <span className="text-gray-700">{strategy}</span>
@@ -562,16 +562,16 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             </div>
 
             {/* Risk Factors Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {insights.riskAssessment.riskFactors.map((factor, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="bg-white p-6 rounded-lg shadow-md border-l-4 border-orange-500"
+                  className="rounded-lg border-l-4 border-orange-500 bg-white p-6 shadow-md"
                 >
-                  <h4 className="font-semibold text-gray-900 mb-2">
+                  <h4 className="mb-2 font-semibold text-gray-900">
                     {factor.factor}
                   </h4>
                   <div className="space-y-2">
@@ -609,33 +609,33 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             className="space-y-6"
           >
             {/* Resource Optimization Summary */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="rounded-lg border-l-4 border-green-500 bg-white p-6 shadow-md">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">
                   Efficiency Potential
                 </h3>
-                <p className="text-3xl font-bold text-green-600 mb-1">
+                <p className="mb-1 text-3xl font-bold text-green-600">
                   {insights.resourceOptimization.efficiency.toFixed(1)}%
                 </p>
                 <p className="text-sm text-gray-600">Projected improvement</p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <div className="rounded-lg border-l-4 border-blue-500 bg-white p-6 shadow-md">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">
                   Cost Impact
                 </h3>
-                <p className="text-3xl font-bold text-blue-600 mb-1">
+                <p className="mb-1 text-3xl font-bold text-blue-600">
                   {insights.resourceOptimization.costImpact > 0 ? "+" : ""}
                   {insights.resourceOptimization.costImpact.toFixed(1)}%
                 </p>
                 <p className="text-sm text-gray-600">Budget optimization</p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <div className="rounded-lg border-l-4 border-purple-500 bg-white p-6 shadow-md">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900">
                   Recommendations
                 </h3>
-                <p className="text-3xl font-bold text-purple-600 mb-1">
+                <p className="mb-1 text-3xl font-bold text-purple-600">
                   {insights.resourceOptimization.recommendations.length}
                 </p>
                 <p className="text-sm text-gray-600">Active suggestions</p>
@@ -643,8 +643,8 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             </div>
 
             {/* Recommendations */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 Resource Optimization Recommendations
               </h3>
               <div className="space-y-4">
@@ -655,26 +655,26 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.1 }}
-                      className={`p-4 rounded-lg border-l-4 ${
+                      className={`rounded-lg border-l-4 p-4 ${
                         rec.action === "increase"
-                          ? "bg-green-50 border-green-500"
+                          ? "border-green-500 bg-green-50"
                           : rec.action === "decrease"
-                          ? "bg-red-50 border-red-500"
-                          : "bg-blue-50 border-blue-500"
+                            ? "border-red-500 bg-red-50"
+                            : "border-blue-500 bg-blue-50"
                       }`}
                     >
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="mb-2 flex items-center justify-between">
                         <h4 className="font-medium text-gray-900">
                           {rec.resource}
                         </h4>
                         <div className="flex items-center space-x-2">
                           <span
-                            className={`px-2 py-1 rounded text-xs font-medium ${
+                            className={`rounded px-2 py-1 text-xs font-medium ${
                               rec.action === "increase"
                                 ? "bg-green-100 text-green-800"
                                 : rec.action === "decrease"
-                                ? "bg-red-100 text-red-800"
-                                : "bg-blue-100 text-blue-800"
+                                  ? "bg-red-100 text-red-800"
+                                  : "bg-blue-100 text-blue-800"
                             }`}
                           >
                             {rec.action.toUpperCase()}
@@ -713,19 +713,19 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             className="space-y-6"
           >
             {/* Weather Impact Summary */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 Weather Impact Analysis
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">
+                  <h4 className="mb-2 font-medium text-gray-900">
                     Productivity Correlation
                   </h4>
                   <div className="flex items-center space-x-3">
-                    <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="h-3 w-full rounded-full bg-gray-200">
                       <div
-                        className="bg-blue-600 h-3 rounded-full"
+                        className="h-3 rounded-full bg-blue-600"
                         style={{
                           width: `${
                             insights.weatherImpact.productivityCorrelation * 100
@@ -740,19 +740,19 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
                       %
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600 mt-2">
+                  <p className="mt-2 text-sm text-gray-600">
                     Weather conditions strongly influence productivity
                   </p>
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">
+                  <h4 className="mb-2 font-medium text-gray-900">
                     General Recommendations
                   </h4>
                   <div className="space-y-2">
                     {insights.weatherImpact.recommendations.map(
                       (rec, index) => (
                         <div key={index} className="flex items-start space-x-2">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                          <div className="mt-2 h-2 w-2 rounded-full bg-blue-500"></div>
                           <span className="text-sm text-gray-700">{rec}</span>
                         </div>
                       )
@@ -763,26 +763,26 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
             </div>
 
             {/* Weather Forecast */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 3-Day Weather Forecast & Impact
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 {insights.weatherImpact.forecast.map((day, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className={`p-4 rounded-lg border-2 ${
+                    className={`rounded-lg border-2 p-4 ${
                       day.productivityImpact > 90
                         ? "border-green-200 bg-green-50"
                         : day.productivityImpact > 70
-                        ? "border-yellow-200 bg-yellow-50"
-                        : "border-red-200 bg-red-50"
+                          ? "border-yellow-200 bg-yellow-50"
+                          : "border-red-200 bg-red-50"
                     }`}
                   >
-                    <div className="text-center mb-3">
+                    <div className="mb-3 text-center">
                       <p className="font-medium text-gray-900">
                         {new Date(day.date).toLocaleDateString("en-US", {
                           weekday: "short",
@@ -790,12 +790,12 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
                           day: "numeric",
                         })}
                       </p>
-                      <p className="text-2xl mb-1">
+                      <p className="mb-1 text-2xl">
                         {day.condition === "Sunny"
                           ? "☀️"
                           : day.condition === "Cloudy"
-                          ? "☁️"
-                          : "🌧️"}
+                            ? "☁️"
+                            : "🌧️"}
                       </p>
                       <p className="text-sm text-gray-600">{day.condition}</p>
                     </div>
@@ -809,15 +809,15 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
                             day.productivityImpact > 90
                               ? "text-green-600"
                               : day.productivityImpact > 70
-                              ? "text-yellow-600"
-                              : "text-red-600"
+                                ? "text-yellow-600"
+                                : "text-red-600"
                           }`}
                         >
                           {day.productivityImpact}%
                         </span>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600 mb-1">
+                        <p className="mb-1 text-xs text-gray-600">
                           Recommendations:
                         </p>
                         {day.recommendations.map((rec, recIndex) => (

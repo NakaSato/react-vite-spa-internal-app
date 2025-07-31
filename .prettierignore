@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+bun.lock
+
+# Build outputs
+dist/
+build/
+*.local
+
+# Cache directories
+.vite/
+.vitest/
+coverage/
+
+# Environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Generated files
+*.d.ts
+
+# Logs
+logs/
+*.log
+
+# Editor directories
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation that should maintain original formatting
+CHANGELOG.md
+LICENSE
+
+# Package manager files
+package-lock.json
+yarn.lock
+
+# Config files that have specific formatting requirements
+*.min.js
+*.min.css

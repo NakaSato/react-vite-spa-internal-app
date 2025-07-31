@@ -74,9 +74,8 @@ export class ProjectsApiService {
         url
       );
 
-      const response = await apiClient.get<
-        ApiResponse<EnhancedPagedResult<ProjectDto>>
-      >(url);
+      const response =
+        await apiClient.get<ApiResponse<EnhancedPagedResult<ProjectDto>>>(url);
 
       console.log("📦 [ProjectsApiService.getAllProjects] Raw API response:", {
         success: response.success,
@@ -223,9 +222,8 @@ export class ProjectsApiService {
       const url = queryParams.toString()
         ? `${this.endpoint}/me?${queryParams}`
         : `${this.endpoint}/me`;
-      const response = await apiClient.get<
-        ApiResponse<EnhancedPagedResult<ProjectDto>>
-      >(url);
+      const response =
+        await apiClient.get<ApiResponse<EnhancedPagedResult<ProjectDto>>>(url);
 
       return (
         response.data || {
@@ -474,9 +472,8 @@ export class ProjectsApiService {
       const url = queryParams.toString()
         ? `${this.endpoint}/analytics?${queryParams}`
         : `${this.endpoint}/analytics`;
-      const response = await apiClient.get<ApiResponse<ProjectAnalyticsDto>>(
-        url
-      );
+      const response =
+        await apiClient.get<ApiResponse<ProjectAnalyticsDto>>(url);
 
       if (!response.data) {
         throw new Error("Analytics data not available");
@@ -578,9 +575,8 @@ export class ProjectsApiService {
         queryParams.append("facets", searchParams.facets.toString());
 
       const url = `${this.endpoint}/search?${queryParams}`;
-      const response = await apiClient.get<ApiResponse<ProjectSearchResponse>>(
-        url
-      );
+      const response =
+        await apiClient.get<ApiResponse<ProjectSearchResponse>>(url);
 
       if (!response.data) {
         throw new Error("Search failed");

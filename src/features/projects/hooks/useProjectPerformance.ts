@@ -13,9 +13,8 @@ export const useProjectPerformance = () => {
       console.log(`📊 [ProjectDetail] Fetching performance data: ${projectId}`);
 
       // Use real API for performance data
-      const performanceData = await projectsApi.getProjectPerformance(
-        projectId
-      );
+      const performanceData =
+        await projectsApi.getProjectPerformance(projectId);
 
       setPerformance(performanceData);
       console.log(

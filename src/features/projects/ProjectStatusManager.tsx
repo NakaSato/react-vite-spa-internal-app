@@ -104,7 +104,7 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
   if (loading) {
     return (
       <div className={`flex items-center space-x-2 ${className}`}>
-        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+        <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-blue-500"></div>
         <span className="text-sm text-gray-500">Loading workflow...</span>
       </div>
     );
@@ -112,7 +112,7 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
 
   if (error) {
     return (
-      <div className={`text-red-600 text-sm ${className}`}>Error: {error}</div>
+      <div className={`text-sm text-red-600 ${className}`}>Error: {error}</div>
     );
   }
 
@@ -121,10 +121,7 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
       {/* Current Status Display */}
       <div className="flex items-center space-x-3">
         <div
-          className={`
-          inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border
-          ${getStatusColor(currentStatus)}
-        `}
+          className={`inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium ${getStatusColor(currentStatus)} `}
         >
           <span className="mr-2">{getStatusIcon(currentStatus)}</span>
           {currentStatus}
@@ -140,7 +137,7 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
                   handleStatusChange(e.target.value as ProjectStatus)
                 }
                 value=""
-                className="appearance-none bg-white border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="appearance-none rounded-md border border-gray-300 bg-white px-3 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Change Status...</option>
                 {workflow.allowedTransitions.map((status: ProjectStatus) => (
@@ -156,7 +153,7 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
       {/* Status History */}
       {workflow?.statusHistory && workflow.statusHistory.length > 0 && (
         <div className="mt-4">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">
+          <h4 className="mb-2 text-sm font-medium text-gray-700">
             Status History
           </h4>
           <div className="space-y-2">
@@ -165,11 +162,11 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
               .map((entry: ProjectStatusHistoryEntry, index: number) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between text-xs text-gray-600 bg-gray-50 rounded p-2"
+                  className="flex items-center justify-between rounded bg-gray-50 p-2 text-xs text-gray-600"
                 >
                   <div className="flex items-center space-x-2">
                     <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded text-xs ${getStatusColor(
+                      className={`inline-flex items-center rounded px-2 py-0.5 text-xs ${getStatusColor(
                         entry.status as ProjectStatus
                       )}`}
                     >
@@ -192,22 +189,22 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
 
       {/* Approval Requirements */}
       {workflow?.requiresApproval && (
-        <div className="mt-2 text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded p-2">
+        <div className="mt-2 rounded border border-amber-200 bg-amber-50 p-2 text-xs text-amber-600">
           ⚠️ Status changes require {workflow.approvalLevel} approval
         </div>
       )}
 
       {/* Status Change Modal */}
       {showModal && selectedStatus && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div className="fixed inset-0 z-50 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50">
+          <div className="relative top-20 mx-auto w-96 rounded-md border bg-white p-5 shadow-lg">
             <div className="mt-3">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">
+              <h3 className="mb-4 text-lg font-medium text-gray-900">
                 Change Status to {selectedStatus}
               </h3>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   Reason for change *
                 </label>
                 <textarea
@@ -215,7 +212,7 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="Explain why you're changing the status..."
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
                 />
               </div>
 
@@ -225,7 +222,7 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
                     type="checkbox"
                     checked={notifyStakeholders}
                     onChange={(e) => setNotifyStakeholders(e.target.checked)}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="ml-2 text-sm text-gray-700">
                     Notify stakeholders
@@ -237,14 +234,14 @@ const ProjectStatusManager: React.FC<ProjectStatusManagerProps> = ({
                 <button
                   onClick={() => setShowModal(false)}
                   disabled={updating}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
+                  className="rounded-md border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmStatusChange}
                   disabled={updating || !reason.trim()}
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                  className="rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                 >
                   {updating ? "Updating..." : "Update Status"}
                 </button>

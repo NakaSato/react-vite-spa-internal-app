@@ -16,11 +16,11 @@ const AnalyticsChartLoader: React.FC<AnalyticsChartLoaderProps> = ({
       fallback={
         <div className="space-y-6">
           <div className="animate-pulse">
-            <div className="h-64 bg-gray-200 rounded-lg"></div>
+            <div className="h-64 rounded-lg bg-gray-200"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="animate-pulse h-64 bg-gray-200 rounded-lg"></div>
-            <div className="animate-pulse h-64 bg-gray-200 rounded-lg"></div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="h-64 animate-pulse rounded-lg bg-gray-200"></div>
+            <div className="h-64 animate-pulse rounded-lg bg-gray-200"></div>
           </div>
           <div className="text-center text-gray-500">
             Loading analytics charts...

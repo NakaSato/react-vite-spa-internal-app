@@ -71,7 +71,7 @@ export default function ApiStatus({ className = "" }: ApiStatusProps) {
 
   return (
     <div
-      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor()} ${className}`}
+      className={`inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium ${getStatusColor()} ${className}`}
     >
       <span className="mr-2">{getStatusIcon()}</span>
       <span>{getStatusText()}</span>

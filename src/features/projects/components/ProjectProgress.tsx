@@ -13,13 +13,13 @@ const ProjectProgress = ({ project }: ProjectProgressProps) => {
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">
+    <div className="rounded-lg bg-white p-6 shadow-sm">
+      <h2 className="mb-4 text-xl font-semibold text-gray-900">
         Progress & Tasks
       </h2>
       <div className="space-y-4">
         <div>
-          <div className="flex justify-between items-center mb-2">
+          <div className="mb-2 flex items-center justify-between">
             <span className="text-sm font-medium text-gray-700">
               Overall Progress
             </span>
@@ -27,21 +27,21 @@ const ProjectProgress = ({ project }: ProjectProgressProps) => {
               {progress}%
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
+          <div className="h-3 w-full rounded-full bg-gray-200">
             <div
-              className="bg-blue-600 h-3 rounded-full transition-all duration-300"
+              className="h-3 rounded-full bg-blue-600 transition-all duration-300"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
+          <div className="rounded-lg bg-blue-50 p-4 text-center">
             <div className="text-2xl font-bold text-blue-600">
               {project.completedTaskCount}
             </div>
             <div className="text-sm text-gray-600">Completed Tasks</div>
           </div>
-          <div className="text-center p-4 bg-gray-50 rounded-lg">
+          <div className="rounded-lg bg-gray-50 p-4 text-center">
             <div className="text-2xl font-bold text-gray-600">
               {project.taskCount}
             </div>

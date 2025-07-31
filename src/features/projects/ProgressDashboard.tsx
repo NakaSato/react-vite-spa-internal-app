@@ -28,8 +28,8 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
 
   if (!progressReport) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -67,16 +67,16 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
   return (
     <div className="space-y-8">
       {/* Overall Progress Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold mb-2">{project.projectName}</h2>
-            <p className="text-blue-100 text-lg">
+            <h2 className="mb-2 text-3xl font-bold">{project.projectName}</h2>
+            <p className="text-lg text-blue-100">
               {project.projectOwner} • {project.mainContractor}
             </p>
           </div>
           <div className="text-right">
-            <div className="text-5xl font-bold mb-2">
+            <div className="mb-2 text-5xl font-bold">
               {formatPercentage(progressReport.overallCompletion)}
             </div>
             <div className="text-blue-100">Overall Progress</div>
@@ -85,15 +85,15 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
 
         {/* Overall Progress Bar */}
         <div className="mt-6">
-          <div className="flex justify-between text-sm text-blue-100 mb-2">
+          <div className="mb-2 flex justify-between text-sm text-blue-100">
             <span>Project Completion</span>
             <span>
               Updated: {progressReport.calculatedAt.toLocaleDateString()}
             </span>
           </div>
-          <div className="w-full bg-white/20 rounded-full h-4">
+          <div className="h-4 w-full rounded-full bg-white/20">
             <div
-              className="bg-white rounded-full h-4 transition-all duration-500 ease-out"
+              className="h-4 rounded-full bg-white transition-all duration-500 ease-out"
               style={{ width: `${progressReport.overallCompletion * 100}%` }}
             />
           </div>
@@ -101,16 +101,16 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
       </div>
 
       {/* Project Health Status */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-xl font-bold mb-4 flex items-center">
+          <div className="rounded-xl bg-white p-6 shadow-lg">
+            <h3 className="mb-4 flex items-center text-xl font-bold">
               📊 Project Health Overview
             </h3>
 
-            <div className="flex items-center mb-4">
+            <div className="mb-4 flex items-center">
               <span
-                className={`px-4 py-2 rounded-full text-sm font-medium ${getHealthStatusColor(
+                className={`rounded-full px-4 py-2 text-sm font-medium ${getHealthStatusColor(
                   progressReport.projectHealth.status
                 )}`}
               >
@@ -125,7 +125,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
 
             {progressReport.projectHealth.riskFactors.length > 0 && (
               <div className="mb-4">
-                <h4 className="font-semibold text-red-600 mb-2">
+                <h4 className="mb-2 font-semibold text-red-600">
                   ⚠️ Risk Factors:
                 </h4>
                 <ul className="space-y-1">
@@ -133,9 +133,9 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                     (risk, index) => (
                       <li
                         key={index}
-                        className="text-sm text-red-600 flex items-center"
+                        className="flex items-center text-sm text-red-600"
                       >
-                        <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
+                        <span className="mr-2 h-2 w-2 rounded-full bg-red-400"></span>
                         {risk}
                       </li>
                     )
@@ -146,7 +146,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
 
             {progressReport.projectHealth.recommendations.length > 0 && (
               <div>
-                <h4 className="font-semibold text-blue-600 mb-2">
+                <h4 className="mb-2 font-semibold text-blue-600">
                   💡 Recommendations:
                 </h4>
                 <ul className="space-y-1">
@@ -154,9 +154,9 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                     (rec, index) => (
                       <li
                         key={index}
-                        className="text-sm text-blue-600 flex items-center"
+                        className="flex items-center text-sm text-blue-600"
                       >
-                        <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
+                        <span className="mr-2 h-2 w-2 rounded-full bg-blue-400"></span>
                         {rec}
                       </li>
                     )
@@ -167,11 +167,11 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h3 className="text-xl font-bold mb-4">🎯 Critical Path</h3>
+        <div className="rounded-xl bg-white p-6 shadow-lg">
+          <h3 className="mb-4 text-xl font-bold">🎯 Critical Path</h3>
           {progressReport.criticalPath.length > 0 ? (
             <div className="space-y-2">
-              <p className="text-sm text-gray-600 mb-3">
+              <p className="mb-3 text-sm text-gray-600">
                 {progressReport.criticalPath.length} activities on critical path
               </p>
               {progressReport.criticalPath.slice(0, 5).map((activityId) => {
@@ -184,10 +184,10 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                     key={activityId}
                     className="flex items-center justify-between text-sm"
                   >
-                    <span className="truncate mr-2">
+                    <span className="mr-2 truncate">
                       {activity.activityName}
                     </span>
-                    <span className="text-red-600 font-medium">
+                    <span className="font-medium text-red-600">
                       {formatPercentage(activity.percentComplete)}
                     </span>
                   </div>
@@ -200,20 +200,20 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
               )}
             </div>
           ) : (
-            <p className="text-gray-500 text-sm">No critical path calculated</p>
+            <p className="text-sm text-gray-500">No critical path calculated</p>
           )}
         </div>
       </div>
 
       {/* Phase Progress Details */}
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <h3 className="text-xl font-bold mb-6">📈 Phase Progress Breakdown</h3>
+      <div className="rounded-xl bg-white p-6 shadow-lg">
+        <h3 className="mb-6 text-xl font-bold">📈 Phase Progress Breakdown</h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {progressReport.phaseCompletions.map((phaseCompletion) => (
             <div
               key={phaseCompletion.phaseId}
-              className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${
+              className={`cursor-pointer rounded-xl border-2 p-4 transition-all ${
                 selectedPhase === phaseCompletion.phaseId
                   ? "border-blue-500 bg-blue-50"
                   : "border-gray-200 hover:border-gray-300"
@@ -226,12 +226,12 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                 )
               }
             >
-              <div className="flex justify-between items-start mb-2">
-                <h4 className="font-semibold text-sm">
+              <div className="mb-2 flex items-start justify-between">
+                <h4 className="text-sm font-semibold">
                   {phaseCompletion.phaseName}
                 </h4>
                 <span
-                  className={`text-xs px-2 py-1 rounded ${
+                  className={`rounded px-2 py-1 text-xs ${
                     phaseCompletion.onSchedule
                       ? "bg-green-100 text-green-600"
                       : "bg-red-100 text-red-600"
@@ -242,13 +242,13 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
               </div>
 
               <div className="mb-2">
-                <div className="flex justify-between text-xs text-gray-600 mb-1">
+                <div className="mb-1 flex justify-between text-xs text-gray-600">
                   <span>Progress</span>
                   <span>{formatPercentage(phaseCompletion.completion)}</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="h-2 w-full rounded-full bg-gray-200">
                   <div
-                    className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                    className="h-2 rounded-full bg-blue-500 transition-all duration-300"
                     style={{ width: `${phaseCompletion.completion * 100}%` }}
                   />
                 </div>
@@ -261,7 +261,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                   {formatPercentage(phaseCompletion.contributionToOverall)}
                 </div>
                 {!phaseCompletion.onSchedule && (
-                  <div className="text-red-600 font-medium">
+                  <div className="font-medium text-red-600">
                     {Math.abs(phaseCompletion.daysAhead)} days{" "}
                     {phaseCompletion.daysAhead < 0 ? "behind" : "ahead"}
                   </div>
@@ -282,19 +282,19 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
 
               return (
                 <div>
-                  <h4 className="font-semibold mb-4">
+                  <h4 className="mb-4 font-semibold">
                     {phase.phaseName} - Activities
                   </h4>
                   <div className="space-y-3">
                     {phase.activities.map((activity) => (
                       <div
                         key={activity.activityId}
-                        className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                        className="flex items-center justify-between rounded-lg bg-gray-50 p-4"
                       >
                         <div className="flex-1">
-                          <div className="flex items-center mb-2">
+                          <div className="mb-2 flex items-center">
                             <div
-                              className={`w-3 h-3 rounded-full mr-3 ${getActivityStatusColor(
+                              className={`mr-3 h-3 w-3 rounded-full ${getActivityStatusColor(
                                 activity.status
                               )}`}
                             />
@@ -302,7 +302,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                               {activity.activityName}
                             </span>
                             {activity.isOnCriticalPath && (
-                              <span className="ml-2 px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full">
+                              <span className="ml-2 rounded-full bg-red-100 px-2 py-1 text-xs text-red-600">
                                 Critical
                               </span>
                             )}
@@ -324,14 +324,14 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                             <div className="font-semibold">
                               {formatPercentage(activity.percentComplete)}
                             </div>
-                            <div className="w-24 bg-gray-200 rounded-full h-2 mt-1">
+                            <div className="mt-1 h-2 w-24 rounded-full bg-gray-200">
                               <div
                                 className={`h-2 rounded-full transition-all duration-300 ${
                                   activity.status === ActivityStatus.COMPLETED
                                     ? "bg-green-500"
                                     : activity.status === ActivityStatus.OVERDUE
-                                    ? "bg-red-500"
-                                    : "bg-blue-500"
+                                      ? "bg-red-500"
+                                      : "bg-blue-500"
                                 }`}
                                 style={{
                                   width: `${activity.percentComplete * 100}%`,

@@ -15,8 +15,8 @@ const EnhancedAnalyticsLoader: React.FC<EnhancedAnalyticsLoaderProps> = (
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center p-8 bg-white rounded-lg shadow">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="flex items-center justify-center rounded-lg bg-white p-8 shadow">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
           <span className="ml-3 text-gray-600">
             Loading enhanced analytics...
           </span>

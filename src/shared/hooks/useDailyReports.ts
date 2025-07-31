@@ -57,9 +57,8 @@ export const useDailyReports = (projectId?: string) => {
             }
           : undefined;
 
-        const response = await solarProjectApi.dailyReports.getDailyReports(
-          apiParams
-        );
+        const response =
+          await solarProjectApi.dailyReports.getDailyReports(apiParams);
 
         if (response.success && response.data) {
           setReports(response.data.items || []);
@@ -126,9 +125,8 @@ export const useDailyReports = (projectId?: string) => {
   ): Promise<DailyReportDto | null> => {
     try {
       setError(null);
-      const response = await solarProjectApi.dailyReports.createDailyReport(
-        reportData
-      );
+      const response =
+        await solarProjectApi.dailyReports.createDailyReport(reportData);
 
       if (response.success && response.data) {
         await fetchReports();
@@ -199,9 +197,8 @@ export const useDailyReports = (projectId?: string) => {
   const approveReport = async (id: string): Promise<boolean> => {
     try {
       setError(null);
-      const response = await solarProjectApi.dailyReports.approveDailyReport(
-        id
-      );
+      const response =
+        await solarProjectApi.dailyReports.approveDailyReport(id);
 
       if (response.success && response.data) {
         setReports((prev) =>
@@ -300,9 +297,8 @@ export const useDailyReports = (projectId?: string) => {
   ): Promise<DailyReportValidationResult | null> => {
     try {
       setError(null);
-      const response = await solarProjectApi.dailyReports.validateDailyReport(
-        reportData
-      );
+      const response =
+        await solarProjectApi.dailyReports.validateDailyReport(reportData);
 
       if (response.success && response.data) {
         return response.data;
@@ -578,9 +574,8 @@ export const useDailyReportBulkOperations = () => {
       setLoading(true);
       setError(null);
 
-      const response = await solarProjectApi.dailyReports.exportDailyReports(
-        request
-      );
+      const response =
+        await solarProjectApi.dailyReports.exportDailyReports(request);
 
       if (response.success && response.data) {
         return response.data;

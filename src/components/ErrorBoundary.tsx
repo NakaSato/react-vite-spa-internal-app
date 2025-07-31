@@ -160,11 +160,11 @@ class EnhancedErrorBoundary extends Component<Props, State> {
             >
               {/* Additional error context for development */}
               {import.meta.env.DEV && this.state.errorInfo && (
-                <div className="bg-gray-100 rounded-md p-4">
-                  <h4 className="font-medium text-gray-800 mb-2">
+                <div className="rounded-md bg-gray-100 p-4">
+                  <h4 className="mb-2 font-medium text-gray-800">
                     Component Stack:
                   </h4>
-                  <pre className="text-xs text-gray-600 overflow-x-auto whitespace-pre-wrap">
+                  <pre className="overflow-x-auto whitespace-pre-wrap text-xs text-gray-600">
                     {this.state.errorInfo.componentStack}
                   </pre>
                 </div>

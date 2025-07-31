@@ -57,8 +57,8 @@ const ErrorReport: React.FC<ErrorReportProps> = ({
         <div className="flex items-start space-x-3">
           <span className="text-2xl">{getTypeIcon(error.type)}</span>
           <div>
-            <h3 className="font-semibold text-lg">{error.userMessage}</h3>
-            <p className="text-sm opacity-75 mt-1">
+            <h3 className="text-lg font-semibold">{error.userMessage}</h3>
+            <p className="mt-1 text-sm opacity-75">
               Error Type:{" "}
               {error.type.charAt(0).toUpperCase() + error.type.slice(1)}•
               Severity:{" "}
@@ -71,7 +71,7 @@ const ErrorReport: React.FC<ErrorReportProps> = ({
         {onDismiss && (
           <button
             onClick={onDismiss}
-            className="text-gray-500 hover:text-gray-700 text-xl leading-none"
+            className="text-xl leading-none text-gray-500 hover:text-gray-700"
             aria-label="Dismiss error"
           >
             ×
@@ -82,11 +82,11 @@ const ErrorReport: React.FC<ErrorReportProps> = ({
       {/* Suggestions */}
       {error.suggestions.length > 0 && (
         <div className="mt-4">
-          <h4 className="font-medium mb-2">What you can try:</h4>
+          <h4 className="mb-2 font-medium">What you can try:</h4>
           <ul className="space-y-1">
             {error.suggestions.map((suggestion, index) => (
               <li key={index} className="flex items-start space-x-2">
-                <span className="text-green-600 mt-0.5">•</span>
+                <span className="mt-0.5 text-green-600">•</span>
                 <span className="text-sm">{suggestion}</span>
               </li>
             ))}
@@ -99,7 +99,7 @@ const ErrorReport: React.FC<ErrorReportProps> = ({
         {error.isRetryable && onRetry && (
           <button
             onClick={onRetry}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium"
+            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
             Try Again
           </button>
@@ -107,7 +107,7 @@ const ErrorReport: React.FC<ErrorReportProps> = ({
 
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 text-sm font-medium"
+          className="rounded-md bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
         >
           {isExpanded ? "Hide Details" : "Show Details"}
         </button>
@@ -115,7 +115,7 @@ const ErrorReport: React.FC<ErrorReportProps> = ({
         {error.context?.component && (
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 text-sm font-medium"
+            className="rounded-md bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
           >
             Refresh Page
           </button>
@@ -124,9 +124,9 @@ const ErrorReport: React.FC<ErrorReportProps> = ({
 
       {/* Technical Details (Collapsible) */}
       {isExpanded && (
-        <div className="mt-4 p-3 bg-white bg-opacity-50 rounded border">
-          <h4 className="font-medium mb-2">Technical Details:</h4>
-          <div className="space-y-2 text-sm font-mono">
+        <div className="mt-4 rounded border bg-white bg-opacity-50 p-3">
+          <h4 className="mb-2 font-medium">Technical Details:</h4>
+          <div className="space-y-2 font-mono text-sm">
             <div>
               <strong>Error ID:</strong> {error.id}
             </div>
@@ -151,7 +151,7 @@ const ErrorReport: React.FC<ErrorReportProps> = ({
             )}
             <div>
               <strong>Technical Message:</strong>
-              <pre className="mt-1 p-2 bg-gray-100 rounded text-xs overflow-x-auto whitespace-pre-wrap">
+              <pre className="mt-1 overflow-x-auto whitespace-pre-wrap rounded bg-gray-100 p-2 text-xs">
                 {error.message}
               </pre>
             </div>

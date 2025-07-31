@@ -34,23 +34,23 @@ class ErrorBoundary extends Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <div className="text-center max-w-2xl mx-auto px-4">
-            <div className="text-red-500 text-6xl mb-4">💥</div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+        <div className="flex min-h-screen items-center justify-center bg-gray-50">
+          <div className="mx-auto max-w-2xl px-4 text-center">
+            <div className="mb-4 text-6xl text-red-500">💥</div>
+            <h1 className="mb-4 text-3xl font-bold text-gray-900">
               Something went wrong
             </h1>
-            <p className="text-gray-600 mb-6">
+            <p className="mb-6 text-gray-600">
               An unexpected error occurred in the application. Please try
               refreshing the page or contact support if the issue persists.
             </p>
 
             {import.meta.env.DEV && this.state.error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-left">
-                <h3 className="text-lg font-semibold text-red-900 mb-2">
+              <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-left">
+                <h3 className="mb-2 text-lg font-semibold text-red-900">
                   Error Details (Development Mode)
                 </h3>
-                <pre className="text-sm text-red-800 overflow-x-auto whitespace-pre-wrap">
+                <pre className="overflow-x-auto whitespace-pre-wrap text-sm text-red-800">
                   {this.state.error.message}
                   {this.state.error.stack && (
                     <>
@@ -65,7 +65,7 @@ class ErrorBoundary extends Component<
             <div className="flex justify-center space-x-3">
               <button
                 onClick={() => window.location.reload()}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-700"
               >
                 Reload Page
               </button>
@@ -73,7 +73,7 @@ class ErrorBoundary extends Component<
                 onClick={() => {
                   this.setState({ hasError: false, error: undefined });
                 }}
-                className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors font-medium"
+                className="rounded-lg bg-gray-600 px-6 py-2 font-medium text-white transition-colors hover:bg-gray-700"
               >
                 🔙 Try Again
               </button>

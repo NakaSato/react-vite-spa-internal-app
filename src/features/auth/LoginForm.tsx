@@ -63,8 +63,8 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to Solar Projects
@@ -76,12 +76,12 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded">
+            <div className="rounded border border-red-300 bg-red-50 px-4 py-3 text-red-700">
               {error}
             </div>
           )}
 
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="-space-y-px rounded-md shadow-sm">
             <div>
               <label htmlFor="username" className="sr-only">
                 Username or Email
@@ -91,7 +91,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
                 name="username"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="Username or Email"
                 value={formData.username}
                 onChange={handleInputChange}
@@ -107,7 +107,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 pr-10 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleInputChange}
@@ -115,10 +115,10 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
               />
               <button
                 type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                className="absolute inset-y-0 right-0 flex items-center pr-3"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                <span className="text-gray-400 text-sm">
+                <span className="text-sm text-gray-400">
                   {showPassword ? "👁️" : "👁️‍🗨️"}
                 </span>
               </button>
@@ -129,12 +129,12 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? (
                 <span className="flex items-center">
                   <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -163,7 +163,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 
           {/* Test Accounts Section */}
           <div className="mt-6">
-            <div className="text-center text-sm text-gray-500 mb-3">
+            <div className="mb-3 text-center text-sm text-gray-500">
               Quick test with demo accounts:
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -172,7 +172,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
                   key={account.username}
                   type="button"
                   onClick={() => fillTestAccount(account)}
-                  className="px-3 py-2 text-xs border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="rounded-md border border-gray-300 px-3 py-2 text-xs hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   disabled={isLoading}
                 >
                   {account.role}
@@ -182,7 +182,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
           </div>
 
           {/* Registration Link */}
-          <div className="text-center mt-6">
+          <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Don't have an account?{" "}
               <Link

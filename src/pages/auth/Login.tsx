@@ -32,7 +32,7 @@ export default function Login() {
   return (
     <div className="flex flex-col items-center">
       {message && (
-        <div className="mt-4 mb-2 w-full max-w-md bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded">
+        <div className="mb-2 mt-4 w-full max-w-md rounded border border-green-300 bg-green-50 px-4 py-3 text-green-700">
           {message}
         </div>
       )}

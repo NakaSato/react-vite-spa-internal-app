@@ -56,19 +56,19 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
   return (
     <div className="space-y-6">
       {/* Progress overview cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Overall Progress */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="rounded-lg border border-gray-200 bg-white p-6">
+          <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">
               Overall Progress
             </h3>
             <span className="text-2xl">📊</span>
           </div>
-          <div className="text-3xl font-bold text-blue-600 mb-2">
+          <div className="mb-2 text-3xl font-bold text-blue-600">
             {overallProgress}%
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
+          <div className="mb-3 h-3 w-full rounded-full bg-gray-200">
             <div
               className={`h-3 rounded-full ${getProgressColor(
                 overallProgress
@@ -82,8 +82,8 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
         </div>
 
         {/* Phase Progress */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="rounded-lg border border-gray-200 bg-white p-6">
+          <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">
               Phase Progress
             </h3>
@@ -92,11 +92,11 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
           <div className="space-y-3">
             {phaseProgress.map((phase, index) => (
               <div key={index}>
-                <div className="flex justify-between text-sm mb-1">
+                <div className="mb-1 flex justify-between text-sm">
                   <span className="text-gray-700">{phase.name}</span>
                   <span className="font-medium">{phase.progress}%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="h-2 w-full rounded-full bg-gray-200">
                   <div
                     className={`h-2 rounded-full ${getProgressColor(
                       phase.progress
@@ -110,8 +110,8 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
         </div>
 
         {/* Completion Forecast */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="rounded-lg border border-gray-200 bg-white p-6">
+          <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">Forecast</h3>
             <span className="text-2xl">🔮</span>
           </div>
@@ -134,9 +134,9 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
                 <div className="font-medium">
                   {completionForecast.confidence}%
                 </div>
-                <div className="flex-1 bg-gray-200 rounded-full h-2">
+                <div className="h-2 flex-1 rounded-full bg-gray-200">
                   <div
-                    className="bg-blue-500 h-2 rounded-full"
+                    className="h-2 rounded-full bg-blue-500"
                     style={{ width: `${completionForecast.confidence}%` }}
                   ></div>
                 </div>
@@ -148,23 +148,23 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
 
       {/* Enhanced progress dashboard */}
       {showDetailed && (
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-6 border-b">
+        <div className="rounded-lg border bg-white shadow-sm">
+          <div className="border-b p-6">
             <h3 className="text-lg font-medium text-gray-900">
               Detailed Progress Analysis
             </h3>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
               {/* Progress by Phase */}
               <div>
-                <h4 className="text-md font-medium text-gray-900 mb-4">
+                <h4 className="text-md mb-4 font-medium text-gray-900">
                   Progress Breakdown
                 </h4>
                 <div className="space-y-4">
                   {phaseProgress.map((phase, index) => (
-                    <div key={index} className="border rounded-lg p-4">
-                      <div className="flex justify-between items-center mb-2">
+                    <div key={index} className="rounded-lg border p-4">
+                      <div className="mb-2 flex items-center justify-between">
                         <span className="font-medium text-gray-900">
                           {phase.name}
                         </span>
@@ -177,7 +177,7 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
                           </span>
                         </div>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+                      <div className="mb-2 h-3 w-full rounded-full bg-gray-200">
                         <div
                           className={`h-3 rounded-full ${getProgressColor(
                             phase.progress
@@ -197,34 +197,34 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
 
               {/* Progress Health Indicators */}
               <div>
-                <h4 className="text-md font-medium text-gray-900 mb-4">
+                <h4 className="text-md mb-4 font-medium text-gray-900">
                   Health Indicators
                 </h4>
                 <div className="space-y-4">
-                  <div className="border rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
+                  <div className="rounded-lg border p-4">
+                    <div className="mb-2 flex items-center justify-between">
                       <span className="font-medium text-gray-900">
                         Schedule Variance
                       </span>
-                      <span className="text-red-600 font-bold">-8%</span>
+                      <span className="font-bold text-red-600">-8%</span>
                     </div>
-                    <div className="text-sm text-gray-600 mb-2">
+                    <div className="mb-2 text-sm text-gray-600">
                       Behind schedule by 8 percentage points
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="h-2 w-full rounded-full bg-gray-200">
                       <div
-                        className="bg-red-500 h-2 rounded-full"
+                        className="h-2 rounded-full bg-red-500"
                         style={{ width: "8%" }}
                       ></div>
                     </div>
                   </div>
 
-                  <div className="border rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
+                  <div className="rounded-lg border p-4">
+                    <div className="mb-2 flex items-center justify-between">
                       <span className="font-medium text-gray-900">
                         Velocity Trend
                       </span>
-                      <span className="text-yellow-600 font-bold">
+                      <span className="font-bold text-yellow-600">
                         Declining
                       </span>
                     </div>
@@ -233,12 +233,12 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
                     </div>
                   </div>
 
-                  <div className="border rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
+                  <div className="rounded-lg border p-4">
+                    <div className="mb-2 flex items-center justify-between">
                       <span className="font-medium text-gray-900">
                         Risk Level
                       </span>
-                      <span className="text-yellow-600 font-bold">Medium</span>
+                      <span className="font-bold text-yellow-600">Medium</span>
                     </div>
                     <div className="text-sm text-gray-600">
                       Monitor critical path activities closely
@@ -252,18 +252,18 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
       )}
 
       {/* Progress trends and forecasting */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Progress Trend Chart Placeholder */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-4 border-b">
+        <div className="rounded-lg border bg-white shadow-sm">
+          <div className="border-b p-4">
             <h3 className="text-lg font-medium text-gray-900">
               Progress Trends
             </h3>
           </div>
           <div className="p-6">
-            <div className="text-center py-8 text-gray-500">
-              <div className="text-4xl mb-4">📈</div>
-              <h4 className="text-lg font-medium text-gray-900 mb-2">
+            <div className="py-8 text-center text-gray-500">
+              <div className="mb-4 text-4xl">📈</div>
+              <h4 className="mb-2 text-lg font-medium text-gray-900">
                 Trend Chart Coming Soon
               </h4>
               <p className="text-sm">
@@ -278,15 +278,15 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
         </div>
 
         {/* Completion Forecast */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-4 border-b">
+        <div className="rounded-lg border bg-white shadow-sm">
+          <div className="border-b p-4">
             <h3 className="text-lg font-medium text-gray-900">
               Completion Forecast
             </h3>
           </div>
           <div className="p-6">
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+              <div className="flex items-center justify-between rounded-lg bg-blue-50 p-3">
                 <div>
                   <div className="font-medium text-blue-900">
                     Best Case Scenario
@@ -295,24 +295,24 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
                     All tasks completed on time
                   </div>
                 </div>
-                <div className="text-blue-900 font-bold">
+                <div className="font-bold text-blue-900">
                   {project.plannedEndDate.toLocaleDateString()}
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+              <div className="flex items-center justify-between rounded-lg bg-yellow-50 p-3">
                 <div>
                   <div className="font-medium text-yellow-900">Most Likely</div>
                   <div className="text-sm text-yellow-700">
                     Current trajectory
                   </div>
                 </div>
-                <div className="text-yellow-900 font-bold">
+                <div className="font-bold text-yellow-900">
                   {completionForecast.current.toLocaleDateString()}
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+              <div className="flex items-center justify-between rounded-lg bg-red-50 p-3">
                 <div>
                   <div className="font-medium text-red-900">
                     Worst Case Scenario
@@ -321,7 +321,7 @@ export const ProgressAnalytics: React.FC<ProgressAnalyticsProps> = ({
                     With potential delays
                   </div>
                 </div>
-                <div className="text-red-900 font-bold">
+                <div className="font-bold text-red-900">
                   {new Date(
                     completionForecast.current.getTime() +
                       14 * 24 * 60 * 60 * 1000

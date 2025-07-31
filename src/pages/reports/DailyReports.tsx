@@ -37,16 +37,16 @@ const DailyReports: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Enhanced Header Section */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="border-b border-gray-200 bg-white shadow-sm">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="py-6">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
                       <svg
-                        className="w-6 h-6 text-white"
+                        className="h-6 w-6 text-white"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -68,12 +68,12 @@ const DailyReports: React.FC = () => {
                         "User"}
                       !
                     </h1>
-                    <p className="text-gray-600 mt-1">
+                    <p className="mt-1 text-gray-600">
                       Manage your daily work reports and track progress
                     </p>
-                    <div className="flex items-center mt-2 text-sm text-gray-500">
+                    <div className="mt-2 flex items-center text-sm text-gray-500">
                       <svg
-                        className="w-4 h-4 mr-1"
+                        className="mr-1 h-4 w-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -95,14 +95,14 @@ const DailyReports: React.FC = () => {
               </div>
 
               {/* Quick Actions */}
-              <div className="mt-6 lg:mt-0 flex flex-col sm:flex-row gap-3">
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:mt-0">
                 {(isUser || isManager || isAdmin) && (
                   <button
                     onClick={() => setShowQuickReport(true)}
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+                    className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
                   >
                     <svg
-                      className="w-5 h-5 mr-2"
+                      className="mr-2 h-5 w-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -118,9 +118,9 @@ const DailyReports: React.FC = () => {
                   </button>
                 )}
 
-                <button className="inline-flex items-center px-4 py-2 bg-white text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors border border-gray-300 shadow-sm">
+                <button className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50">
                   <svg
-                    className="w-5 h-5 mr-2"
+                    className="mr-2 h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -138,13 +138,13 @@ const DailyReports: React.FC = () => {
             </div>
 
             {/* Today's Quick Stats */}
-            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-blue-50 rounded-lg p-4">
+            <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+              <div className="rounded-lg bg-blue-50 p-4">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
                       <svg
-                        className="w-4 h-4 text-white"
+                        className="h-4 w-4 text-white"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -164,12 +164,12 @@ const DailyReports: React.FC = () => {
               </div>
 
               {(isManager || isAdmin) && (
-                <div className="bg-yellow-50 rounded-lg p-4">
+                <div className="rounded-lg bg-yellow-50 p-4">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <div className="w-8 h-8 bg-yellow-600 rounded-lg flex items-center justify-center">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-yellow-600">
                         <svg
-                          className="w-4 h-4 text-white"
+                          className="h-4 w-4 text-white"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -193,12 +193,12 @@ const DailyReports: React.FC = () => {
                 </div>
               )}
 
-              <div className="bg-green-50 rounded-lg p-4">
+              <div className="rounded-lg bg-green-50 p-4">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600">
                       <svg
-                        className="w-4 h-4 text-white"
+                        className="h-4 w-4 text-white"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -221,12 +221,12 @@ const DailyReports: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-purple-50 rounded-lg p-4">
+              <div className="rounded-lg bg-purple-50 p-4">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-600">
                       <svg
-                        className="w-4 h-4 text-white"
+                        className="h-4 w-4 text-white"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -250,7 +250,7 @@ const DailyReports: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Simple Reports Section */}
         <div className="mb-8">
           <SimpleReports
@@ -273,19 +273,19 @@ const DailyReports: React.FC = () => {
 
       {/* Quick Report Modal */}
       {showQuickReport && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-white shadow-xl">
+            <div className="border-b border-gray-200 p-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-900">
                   Quick Daily Report
                 </h2>
                 <button
                   onClick={() => setShowQuickReport(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  className="text-gray-400 transition-colors hover:text-gray-600"
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="h-6 w-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

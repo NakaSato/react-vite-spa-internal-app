@@ -12,46 +12,46 @@ const ConstructionTab: React.FC<ConstructionTabProps> = ({ projects }) => {
 
   return (
     <div className="space-y-8">
-      <div className="bg-white shadow-xl rounded-2xl border border-gray-200">
-        <div className="px-8 py-6 border-b border-gray-200">
+      <div className="rounded-2xl border border-gray-200 bg-white shadow-xl">
+        <div className="border-b border-gray-200 px-8 py-6">
           <h3 className="text-3xl font-bold text-gray-900">
             Active Construction Projects
           </h3>
         </div>
         <div className="p-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {constructionProjects.map((project) => (
               <div
                 key={project.id}
-                className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300"
+                className="rounded-2xl border border-orange-200 bg-gradient-to-br from-orange-50 to-red-50 p-8 shadow-xl transition-all duration-300 hover:shadow-2xl"
               >
-                <h4 className="text-2xl font-bold text-gray-900 mb-6">
+                <h4 className="mb-6 text-2xl font-bold text-gray-900">
                   {project.name}
                 </h4>
                 <div className="space-y-6">
                   <div className="flex justify-between">
-                    <span className="text-lg text-gray-600 font-medium">
+                    <span className="text-lg font-medium text-gray-600">
                       Progress:
                     </span>
                     <span className="text-lg font-bold">
                       {project.progress}%
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-4">
+                  <div className="h-4 w-full rounded-full bg-gray-200">
                     <div
-                      className="bg-gradient-to-r from-orange-500 to-red-500 h-4 rounded-full shadow-lg"
+                      className="h-4 rounded-full bg-gradient-to-r from-orange-500 to-red-500 shadow-lg"
                       style={{ width: `${project.progress}%` }}
                     ></div>
                   </div>
                   <div className="grid grid-cols-2 gap-6 text-base">
                     <div>
-                      <span className="text-gray-600 font-medium">Client:</span>
+                      <span className="font-medium text-gray-600">Client:</span>
                       <p className="font-bold text-gray-900">
                         {project.client}
                       </p>
                     </div>
                     <div>
-                      <span className="text-gray-600 font-medium">
+                      <span className="font-medium text-gray-600">
                         System Size:
                       </span>
                       <p className="font-bold text-gray-900">
@@ -59,7 +59,7 @@ const ConstructionTab: React.FC<ConstructionTabProps> = ({ projects }) => {
                       </p>
                     </div>
                     <div>
-                      <span className="text-gray-600 font-medium">
+                      <span className="font-medium text-gray-600">
                         Location:
                       </span>
                       <p className="font-bold text-gray-900">
@@ -67,7 +67,7 @@ const ConstructionTab: React.FC<ConstructionTabProps> = ({ projects }) => {
                       </p>
                     </div>
                     <div>
-                      <span className="text-gray-600 font-medium">
+                      <span className="font-medium text-gray-600">
                         Expected Completion:
                       </span>
                       <p className="font-bold text-gray-900">
@@ -77,15 +77,15 @@ const ConstructionTab: React.FC<ConstructionTabProps> = ({ projects }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="pt-6 border-t border-gray-200">
-                    <span className="text-base text-gray-600 font-medium">
+                  <div className="border-t border-gray-200 pt-6">
+                    <span className="text-base font-medium text-gray-600">
                       Assigned Teams:
                     </span>
                     <div className="mt-3 flex flex-wrap gap-3">
                       {project.assignedTeam.map((team, index) => (
                         <span
                           key={index}
-                          className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-bold"
+                          className="rounded-full bg-blue-100 px-4 py-2 text-sm font-bold text-blue-800"
                         >
                           {team}
                         </span>

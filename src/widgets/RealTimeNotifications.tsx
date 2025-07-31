@@ -107,11 +107,11 @@ const RealTimeNotifications: React.FC<RealTimeNotificationsProps> = ({
     <div className={`fixed z-50 ${positionClasses[position]} ${className}`}>
       <div className="w-80 space-y-2">
         {/* Header */}
-        <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3">
+        <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div
-                className={`w-2 h-2 rounded-full ${
+                className={`h-2 w-2 rounded-full ${
                   connected ? "bg-green-500" : "bg-red-500"
                 }`}
               ></div>
@@ -121,7 +121,7 @@ const RealTimeNotifications: React.FC<RealTimeNotificationsProps> = ({
             </div>
             <button
               onClick={() => setIsMinimized(!isMinimized)}
-              className="text-gray-400 hover:text-gray-600 text-sm"
+              className="text-sm text-gray-400 hover:text-gray-600"
             >
               {isMinimized ? "▲" : "▼"}
             </button>
@@ -136,19 +136,15 @@ const RealTimeNotifications: React.FC<RealTimeNotificationsProps> = ({
               .map((notification, index) => (
                 <div
                   key={`${notification.projectId}-${notification.timestamp}-${index}`}
-                  className={`
-                  border rounded-lg p-3 shadow-sm transition-all duration-300 ease-out
-                  transform hover:scale-105
-                  ${getNotificationColor(notification.type)}
-                `}
+                  className={`transform rounded-lg border p-3 shadow-sm transition-all duration-300 ease-out hover:scale-105 ${getNotificationColor(notification.type)} `}
                 >
                   <div className="flex items-start space-x-2">
                     <span className="text-lg">
                       {getNotificationIcon(notification.type)}
                     </span>
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium truncate">
+                        <p className="truncate text-sm font-medium">
                           {notification.projectName}
                         </p>
                         {showTimestamp && (
@@ -159,7 +155,7 @@ const RealTimeNotifications: React.FC<RealTimeNotificationsProps> = ({
                           </span>
                         )}
                       </div>
-                      <p className="text-xs opacity-75 mt-1">
+                      <p className="mt-1 text-xs opacity-75">
                         {notification.type
                           .replace("PROJECT_", "")
                           .toLowerCase()
@@ -175,7 +171,7 @@ const RealTimeNotifications: React.FC<RealTimeNotificationsProps> = ({
 
         {/* Clear All Button */}
         {!isMinimized && notifications.length > 0 && (
-          <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-2">
+          <div className="rounded-lg border border-gray-200 bg-white p-2 shadow-lg">
             <button
               onClick={() => setNotifications([])}
               className="w-full text-xs text-gray-500 hover:text-gray-700"

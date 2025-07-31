@@ -65,20 +65,20 @@ const NavbarApiStatus = ({
       case "online":
         return (
           <div className="relative">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-            <div className="absolute inset-0 w-2 h-2 bg-emerald-400 rounded-full animate-ping opacity-75"></div>
+            <div className="h-2 w-2 rounded-full bg-emerald-400"></div>
+            <div className="absolute inset-0 h-2 w-2 animate-ping rounded-full bg-emerald-400 opacity-75"></div>
           </div>
         );
       case "offline":
         return (
-          <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+          <div className="h-2 w-2 animate-pulse rounded-full bg-red-400"></div>
         );
       case "checking":
         return (
-          <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce"></div>
+          <div className="h-2 w-2 animate-bounce rounded-full bg-amber-400"></div>
         );
       default:
-        return <div className="w-2 h-2 bg-slate-400 rounded-full"></div>;
+        return <div className="h-2 w-2 rounded-full bg-slate-400"></div>;
     }
   };
 
@@ -144,7 +144,7 @@ const NavbarApiStatus = ({
   if (compact) {
     return (
       <button
-        className={`inline-flex items-center justify-center w-8 h-8 rounded-full border backdrop-blur-sm transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 ${getStatusColor()} ${className}`}
+        className={`inline-flex h-8 w-8 items-center justify-center rounded-full border backdrop-blur-sm transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 ${getStatusColor()} ${className}`}
         title={getTooltip()}
         onClick={handleClick}
         aria-label={`API Status: ${getStatusText()}`}
@@ -156,7 +156,7 @@ const NavbarApiStatus = ({
 
   return (
     <button
-      className={`group inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium border backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 ${getStatusColor()} ${className}`}
+      className={`group inline-flex items-center rounded-lg border px-3 py-1.5 text-xs font-medium backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 ${getStatusColor()} ${className}`}
       title={getTooltip()}
       onClick={handleClick}
       aria-label={`API Status: ${getStatusText()}`}
@@ -167,12 +167,12 @@ const NavbarApiStatus = ({
 
       {showDetails && (
         <>
-          <span className="hidden sm:inline font-semibold">
+          <span className="hidden font-semibold sm:inline">
             {getStatusText()}
           </span>
 
           {status === "online" && responseTime && (
-            <div className="hidden md:flex items-center ml-2 text-xs">
+            <div className="ml-2 hidden items-center text-xs md:flex">
               <span className="mx-1 opacity-50">•</span>
               <span className={`font-mono ${getResponseTimeColor()}`}>
                 {responseTime}ms
@@ -182,7 +182,7 @@ const NavbarApiStatus = ({
           )}
 
           {isAuthenticated && status === "online" && (
-            <div className="hidden lg:flex items-center ml-2">
+            <div className="ml-2 hidden items-center lg:flex">
               <span className="mx-1 opacity-50">•</span>
               <span className="text-xs opacity-75">🔐 Auth</span>
             </div>
@@ -190,9 +190,9 @@ const NavbarApiStatus = ({
         </>
       )}
 
-      <div className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+      <div className="ml-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
         <svg
-          className="w-3 h-3"
+          className="h-3 w-3"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

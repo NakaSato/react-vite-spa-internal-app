@@ -31,10 +31,13 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
           p.status === "Planning" ||
           p.status === "Design"
       ).length,
-      statusDistribution: projects.reduce((acc, project) => {
-        acc[project.status] = (acc[project.status] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
+      statusDistribution: projects.reduce(
+        (acc, project) => {
+          acc[project.status] = (acc[project.status] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
     };
   };
 
@@ -109,17 +112,17 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
   return (
     <div className="space-y-8">
       {/* PDF Report Generation Section */}
-      <div className="bg-white shadow-xl rounded-2xl border border-gray-200">
-        <div className="px-8 py-6 border-b border-gray-200">
+      <div className="rounded-2xl border border-gray-200 bg-white shadow-xl">
+        <div className="border-b border-gray-200 px-8 py-6">
           <h3 className="text-3xl font-bold text-gray-900">
             Generate PDF Reports
           </h3>
-          <p className="text-gray-600 mt-2">
+          <p className="mt-2 text-gray-600">
             Create comprehensive reports for your solar projects
           </p>
         </div>
         <div className="p-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* Date Range Filter */}
             <div className="space-y-4">
               <h4 className="text-lg font-semibold text-gray-800">
@@ -127,7 +130,7 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
               </h4>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="mb-2 block text-sm font-medium text-gray-700">
                     Start Date
                   </label>
                   <input
@@ -139,11 +142,11 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
                         startDate: e.target.value,
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="mb-2 block text-sm font-medium text-gray-700">
                     End Date
                   </label>
                   <input
@@ -155,7 +158,7 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
                         endDate: e.target.value,
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -177,11 +180,11 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
                 <button
                   onClick={() => handleGeneratePdf("overview")}
                   disabled={isGeneratingPdf}
-                  className="w-full flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="flex w-full items-center justify-center rounded-lg bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isGeneratingPdf ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
                       Loading PDF engine...
                     </>
                   ) : (
@@ -192,11 +195,11 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
                 <button
                   onClick={() => handleGeneratePdf("detailed")}
                   disabled={isGeneratingPdf}
-                  className="w-full flex items-center justify-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="flex w-full items-center justify-center rounded-lg bg-green-600 px-6 py-3 text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isGeneratingPdf ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
                       Loading PDF engine...
                     </>
                   ) : (
@@ -207,11 +210,11 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
                 <button
                   onClick={() => handleGeneratePdf("financial")}
                   disabled={isGeneratingPdf}
-                  className="w-full flex items-center justify-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="flex w-full items-center justify-center rounded-lg bg-purple-600 px-6 py-3 text-white transition-colors hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isGeneratingPdf ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
                       Loading PDF engine...
                     </>
                   ) : (
@@ -220,11 +223,11 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
                 </button>
               </div>
 
-              <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+              <div className="mt-4 rounded-lg bg-gray-50 p-4">
                 <p className="text-sm text-gray-600">
                   <strong>Report Types:</strong>
                 </p>
-                <ul className="text-sm text-gray-600 mt-2 space-y-1">
+                <ul className="mt-2 space-y-1 text-sm text-gray-600">
                   <li>
                     • <strong>Overview:</strong> High-level summary and
                     statistics
@@ -244,35 +247,35 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
         </div>
       </div>
 
-      <div className="bg-white shadow-xl rounded-2xl border border-gray-200">
-        <div className="px-8 py-6 border-b border-gray-200">
+      <div className="rounded-2xl border border-gray-200 bg-white shadow-xl">
+        <div className="border-b border-gray-200 px-8 py-6">
           <h3 className="text-3xl font-bold text-gray-900">
             Financial Summary
           </h3>
         </div>
         <div className="p-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="rounded-2xl bg-gradient-to-br from-green-50 to-green-100 p-8 text-center">
               <div className="text-4xl font-bold text-green-600">
                 ${(totalBudget / 1000000).toFixed(1)}M
               </div>
-              <div className="text-lg text-gray-600 font-medium mt-2">
+              <div className="mt-2 text-lg font-medium text-gray-600">
                 Total Budget
               </div>
             </div>
-            <div className="text-center bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl">
+            <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 p-8 text-center">
               <div className="text-4xl font-bold text-blue-600">
                 ${(totalSpent / 1000000).toFixed(1)}M
               </div>
-              <div className="text-lg text-gray-600 font-medium mt-2">
+              <div className="mt-2 text-lg font-medium text-gray-600">
                 Total Spent
               </div>
             </div>
-            <div className="text-center bg-gradient-to-br from-orange-50 to-orange-100 p-8 rounded-2xl">
+            <div className="rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 p-8 text-center">
               <div className="text-4xl font-bold text-orange-600">
                 {((totalSpent / totalBudget) * 100).toFixed(1)}%
               </div>
-              <div className="text-lg text-gray-600 font-medium mt-2">
+              <div className="mt-2 text-lg font-medium text-gray-600">
                 Budget Utilization
               </div>
             </div>
@@ -280,25 +283,25 @@ const ReportsTab: React.FC<ReportsTabProps> = ({ projects }) => {
         </div>
       </div>
 
-      <div className="bg-white shadow-xl rounded-2xl border border-gray-200">
-        <div className="px-8 py-6 border-b border-gray-200">
+      <div className="rounded-2xl border border-gray-200 bg-white shadow-xl">
+        <div className="border-b border-gray-200 px-8 py-6">
           <h3 className="text-3xl font-bold text-gray-900">
             Project Status Distribution
           </h3>
         </div>
         <div className="p-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6">
             {statuses.map((status) => {
               const count = projects.filter((p) => p.status === status).length;
               return (
                 <div
                   key={status}
-                  className="text-center bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-2xl hover:shadow-lg transition-all duration-300"
+                  className="rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center transition-all duration-300 hover:shadow-lg"
                 >
                   <div className="text-3xl font-bold text-gray-900">
                     {count}
                   </div>
-                  <div className="text-base text-gray-600 font-medium mt-2">
+                  <div className="mt-2 text-base font-medium text-gray-600">
                     {status}
                   </div>
                 </div>

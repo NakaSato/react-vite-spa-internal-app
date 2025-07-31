@@ -22,9 +22,9 @@ export default function ProtectedRoute({
   // Show loading while checking authentication
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
           <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
@@ -50,9 +50,9 @@ export default function ProtectedRoute({
   // Check role requirement
   if (requiredRole && !hasRole(requiredRole)) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-red-100 mb-6">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
             <svg
               className="h-8 w-8 text-red-600"
               fill="none"
@@ -67,25 +67,25 @@ export default function ProtectedRoute({
               />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <h1 className="mb-4 text-2xl font-bold text-gray-900">
             Access Denied
           </h1>
-          <p className="text-gray-600 mb-6 max-w-md mx-auto">
+          <p className="mx-auto mb-6 max-w-md text-gray-600">
             You don't have the required permissions to access this page.
             {user?.roleName && (
-              <span className="block mt-2 text-sm">
+              <span className="mt-2 block text-sm">
                 Your current role:{" "}
                 <span className="font-medium">{user.roleName}</span>
               </span>
             )}
           </p>
-          <div className="space-y-2 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+          <div className="space-y-2 sm:flex sm:justify-center sm:space-x-4 sm:space-y-0">
             <button
               onClick={() => window.history.back()}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              className="inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -101,7 +101,7 @@ export default function ProtectedRoute({
             </button>
             <button
               onClick={() => (window.location.href = "/dashboard")}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
             >
               Go to Dashboard
             </button>

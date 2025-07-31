@@ -34,10 +34,10 @@ const ProjectHeader = ({
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/dashboard")}
-            className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+            className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
           >
             <svg
-              className="w-5 h-5 mr-2"
+              className="mr-2 h-5 w-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -56,7 +56,7 @@ const ProjectHeader = ({
             {project.projectName || "Unnamed Project"}
           </h1>
           <span
-            className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeColor(
+            className={`rounded-full px-3 py-1 text-sm font-medium ${getStatusBadgeColor(
               project.status
             )}`}
           >
@@ -66,15 +66,15 @@ const ProjectHeader = ({
 
         {/* Advanced Actions Panel */}
         {showAdvancedActions && (
-          <div className="mt-4 p-4 bg-gray-50 rounded-lg border">
-            <h4 className="font-medium text-gray-900 mb-3">Advanced Actions</h4>
-            <div className="flex gap-3 flex-wrap">
+          <div className="mt-4 rounded-lg border bg-gray-50 p-4">
+            <h4 className="mb-3 font-medium text-gray-900">Advanced Actions</h4>
+            <div className="flex flex-wrap gap-3">
               <button
                 onClick={onCreateTemplate}
-                className="bg-orange-600 text-white px-3 py-2 rounded-md hover:bg-orange-700 transition-colors flex items-center gap-2 text-sm"
+                className="flex items-center gap-2 rounded-md bg-orange-600 px-3 py-2 text-sm text-white transition-colors hover:bg-orange-700"
               >
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -90,10 +90,10 @@ const ProjectHeader = ({
               </button>
               <button
                 onClick={onAdvancedSearch}
-                className="bg-cyan-600 text-white px-3 py-2 rounded-md hover:bg-cyan-700 transition-colors flex items-center gap-2 text-sm"
+                className="flex items-center gap-2 rounded-md bg-cyan-600 px-3 py-2 text-sm text-white transition-colors hover:bg-cyan-700"
               >
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -114,10 +114,10 @@ const ProjectHeader = ({
                     "_blank"
                   )
                 }
-                className="bg-pink-600 text-white px-3 py-2 rounded-md hover:bg-pink-700 transition-colors flex items-center gap-2 text-sm"
+                className="flex items-center gap-2 rounded-md bg-pink-600 px-3 py-2 text-sm text-white transition-colors hover:bg-pink-700"
               >
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

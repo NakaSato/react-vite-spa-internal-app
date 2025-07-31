@@ -11,18 +11,18 @@ const Analytics: React.FC<AnalyticsProps> = ({ analytics, projectId }) => {
   const [activeTab, setActiveTab] = useState<"charts" | "summary">("summary");
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">
             📊 Daily Reports Analytics
           </h1>
           <p className="text-gray-600">
             Comprehensive insights and performance metrics for project{" "}
             {analytics.projectName || projectId}
           </p>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="mt-1 text-sm text-gray-500">
             Analysis period:{" "}
             {new Date(analytics.analysisPeriodStart).toLocaleDateString()} -{" "}
             {new Date(analytics.analysisPeriodEnd).toLocaleDateString()}
@@ -35,20 +35,20 @@ const Analytics: React.FC<AnalyticsProps> = ({ analytics, projectId }) => {
             <nav className="-mb-px flex space-x-8">
               <button
                 onClick={() => setActiveTab("summary")}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`border-b-2 px-1 py-2 text-sm font-medium ${
                   activeTab === "summary"
                     ? "border-blue-500 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                 }`}
               >
                 📋 Summary
               </button>
               <button
                 onClick={() => setActiveTab("charts")}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`border-b-2 px-1 py-2 text-sm font-medium ${
                   activeTab === "charts"
                     ? "border-blue-500 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                 }`}
               >
                 📈 Charts
@@ -61,11 +61,11 @@ const Analytics: React.FC<AnalyticsProps> = ({ analytics, projectId }) => {
         {activeTab === "summary" ? (
           <div className="space-y-6">
             {/* Key Metrics Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100">
                       📊
                     </div>
                   </div>
@@ -80,10 +80,10 @@ const Analytics: React.FC<AnalyticsProps> = ({ analytics, projectId }) => {
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-100">
                       ⏱️
                     </div>
                   </div>
@@ -98,10 +98,10 @@ const Analytics: React.FC<AnalyticsProps> = ({ analytics, projectId }) => {
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-yellow-100">
                       🎯
                     </div>
                   </div>
@@ -116,10 +116,10 @@ const Analytics: React.FC<AnalyticsProps> = ({ analytics, projectId }) => {
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100">
                       ⚡
                     </div>
                   </div>
@@ -136,9 +136,9 @@ const Analytics: React.FC<AnalyticsProps> = ({ analytics, projectId }) => {
             </div>
 
             {/* Detailed Metrics */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">
                   📈 Progress Metrics
                 </h3>
                 <dl className="space-y-3">
@@ -181,8 +181,8 @@ const Analytics: React.FC<AnalyticsProps> = ({ analytics, projectId }) => {
                 </dl>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">
                   🌤️ Weather & Issues
                 </h3>
                 <dl className="space-y-3">
@@ -221,15 +221,15 @@ const Analytics: React.FC<AnalyticsProps> = ({ analytics, projectId }) => {
             {/* Top Issues */}
             {analytics.topIssueCategories &&
               analytics.topIssueCategories.length > 0 && (
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">
                     ⚠️ Top Issue Categories
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {analytics.topIssueCategories.map((issue, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-red-100 text-red-800 text-sm rounded-full"
+                        className="rounded-full bg-red-100 px-3 py-1 text-sm text-red-800"
                       >
                         {issue}
                       </span>

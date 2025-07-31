@@ -117,19 +117,19 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-      <div className="p-6 border-b border-gray-200">
+    <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
+      <div className="border-b border-gray-200 p-6">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-xl font-semibold text-gray-900">
               📄 Simple Reports
             </h3>
-            <p className="text-gray-600 mt-1">
+            <p className="mt-1 text-gray-600">
               Generate quick reports for your daily work activities
             </p>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
               {isAdmin ? "Admin" : isManager ? "Manager" : "User"} Access
             </span>
           </div>
@@ -139,36 +139,36 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
       <div className="p-6">
         {/* Date Range Selection */}
         <div className="mb-6">
-          <h4 className="text-lg font-medium text-gray-900 mb-4">
+          <h4 className="mb-4 text-lg font-medium text-gray-900">
             📅 Select Date Range
           </h4>
 
           {/* Quick Date Buttons */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="mb-4 flex flex-wrap gap-2">
             <button
               onClick={() => getQuickDateRange(7)}
-              className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
+              className="rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-700 transition-colors hover:bg-gray-200"
             >
               Last 7 Days
             </button>
             <button
               onClick={() => getQuickDateRange(30)}
-              className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
+              className="rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-700 transition-colors hover:bg-gray-200"
             >
               Last 30 Days
             </button>
             <button
               onClick={() => getQuickDateRange(90)}
-              className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
+              className="rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-700 transition-colors hover:bg-gray-200"
             >
               Last 3 Months
             </button>
           </div>
 
           {/* Custom Date Range */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
                 Start Date
               </label>
               <input
@@ -177,11 +177,11 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
                 onChange={(e) =>
                   setDateRange((prev) => ({ ...prev, start: e.target.value }))
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
                 End Date
               </label>
               <input
@@ -190,7 +190,7 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
                 onChange={(e) =>
                   setDateRange((prev) => ({ ...prev, end: e.target.value }))
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
@@ -198,14 +198,14 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
 
         {/* Report Types Grid */}
         <div className="mb-6">
-          <h4 className="text-lg font-medium text-gray-900 mb-4">
+          <h4 className="mb-4 text-lg font-medium text-gray-900">
             📋 Available Reports
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {reportTypes.map((report) => (
               <div
                 key={report.id}
-                className={`${report.bgColor} ${report.borderColor} border rounded-lg p-4 hover:shadow-md transition-shadow`}
+                className={`${report.bgColor} ${report.borderColor} rounded-lg border p-4 transition-shadow hover:shadow-md`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
@@ -216,7 +216,7 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
                       <h5 className="font-medium text-gray-900">
                         {report.title}
                       </h5>
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="mt-1 text-sm text-gray-600">
                         {report.description}
                       </p>
                     </div>
@@ -226,15 +226,15 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
                     disabled={
                       isGenerating || !dateRange.start || !dateRange.end
                     }
-                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                    className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
                       isGenerating || !dateRange.start || !dateRange.end
-                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
+                        ? "cursor-not-allowed bg-gray-100 text-gray-400"
+                        : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
                     }`}
                   >
                     {isGenerating ? (
                       <div className="flex items-center space-x-1">
-                        <div className="w-3 h-3 border border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                        <div className="h-3 w-3 animate-spin rounded-full border border-gray-400 border-t-transparent"></div>
                         <span>Generating...</span>
                       </div>
                     ) : (
@@ -249,7 +249,7 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
 
         {/* Quick Actions */}
         <div className="border-t border-gray-200 pt-6">
-          <h4 className="text-lg font-medium text-gray-900 mb-4">
+          <h4 className="mb-4 text-lg font-medium text-gray-900">
             ⚡ Quick Actions
           </h4>
           <div className="flex flex-wrap gap-3">
@@ -268,10 +268,10 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
                 }
               }}
               disabled={isGenerating || !dateRange.start || !dateRange.end}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+              className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
             >
               <svg
-                className="w-4 h-4 mr-2"
+                className="mr-2 h-4 w-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -296,10 +296,10 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
                     );
                   }
                 }}
-                className="inline-flex items-center px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
+                className="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 font-medium text-white transition-colors hover:bg-green-700"
               >
                 <svg
-                  className="w-4 h-4 mr-2"
+                  className="mr-2 h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -319,10 +319,10 @@ const SimpleReports: React.FC<SimpleReportsProps> = ({ onGenerateReport }) => {
               onClick={() => {
                 alert("Report scheduling feature coming soon!");
               }}
-              className="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
+              className="inline-flex items-center rounded-lg bg-gray-100 px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-200"
             >
               <svg
-                className="w-4 h-4 mr-2"
+                className="mr-2 h-4 w-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

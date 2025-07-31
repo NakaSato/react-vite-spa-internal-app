@@ -286,7 +286,7 @@ export default function GanttChart({
           return (
             <div
               key={`${depId}-${task.id}`}
-              className="absolute border-t-2 border-gray-400 pointer-events-none"
+              className="pointer-events-none absolute border-t-2 border-gray-400"
               style={{
                 left: `${predecessorPos.left + predecessorPos.width}%`,
                 top: "50%",
@@ -304,17 +304,17 @@ export default function GanttChart({
 
   if (!ganttState) {
     return (
-      <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex h-96 items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div className="overflow-hidden rounded-xl bg-white shadow-lg">
       {/* Header */}
-      <div className="bg-gray-50 px-6 py-4 border-b">
-        <div className="flex justify-between items-center">
+      <div className="border-b bg-gray-50 px-6 py-4">
+        <div className="flex items-center justify-between">
           <h3 className="text-xl font-bold text-gray-900">
             📊 Project Gantt Chart
           </h3>
@@ -324,7 +324,7 @@ export default function GanttChart({
               onChange={(e) => {
                 /* Update view mode */
               }}
-              className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="rounded-md border border-gray-300 px-3 py-1 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
             >
               <option value="days">Days</option>
               <option value="weeks">Weeks</option>
@@ -363,30 +363,30 @@ export default function GanttChart({
       <div className="flex">
         {/* Task List */}
         <div className="w-1/3 border-r border-gray-200">
-          <div className="bg-gray-100 px-4 py-3 border-b border-gray-200 font-medium">
+          <div className="border-b border-gray-200 bg-gray-100 px-4 py-3 font-medium">
             Tasks
           </div>
           <div className="max-h-96 overflow-y-auto">
             {ganttState.tasks.map((task) => (
               <div
                 key={task.id}
-                className={`px-4 py-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 ${
-                  selectedTask === task.id ? "bg-blue-50 border-blue-200" : ""
+                className={`cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-gray-50 ${
+                  selectedTask === task.id ? "border-blue-200 bg-blue-50" : ""
                 } ${
                   task.type === "phase"
                     ? "pl-8"
                     : task.type === "activity"
-                    ? "pl-12"
-                    : ""
+                      ? "pl-12"
+                      : ""
                 }`}
                 onClick={() => setSelectedTask(task.id)}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <div className="font-medium text-sm truncate">
+                    <div className="truncate text-sm font-medium">
                       {task.name}
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="mt-1 text-xs text-gray-500">
                       {task.start.toLocaleDateString()} -{" "}
                       {task.end.toLocaleDateString()}
                     </div>
@@ -397,9 +397,9 @@ export default function GanttChart({
                 </div>
 
                 {/* Progress bar */}
-                <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                <div className="mt-2 h-1.5 w-full rounded-full bg-gray-200">
                   <div
-                    className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
+                    className="h-1.5 rounded-full bg-blue-500 transition-all duration-300"
                     style={{ width: `${task.progress * 100}%` }}
                   />
                 </div>
@@ -411,11 +411,11 @@ export default function GanttChart({
         {/* Timeline */}
         <div className="flex-1 overflow-x-auto">
           {/* Time scale header */}
-          <div className="bg-gray-100 border-b border-gray-200 h-12 flex">
+          <div className="flex h-12 border-b border-gray-200 bg-gray-100">
             {generateTimeScale.map((timeUnit, index) => (
               <div
                 key={index}
-                className={`flex-shrink-0 w-16 text-center text-xs py-3 border-r border-gray-200 ${
+                className={`w-16 flex-shrink-0 border-r border-gray-200 py-3 text-center text-xs ${
                   timeUnit.isWeekend ? "bg-gray-200" : ""
                 }`}
               >
@@ -433,14 +433,14 @@ export default function GanttChart({
               return (
                 <div
                   key={task.id}
-                  className="relative h-12 border-b border-gray-100 flex items-center"
+                  className="relative flex h-12 items-center border-b border-gray-100"
                   style={{ minWidth: `${generateTimeScale.length * 64}px` }}
                 >
                   {/* Weekend background */}
                   {generateTimeScale.map((timeUnit, index) => (
                     <div
                       key={index}
-                      className={`absolute w-16 h-full ${
+                      className={`absolute h-full w-16 ${
                         timeUnit.isWeekend ? "bg-gray-50" : ""
                       }`}
                       style={{ left: `${index * 64}px` }}
@@ -450,7 +450,7 @@ export default function GanttChart({
                   {/* Baseline bar (if enabled) */}
                   {showBaseline && task.baseline && (
                     <div
-                      className="absolute h-2 bg-gray-300 rounded opacity-50"
+                      className="absolute h-2 rounded bg-gray-300 opacity-50"
                       style={{
                         left: `${position.left}%`,
                         width: `${position.width}%`,
@@ -461,7 +461,7 @@ export default function GanttChart({
 
                   {/* Main task bar */}
                   <div
-                    className={`absolute h-6 rounded shadow-sm cursor-pointer transition-all duration-200 hover:shadow-md ${
+                    className={`absolute h-6 cursor-pointer rounded shadow-sm transition-all duration-200 hover:shadow-md ${
                       selectedTask === task.id ? "ring-2 ring-blue-400" : ""
                     }`}
                     style={{
@@ -475,14 +475,14 @@ export default function GanttChart({
                   >
                     {/* Progress fill */}
                     <div
-                      className="h-full bg-white bg-opacity-30 rounded-sm"
+                      className="h-full rounded-sm bg-white bg-opacity-30"
                       style={{ width: `${task.progress * 100}%` }}
                     />
 
                     {/* Task label */}
                     {position.width > 10 && (
                       <div className="absolute inset-0 flex items-center px-2">
-                        <span className="text-white text-xs font-medium truncate">
+                        <span className="truncate text-xs font-medium text-white">
                           {task.name}
                         </span>
                       </div>
@@ -493,7 +493,7 @@ export default function GanttChart({
                   {showCriticalPath &&
                     ganttState.criticalPath.includes(task.id) && (
                       <div
-                        className="absolute top-0 left-0 w-2 h-2 bg-red-500 rounded-full"
+                        className="absolute left-0 top-0 h-2 w-2 rounded-full bg-red-500"
                         style={{ left: `${position.left}%` }}
                       />
                     )}
@@ -508,24 +508,24 @@ export default function GanttChart({
       </div>
 
       {/* Legend */}
-      <div className="bg-gray-50 px-6 py-4 border-t">
+      <div className="border-t bg-gray-50 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6 text-sm">
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-purple-500 rounded mr-2"></div>
+              <div className="mr-2 h-4 w-4 rounded bg-purple-500"></div>
               <span>Project</span>
             </div>
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
+              <div className="mr-2 h-4 w-4 rounded bg-green-500"></div>
               <span>Phase</span>
             </div>
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-blue-500 rounded mr-2"></div>
+              <div className="mr-2 h-4 w-4 rounded bg-blue-500"></div>
               <span>Activity</span>
             </div>
             {showCriticalPath && (
               <div className="flex items-center">
-                <div className="w-4 h-4 bg-red-500 rounded mr-2"></div>
+                <div className="mr-2 h-4 w-4 rounded bg-red-500"></div>
                 <span>Critical Path</span>
               </div>
             )}

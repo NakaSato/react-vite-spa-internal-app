@@ -9,7 +9,7 @@ export function Navigation() {
 
   return (
     <>
-      <nav className="bg-blue-600 text-white p-4 shadow-lg">
+      <nav className="bg-blue-600 p-4 text-white shadow-lg">
         <div className="w-full max-w-none px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -19,33 +19,33 @@ export function Navigation() {
 
               {/* Navigation Links */}
               {isAuthenticated && (
-                <div className="hidden md:flex items-center space-x-4 ml-8">
+                <div className="ml-8 hidden items-center space-x-4 md:flex">
                   <Link
                     to="/dashboard"
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                       location.pathname === "/dashboard"
                         ? "bg-blue-700 text-white"
-                        : "text-blue-100 hover:text-white hover:bg-blue-700"
+                        : "text-blue-100 hover:bg-blue-700 hover:text-white"
                     }`}
                   >
                     Dashboard
                   </Link>
                   <Link
                     to="/projects/realtime"
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                       location.pathname === "/projects/realtime"
                         ? "bg-blue-700 text-white"
-                        : "text-blue-100 hover:text-white hover:bg-blue-700"
+                        : "text-blue-100 hover:bg-blue-700 hover:text-white"
                     }`}
                   >
                     Live Projects
                   </Link>
                   <Link
                     to="/daily-reports"
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                       location.pathname === "/daily-reports"
                         ? "bg-blue-700 text-white"
-                        : "text-blue-100 hover:text-white hover:bg-blue-700"
+                        : "text-blue-100 hover:bg-blue-700 hover:text-white"
                     }`}
                   >
                     Daily Reports
@@ -56,20 +56,20 @@ export function Navigation() {
                     <>
                       <Link
                         to="/mui-showcase"
-                        className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                        className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                           location.pathname === "/mui-showcase"
                             ? "bg-purple-700 text-white"
-                            : "text-purple-100 hover:text-white hover:bg-purple-700"
+                            : "text-purple-100 hover:bg-purple-700 hover:text-white"
                         }`}
                       >
                         🎨 MUI Showcase
                       </Link>
                       <Link
                         to="/debug/projects"
-                        className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                        className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                           location.pathname === "/debug/projects"
                             ? "bg-red-700 text-white"
-                            : "text-red-100 hover:text-white hover:bg-red-700"
+                            : "text-red-100 hover:bg-red-700 hover:text-white"
                         }`}
                       >
                         Debug
@@ -85,7 +85,7 @@ export function Navigation() {
               {isAuthenticated ? (
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-800">
                       <span className="text-sm font-medium">
                         {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
                       </span>

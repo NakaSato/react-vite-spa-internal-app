@@ -63,14 +63,14 @@ const ProjectDebug: React.FC = () => {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-gray-50 px-4 py-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto max-w-7xl">
           <div className="mb-8">
             <button
               onClick={() => navigate("/dashboard")}
-              className="flex items-center text-gray-600 hover:text-gray-900 transition-colors mb-4"
+              className="mb-4 flex items-center text-gray-600 transition-colors hover:text-gray-900"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -87,21 +87,21 @@ const ProjectDebug: React.FC = () => {
             <h1 className="text-3xl font-bold text-gray-900">
               Project API Debug
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="mt-2 text-gray-600">
               Debug project ID matching and API connectivity
             </p>
           </div>
 
           {/* Authentication Status */}
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="mb-6 rounded-lg bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">
               Authentication Status
             </h2>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-gray-700">Is Authenticated:</span>
                 <span
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  className={`rounded-full px-3 py-1 text-sm font-medium ${
                     isAuthenticated
                       ? "bg-green-100 text-green-800"
                       : "bg-red-100 text-red-800"
@@ -114,13 +114,13 @@ const ProjectDebug: React.FC = () => {
                 <>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-700">User:</span>
-                    <span className="text-gray-900 font-medium">
+                    <span className="font-medium text-gray-900">
                       {user.fullName} ({user.username})
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-700">Role:</span>
-                    <span className="text-gray-900 font-medium">
+                    <span className="font-medium text-gray-900">
                       {user.roleName}
                     </span>
                   </div>
@@ -129,7 +129,7 @@ const ProjectDebug: React.FC = () => {
               <div className="flex items-center justify-between">
                 <span className="text-gray-700">Token Available:</span>
                 <span
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  className={`rounded-full px-3 py-1 text-sm font-medium ${
                     token
                       ? "bg-green-100 text-green-800"
                       : "bg-red-100 text-red-800"
@@ -139,8 +139,8 @@ const ProjectDebug: React.FC = () => {
                 </span>
               </div>
               {!isAuthenticated && (
-                <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <p className="text-yellow-800 text-sm">
+                <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
+                  <p className="text-sm text-yellow-800">
                     <strong>Note:</strong> You must be logged in to access the
                     Projects API. The 400 Bad Request errors you're seeing are
                     likely due to missing authentication.{" "}
@@ -157,28 +157,28 @@ const ProjectDebug: React.FC = () => {
           </div>
 
           {/* API Connection Test */}
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="mb-6 rounded-lg bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">
               API Connection Test
             </h2>
 
             {testLoading ? (
               <div className="flex items-center">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-3"></div>
+                <div className="mr-3 h-5 w-5 animate-spin rounded-full border-b-2 border-blue-600"></div>
                 <span>Testing API connection...</span>
               </div>
             ) : apiTest ? (
               <div className="space-y-4">
                 <div
-                  className={`p-4 rounded-lg ${
+                  className={`rounded-lg p-4 ${
                     apiTest.success
-                      ? "bg-green-50 border border-green-200"
-                      : "bg-red-50 border border-red-200"
+                      ? "border border-green-200 bg-green-50"
+                      : "border border-red-200 bg-red-50"
                   }`}
                 >
-                  <div className="flex items-center mb-2">
+                  <div className="mb-2 flex items-center">
                     <span
-                      className={`text-2xl mr-2 ${
+                      className={`mr-2 text-2xl ${
                         apiTest.success ? "text-green-600" : "text-red-600"
                       }`}
                     >
@@ -206,7 +206,7 @@ const ProjectDebug: React.FC = () => {
                       <p>
                         <strong>Sample Project IDs:</strong>
                       </p>
-                      <ul className="list-disc ml-6 mt-2">
+                      <ul className="ml-6 mt-2 list-disc">
                         {apiTest.sampleProjectIds.map(
                           (id: string, index: number) => (
                             <li key={index} className="font-mono text-xs">
@@ -226,11 +226,11 @@ const ProjectDebug: React.FC = () => {
                 </div>
 
                 {apiTest.success && (
-                  <details className="bg-gray-50 rounded-lg p-4">
+                  <details className="rounded-lg bg-gray-50 p-4">
                     <summary className="cursor-pointer font-medium text-gray-700">
                       View Full API Response
                     </summary>
-                    <pre className="mt-4 text-xs bg-white p-4 rounded border overflow-auto max-h-64">
+                    <pre className="mt-4 max-h-64 overflow-auto rounded border bg-white p-4 text-xs">
                       {JSON.stringify(apiTest.fullResponse, null, 2)}
                     </pre>
                   </details>
@@ -240,23 +240,23 @@ const ProjectDebug: React.FC = () => {
           </div>
 
           {/* useProjects Hook Data */}
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="mb-6 rounded-lg bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">
               useProjects Hook Data
             </h2>
 
             {loading ? (
               <div className="flex items-center">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-3"></div>
+                <div className="mr-3 h-5 w-5 animate-spin rounded-full border-b-2 border-blue-600"></div>
                 <span>Loading projects from hook...</span>
               </div>
             ) : error ? (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <div className="rounded-lg border border-red-200 bg-red-50 p-4">
                 <span className="text-red-600">❌ Hook Error: {error}</span>
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
                   <span className="text-blue-800">
                     ✅ Hook loaded {projects.length} projects
                   </span>
@@ -264,21 +264,21 @@ const ProjectDebug: React.FC = () => {
 
                 {projects.length > 0 ? (
                   <div>
-                    <h3 className="font-medium text-gray-900 mb-3">
+                    <h3 className="mb-3 font-medium text-gray-900">
                       Available Projects:
                     </h3>
                     <div className="grid gap-4">
                       {projects.slice(0, 5).map((project) => (
                         <div
                           key={project.projectId}
-                          className="border rounded-lg p-4 hover:bg-gray-50"
+                          className="rounded-lg border p-4 hover:bg-gray-50"
                         >
                           <div className="flex items-center justify-between">
                             <div>
                               <h4 className="font-medium text-gray-900">
                                 {project.projectName || "Unnamed Project"}
                               </h4>
-                              <p className="text-sm text-gray-600 font-mono">
+                              <p className="font-mono text-sm text-gray-600">
                                 ID: {project.projectId}
                               </p>
                               <p className="text-sm text-gray-600">
@@ -287,7 +287,7 @@ const ProjectDebug: React.FC = () => {
                             </div>
                             <button
                               onClick={() => testProjectById(project.projectId)}
-                              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                              className="rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
                             >
                               Test This Project
                             </button>
@@ -297,13 +297,13 @@ const ProjectDebug: React.FC = () => {
                     </div>
 
                     {projects.length > 5 && (
-                      <p className="text-sm text-gray-600 mt-4">
+                      <p className="mt-4 text-sm text-gray-600">
                         ... and {projects.length - 5} more projects
                       </p>
                     )}
                   </div>
                 ) : (
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4">
                     <span className="text-yellow-800">
                       ⚠️ No projects found in hook data
                     </span>
@@ -314,15 +314,15 @@ const ProjectDebug: React.FC = () => {
           </div>
 
           {/* Manual Project ID Test */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="rounded-lg bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">
               Manual Project ID Test
             </h2>
             <div className="flex gap-4">
               <input
                 type="text"
                 placeholder="Enter project ID to test..."
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="flex-1 rounded-md border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
                     const target = e.target as HTMLInputElement;
@@ -341,12 +341,12 @@ const ProjectDebug: React.FC = () => {
                     testProjectById(input.value.trim());
                   }
                 }}
-                className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors"
+                className="rounded-md bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700"
               >
                 Test Project ID
               </button>
             </div>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="mt-2 text-sm text-gray-600">
               Enter a project ID to test if it can be fetched from the API
             </p>
           </div>

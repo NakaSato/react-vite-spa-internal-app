@@ -71,8 +71,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
   return (
     <div className="space-y-6">
       {/* Daily Reports Trend Chart */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           📈 Daily Reports Trend
         </h3>
         <div className="h-64">
@@ -111,10 +111,10 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Status Distribution */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <h3 className="mb-4 text-lg font-semibold text-gray-900">
             🎯 Report Status Distribution
           </h3>
           <div className="h-64">
@@ -149,8 +149,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
         </div>
 
         {/* Quality Scores */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <h3 className="mb-4 text-lg font-semibold text-gray-900">
             ⭐ Average Quality Scores
           </h3>
           <div className="h-64">
@@ -200,8 +200,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
       </div>
 
       {/* Top Performers */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           🏆 Top Performers
         </h3>
         <div className="space-y-3">
@@ -210,18 +210,18 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
             .map((performer: PersonnelPerformanceDto, index: number) => (
               <div
                 key={performer.userId}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
               >
                 <div className="flex items-center space-x-3">
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold ${
+                    className={`flex h-8 w-8 items-center justify-center rounded-full font-semibold text-white ${
                       index === 0
                         ? "bg-yellow-500"
                         : index === 1
-                        ? "bg-gray-400"
-                        : index === 2
-                        ? "bg-amber-600"
-                        : "bg-blue-500"
+                          ? "bg-gray-400"
+                          : index === 2
+                            ? "bg-amber-600"
+                            : "bg-blue-500"
                     }`}
                   >
                     {index + 1}
@@ -237,20 +237,20 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
                 </div>
                 <div className="text-right">
                   <div className="flex space-x-2 text-sm">
-                    <span className="px-2 py-1 bg-green-100 text-green-800 rounded">
+                    <span className="rounded bg-green-100 px-2 py-1 text-green-800">
                       Safety: {(performer.averageSafetyScore || 0).toFixed(1)}
                     </span>
-                    <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded">
+                    <span className="rounded bg-blue-100 px-2 py-1 text-blue-800">
                       Quality: {(performer.averageQualityScore || 0).toFixed(1)}
                     </span>
                   </div>
-                  <p className="text-lg font-semibold text-gray-900 mt-1">
+                  <p className="mt-1 text-lg font-semibold text-gray-900">
                     Score: {(performer.productivityScore || 0).toFixed(1)}
                   </p>
                 </div>
               </div>
             )) || (
-            <p className="text-gray-500 text-center py-8">
+            <p className="py-8 text-center text-gray-500">
               No performance data available
             </p>
           )}

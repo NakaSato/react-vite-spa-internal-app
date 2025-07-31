@@ -191,11 +191,14 @@ export class ReportService {
               projects.reduce((sum, p) => sum + (p.revenueValue || 0), 0)) *
             100
           : 0,
-      statusDistribution: projects.reduce((acc, project) => {
-        const status = project.status || "Unknown";
-        acc[status] = (acc[status] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
+      statusDistribution: projects.reduce(
+        (acc, project) => {
+          const status = project.status || "Unknown";
+          acc[status] = (acc[status] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
     };
   }
 

@@ -10,14 +10,14 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
   return (
     <div className="space-y-6">
       {/* Project Manager */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="rounded-lg bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           Project Manager
         </h3>
         {project.projectManager ? (
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className="text-blue-600 font-medium">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
+              <span className="font-medium text-blue-600">
                 {project.projectManager.fullName?.charAt(0) || "?"}
               </span>
             </div>
@@ -31,8 +31,8 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
             </div>
           </div>
         ) : (
-          <div className="text-gray-500 text-center py-4">
-            <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+          <div className="py-4 text-center text-gray-500">
+            <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
               <span className="text-gray-400">?</span>
             </div>
             <div className="text-sm">No manager assigned</div>
@@ -41,27 +41,27 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
       </div>
 
       {/* Financial Information */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="rounded-lg bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           Financial Information
         </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Revenue Value
             </label>
             <p className="text-gray-900">
               {project.revenueValue !== null && project.revenueValue !== 0
                 ? formatCurrency(project.revenueValue)
                 : project.totalCapacityKw
-                ? formatCurrency(project.totalCapacityKw * 5000) +
-                  " (estimated)"
-                : "Not specified"}
+                  ? formatCurrency(project.totalCapacityKw * 5000) +
+                    " (estimated)"
+                  : "Not specified"}
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               FTS Value
             </label>
             <p className="text-gray-900">
@@ -72,7 +72,7 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               PQM Value
             </label>
             <p className="text-gray-900">
@@ -85,13 +85,13 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
       </div>
 
       {/* Technical Details */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="rounded-lg bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           Technical Details
         </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Connection Type
             </label>
             <p className="text-gray-900">
@@ -106,15 +106,15 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
 
           {project.connectionNotes && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Connection Notes
               </label>
-              <p className="text-gray-900 text-sm">{project.connectionNotes}</p>
+              <p className="text-sm text-gray-900">{project.connectionNotes}</p>
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Total Capacity
             </label>
             <p className="text-gray-900">
@@ -125,7 +125,7 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               PV Modules
             </label>
             <p className="text-gray-900">
@@ -146,20 +146,20 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
       </div>
 
       {/* Project Info */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="rounded-lg bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           Project Information
         </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Team Assignment
             </label>
             <p className="text-gray-900">{project.team || "Not assigned"}</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Current Status
             </label>
             <p className="text-gray-900">{project.status || "Unknown"}</p>
@@ -167,7 +167,7 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
 
           {project.estimatedEndDate && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Estimated End Date
               </label>
               <p className="text-gray-900">
@@ -180,13 +180,13 @@ const ProjectSidebar = ({ project }: ProjectSidebarProps) => {
 
       {/* Location Information */}
       {project.locationCoordinates && (
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Location</h3>
+        <div className="rounded-lg bg-white p-6 shadow-sm">
+          <h3 className="mb-4 text-lg font-semibold text-gray-900">Location</h3>
           <div className="space-y-2">
             <div className="text-sm">
               <span className="font-medium text-gray-700">Coordinates:</span>
               <br />
-              <span className="text-gray-900 font-mono text-xs">
+              <span className="font-mono text-xs text-gray-900">
                 {project.locationCoordinates.latitude.toFixed(6)},{" "}
                 {project.locationCoordinates.longitude.toFixed(6)}
               </span>

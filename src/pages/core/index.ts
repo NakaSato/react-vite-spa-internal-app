@@ -3,6 +3,7 @@ export { default as Home } from "./Home";
 export { default as Dashboard } from "./Dashboard";
 export { default as About } from "./About";
 export { default as MUIShowcase } from "./MUIShowcase";
+export { default as TailwindMUIDemo } from "./TailwindMUIDemo";
 
 // Error Pages
 export { default as NotFound } from "./NotFound";

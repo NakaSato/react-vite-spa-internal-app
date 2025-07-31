@@ -235,19 +235,19 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
             level > 75
               ? "rgba(239, 68, 68, 0.8)"
               : level > 50
-              ? "rgba(245, 158, 11, 0.8)"
-              : level > 25
-              ? "rgba(59, 130, 246, 0.8)"
-              : "rgba(34, 197, 94, 0.8)"
+                ? "rgba(245, 158, 11, 0.8)"
+                : level > 25
+                  ? "rgba(59, 130, 246, 0.8)"
+                  : "rgba(34, 197, 94, 0.8)"
           ),
           borderColor: riskLevels.map((level) =>
             level > 75
               ? "rgb(239, 68, 68)"
               : level > 50
-              ? "rgb(245, 158, 11)"
-              : level > 25
-              ? "rgb(59, 130, 246)"
-              : "rgb(34, 197, 94)"
+                ? "rgb(245, 158, 11)"
+                : level > 25
+                  ? "rgb(59, 130, 246)"
+                  : "rgb(34, 197, 94)"
           ),
           borderWidth: 2,
         },
@@ -335,8 +335,8 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-2">
+      <div className="rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 p-6 text-white">
+        <h2 className="mb-2 text-2xl font-bold">
           📊 Interactive Data Visualization
         </h2>
         <p className="text-purple-100">
@@ -346,8 +346,8 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
       </div>
 
       {/* Chart Navigation */}
-      <div className="bg-white rounded-lg shadow-md p-4">
-        <div className="flex flex-wrap gap-2 mb-4">
+      <div className="rounded-lg bg-white p-4 shadow-md">
+        <div className="mb-4 flex flex-wrap gap-2">
           {[
             { key: "trends", label: "📈 Trend Analysis", color: "blue" },
             { key: "comparison", label: "📊 Team Comparison", color: "green" },
@@ -366,7 +366,7 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
             <button
               key={tab.key}
               onClick={() => setActiveChart(tab.key as any)}
-              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
                 activeChart === tab.key
                   ? `bg-${tab.color}-500 text-white shadow-md`
                   : `bg-${tab.color}-50 text-${tab.color}-700 hover:bg-${tab.color}-100`
@@ -402,12 +402,12 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="bg-white rounded-lg shadow-md p-6"
+        className="rounded-lg bg-white p-6 shadow-md"
       >
         <div className="h-96">
           {activeChart === "trends" && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 📈 30-Day Performance Trends
               </h3>
               <Line data={trendChart} options={chartOptions} />
@@ -416,7 +416,7 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
 
           {activeChart === "comparison" && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 📊 Team Performance Comparison
               </h3>
               <Bar data={comparisonChart} options={chartOptions} />
@@ -425,7 +425,7 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
 
           {activeChart === "performance" && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 🎯 Multi-Dimensional Performance Analysis
               </h3>
               <Radar data={performanceRadarChart} options={radarOptions} />
@@ -434,7 +434,7 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
 
           {activeChart === "efficiency" && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 ⚡ Team Efficiency Matrix
               </h3>
               <Scatter data={efficiencyScatterChart} options={scatterOptions} />
@@ -443,7 +443,7 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
 
           {activeChart === "risks" && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 ⚠️ Risk Assessment Heatmap
               </h3>
               <Bar data={riskHeatmapChart} options={chartOptions} />
@@ -453,19 +453,19 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
       </motion.div>
 
       {/* Chart Insights */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {activeChart === "trends" && (
           <>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500"
+              className="rounded-lg border-l-4 border-blue-500 bg-blue-50 p-4"
             >
-              <h4 className="font-medium text-blue-900 mb-2">
+              <h4 className="mb-2 font-medium text-blue-900">
                 📈 Trend Insight
               </h4>
-              <p className="text-blue-700 text-sm">
+              <p className="text-sm text-blue-700">
                 Productivity shows an upward trend with 15% improvement over the
                 last week.
               </p>
@@ -474,12 +474,12 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-green-50 p-4 rounded-lg border-l-4 border-green-500"
+              className="rounded-lg border-l-4 border-green-500 bg-green-50 p-4"
             >
-              <h4 className="font-medium text-green-900 mb-2">
+              <h4 className="mb-2 font-medium text-green-900">
                 🛡️ Safety Trend
               </h4>
-              <p className="text-green-700 text-sm">
+              <p className="text-sm text-green-700">
                 Safety scores remain consistently high with minimal variance.
               </p>
             </motion.div>
@@ -487,12 +487,12 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500"
+              className="rounded-lg border-l-4 border-purple-500 bg-purple-50 p-4"
             >
-              <h4 className="font-medium text-purple-900 mb-2">
+              <h4 className="mb-2 font-medium text-purple-900">
                 💎 Quality Trend
               </h4>
-              <p className="text-purple-700 text-sm">
+              <p className="text-sm text-purple-700">
                 Quality metrics show steady improvement with fewer variations.
               </p>
             </motion.div>
@@ -505,12 +505,12 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-green-50 p-4 rounded-lg border-l-4 border-green-500"
+              className="rounded-lg border-l-4 border-green-500 bg-green-50 p-4"
             >
-              <h4 className="font-medium text-green-900 mb-2">
+              <h4 className="mb-2 font-medium text-green-900">
                 🏆 Top Performer
               </h4>
-              <p className="text-green-700 text-sm">
+              <p className="text-sm text-green-700">
                 {analytics.topPerformers?.[0]?.name || "Team Lead"} leads with
                 exceptional productivity.
               </p>
@@ -519,12 +519,12 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500"
+              className="rounded-lg border-l-4 border-blue-500 bg-blue-50 p-4"
             >
-              <h4 className="font-medium text-blue-900 mb-2">
+              <h4 className="mb-2 font-medium text-blue-900">
                 📊 Team Balance
               </h4>
-              <p className="text-blue-700 text-sm">
+              <p className="text-sm text-blue-700">
                 Performance distribution shows good team balance across skill
                 levels.
               </p>
@@ -533,12 +533,12 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500"
+              className="rounded-lg border-l-4 border-orange-500 bg-orange-50 p-4"
             >
-              <h4 className="font-medium text-orange-900 mb-2">
+              <h4 className="mb-2 font-medium text-orange-900">
                 🎯 Opportunity
               </h4>
-              <p className="text-orange-700 text-sm">
+              <p className="text-sm text-orange-700">
                 Consider mentoring programs to elevate underperforming team
                 members.
               </p>
@@ -552,10 +552,10 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500"
+              className="rounded-lg border-l-4 border-purple-500 bg-purple-50 p-4"
             >
-              <h4 className="font-medium text-purple-900 mb-2">🎯 Strengths</h4>
-              <p className="text-purple-700 text-sm">
+              <h4 className="mb-2 font-medium text-purple-900">🎯 Strengths</h4>
+              <p className="text-sm text-purple-700">
                 Project excels in safety and quality above industry benchmarks.
               </p>
             </motion.div>
@@ -563,12 +563,12 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500"
+              className="rounded-lg border-l-4 border-yellow-500 bg-yellow-50 p-4"
             >
-              <h4 className="font-medium text-yellow-900 mb-2">
+              <h4 className="mb-2 font-medium text-yellow-900">
                 🔧 Improvement Areas
               </h4>
-              <p className="text-yellow-700 text-sm">
+              <p className="text-sm text-yellow-700">
                 Innovation and collaboration scores have room for enhancement.
               </p>
             </motion.div>
@@ -576,12 +576,12 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-green-50 p-4 rounded-lg border-l-4 border-green-500"
+              className="rounded-lg border-l-4 border-green-500 bg-green-50 p-4"
             >
-              <h4 className="font-medium text-green-900 mb-2">
+              <h4 className="mb-2 font-medium text-green-900">
                 📈 Overall Rating
               </h4>
-              <p className="text-green-700 text-sm">
+              <p className="text-sm text-green-700">
                 Balanced performance profile with strong foundation metrics.
               </p>
             </motion.div>
@@ -594,10 +594,10 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500"
+              className="rounded-lg border-l-4 border-blue-500 bg-blue-50 p-4"
             >
-              <h4 className="font-medium text-blue-900 mb-2">💡 Key Insight</h4>
-              <p className="text-blue-700 text-sm">
+              <h4 className="mb-2 font-medium text-blue-900">💡 Key Insight</h4>
+              <p className="text-sm text-blue-700">
                 Interactive mode allows drill-down analysis of specific data
                 points.
               </p>
@@ -606,10 +606,10 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-indigo-50 p-4 rounded-lg border-l-4 border-indigo-500"
+              className="rounded-lg border-l-4 border-indigo-500 bg-indigo-50 p-4"
             >
-              <h4 className="font-medium text-indigo-900 mb-2">🔍 Analysis</h4>
-              <p className="text-indigo-700 text-sm">
+              <h4 className="mb-2 font-medium text-indigo-900">🔍 Analysis</h4>
+              <p className="text-sm text-indigo-700">
                 Use zoom mode to focus on specific time periods or data ranges.
               </p>
             </motion.div>
@@ -617,10 +617,10 @@ const InteractiveCharts: React.FC<InteractiveChartsProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-gray-50 p-4 rounded-lg border-l-4 border-gray-500"
+              className="rounded-lg border-l-4 border-gray-500 bg-gray-50 p-4"
             >
-              <h4 className="font-medium text-gray-900 mb-2">📋 Export</h4>
-              <p className="text-gray-700 text-sm">
+              <h4 className="mb-2 font-medium text-gray-900">📋 Export</h4>
+              <p className="text-sm text-gray-700">
                 All charts support high-resolution export for reports and
                 presentations.
               </p>

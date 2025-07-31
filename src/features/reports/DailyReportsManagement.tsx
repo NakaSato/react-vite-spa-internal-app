@@ -186,14 +186,14 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
 
   if (loading && !reports.length) {
     return (
-      <div className="flex items-center justify-center min-h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex min-h-64 items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center justify-between">
@@ -206,7 +206,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
               <>
                 <button
                   onClick={handleExport}
-                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                  className="rounded-md bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
                 >
                   Export Reports
                 </button>
@@ -214,13 +214,13 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                   <div className="flex space-x-2">
                     <button
                       onClick={handleBulkApprove}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                      className="rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
                     >
                       Approve Selected ({selectedReports.length})
                     </button>
                     <button
                       onClick={handleBulkReject}
-                      className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                      className="rounded-md bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
                     >
                       Reject Selected
                     </button>
@@ -230,7 +230,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
             )}
             <button
               onClick={() => setShowCreateModal(true)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              className="rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
             >
               Create Report
             </button>
@@ -239,7 +239,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
 
         {/* Real-time updates notification */}
         {realTimeUpdates.length > 0 && (
-          <div className="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4">
+          <div className="mt-4 border-l-4 border-blue-400 bg-blue-50 p-4">
             <div className="flex">
               <div className="flex-shrink-0">
                 <div className="h-5 w-5 text-blue-400">
@@ -257,7 +257,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                   {realTimeUpdates.length} new update(s) received
                   <button
                     onClick={clearUpdates}
-                    className="ml-2 text-blue-600 hover:text-blue-800 underline"
+                    className="ml-2 text-blue-600 underline hover:text-blue-800"
                   >
                     Clear
                   </button>
@@ -269,14 +269,14 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 mb-6">
+      <div className="mb-6 border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           <button
             onClick={() => setSelectedTab("reports")}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+            className={`border-b-2 px-1 py-2 text-sm font-medium ${
               selectedTab === "reports"
                 ? "border-blue-500 text-blue-600"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
             }`}
           >
             📋 Reports
@@ -284,10 +284,10 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
           {showAnalytics && (
             <button
               onClick={() => setSelectedTab("analytics")}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              className={`border-b-2 px-1 py-2 text-sm font-medium ${
                 selectedTab === "analytics"
                   ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
               }`}
             >
               📊 Analytics
@@ -296,10 +296,10 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
           {showAnalytics && analytics && (
             <button
               onClick={() => setSelectedTab("predictive")}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              className={`border-b-2 px-1 py-2 text-sm font-medium ${
                 selectedTab === "predictive"
                   ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
               }`}
             >
               🔮 Predictive AI
@@ -308,10 +308,10 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
           {showAnalytics && analytics && (
             <button
               onClick={() => setSelectedTab("charts")}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              className={`border-b-2 px-1 py-2 text-sm font-medium ${
                 selectedTab === "charts"
                   ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
               }`}
             >
               📊 Interactive Charts
@@ -322,13 +322,13 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
 
       {/* Error Display */}
       {error && (
-        <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
+        <div className="mb-4 border-l-4 border-red-400 bg-red-50 p-4">
           <div className="flex">
             <div className="ml-3">
               <p className="text-sm text-red-700">{error}</p>
               <button
                 onClick={clearError}
-                className="mt-2 text-sm text-red-600 hover:text-red-800 underline"
+                className="mt-2 text-sm text-red-600 underline hover:text-red-800"
               >
                 Dismiss
               </button>
@@ -341,11 +341,11 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
       {selectedTab === "reports" && (
         <div className="space-y-6">
           {/* Filters */}
-          <div className="bg-white p-4 rounded-lg shadow">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Filters</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="rounded-lg bg-white p-4 shadow">
+            <h3 className="mb-4 text-lg font-medium text-gray-900">Filters</h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Approval Status
                 </label>
                 <select
@@ -372,7 +372,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Start Date
                 </label>
                 <input
@@ -385,7 +385,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   End Date
                 </label>
                 <input
@@ -401,9 +401,9 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
           </div>
 
           {/* Reports Table */}
-          <div className="bg-white shadow overflow-hidden sm:rounded-md">
+          <div className="overflow-hidden bg-white shadow sm:rounded-md">
             <div className="px-4 py-5 sm:p-6">
-              <div className="flex items-center justify-between mb-4">
+              <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-lg font-medium text-gray-900">
                   Daily Reports ({pagination?.totalCount || 0})
                 </h3>
@@ -426,7 +426,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
               </div>
 
               {filteredReports.length === 0 ? (
-                <div className="text-center py-8">
+                <div className="py-8 text-center">
                   <p className="text-gray-500">No daily reports found</p>
                 </div>
               ) : (
@@ -435,38 +435,38 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                     <thead className="bg-gray-50">
                       <tr>
                         {(isAdmin || isManager) && (
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             Select
                           </th>
                         )}
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                           Date
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                           Reporter
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                           Status
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                           Hours
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                           Safety
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                           Quality
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                           Actions
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="divide-y divide-gray-200 bg-white">
                       {filteredReports.map((report) => (
                         <tr key={report.id} className="hover:bg-gray-50">
                           {(isAdmin || isManager) && (
-                            <td className="px-6 py-4 whitespace-nowrap">
+                            <td className="whitespace-nowrap px-6 py-4">
                               <input
                                 type="checkbox"
                                 checked={selectedReports.includes(report.id)}
@@ -475,25 +475,25 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                               />
                             </td>
                           )}
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                             {new Date(report.reportDate).toLocaleDateString()}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                             {report.userName}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="whitespace-nowrap px-6 py-4">
                             <span
-                              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
                                 report.approvalStatus ===
                                 DailyReportApprovalStatus.APPROVED
                                   ? "bg-green-100 text-green-800"
                                   : report.approvalStatus ===
-                                    DailyReportApprovalStatus.REJECTED
-                                  ? "bg-red-100 text-red-800"
-                                  : report.approvalStatus ===
-                                    DailyReportApprovalStatus.SUBMITTED
-                                  ? "bg-yellow-100 text-yellow-800"
-                                  : "bg-gray-100 text-gray-800"
+                                      DailyReportApprovalStatus.REJECTED
+                                    ? "bg-red-100 text-red-800"
+                                    : report.approvalStatus ===
+                                        DailyReportApprovalStatus.SUBMITTED
+                                      ? "bg-yellow-100 text-yellow-800"
+                                      : "bg-gray-100 text-gray-800"
                               }`}
                             >
                               {report.approvalStatus
@@ -501,17 +501,17 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                                 .trim()}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                             {report.hoursWorked}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="whitespace-nowrap px-6 py-4">
                             <div className="flex items-center">
                               <span className="text-sm text-gray-900">
                                 {report.safetyScore}/10
                               </span>
-                              <div className="ml-2 w-16 bg-gray-200 rounded-full h-2">
+                              <div className="ml-2 h-2 w-16 rounded-full bg-gray-200">
                                 <div
-                                  className="bg-green-600 h-2 rounded-full"
+                                  className="h-2 rounded-full bg-green-600"
                                   style={{
                                     width: `${
                                       (report.safetyScore / 10) * 100
@@ -521,14 +521,14 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="whitespace-nowrap px-6 py-4">
                             <div className="flex items-center">
                               <span className="text-sm text-gray-900">
                                 {report.qualityScore}/10
                               </span>
-                              <div className="ml-2 w-16 bg-gray-200 rounded-full h-2">
+                              <div className="ml-2 h-2 w-16 rounded-full bg-gray-200">
                                 <div
-                                  className="bg-blue-600 h-2 rounded-full"
+                                  className="h-2 rounded-full bg-blue-600"
                                   style={{
                                     width: `${
                                       (report.qualityScore / 10) * 100
@@ -538,7 +538,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
                             <div className="flex space-x-2">
                               <button
                                 onClick={() => {
@@ -596,7 +596,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
 
               {/* Pagination */}
               {pagination && pagination.totalPages > 1 && (
-                <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+                <div className="border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
                   <div className="flex items-center justify-between">
                     <div className="flex justify-between sm:hidden">
                       <button
@@ -604,7 +604,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                           handlePageChange(pagination.pageNumber - 1)
                         }
                         disabled={!pagination.hasPreviousPage}
-                        className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         Previous
                       </button>
@@ -613,7 +613,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                           handlePageChange(pagination.pageNumber + 1)
                         }
                         disabled={!pagination.hasNextPage}
-                        className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         Next
                       </button>
@@ -641,13 +641,13 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                         </p>
                       </div>
                       <div>
-                        <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                        <nav className="relative z-0 inline-flex -space-x-px rounded-md shadow-sm">
                           <button
                             onClick={() =>
                               handlePageChange(pagination.pageNumber - 1)
                             }
                             disabled={!pagination.hasPreviousPage}
-                            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             Previous
                           </button>
@@ -659,10 +659,10 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                                 <button
                                   key={page}
                                   onClick={() => handlePageChange(page)}
-                                  className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                                  className={`relative inline-flex items-center border px-4 py-2 text-sm font-medium ${
                                     page === pagination.pageNumber
-                                      ? "z-10 bg-blue-50 border-blue-500 text-blue-600"
-                                      : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                                      ? "z-10 border-blue-500 bg-blue-50 text-blue-600"
+                                      : "border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
                                   }`}
                                 >
                                   {page}
@@ -675,7 +675,7 @@ const DailyReportsManagement: React.FC<DailyReportsManagementProps> = ({
                               handlePageChange(pagination.pageNumber + 1)
                             }
                             disabled={!pagination.hasNextPage}
-                            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             Next
                           </button>

@@ -13,13 +13,13 @@ const GanttChartLoader: React.FC<GanttChartLoaderProps> = (props) => {
   return (
     <Suspense
       fallback={
-        <div className="w-full h-96 bg-gray-50 border border-gray-200 rounded-lg flex items-center justify-center">
+        <div className="flex h-96 w-full items-center justify-center rounded-lg border border-gray-200 bg-gray-50">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <div className="text-gray-600 font-medium">
+            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
+            <div className="font-medium text-gray-600">
               Loading Project Timeline...
             </div>
-            <div className="text-gray-400 text-sm mt-1">
+            <div className="mt-1 text-sm text-gray-400">
               Preparing interactive Gantt chart
             </div>
           </div>

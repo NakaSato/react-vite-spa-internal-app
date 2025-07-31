@@ -34,10 +34,10 @@ const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
 
   if (loading) {
     return (
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
+      <div className="border-b border-gray-200 bg-white px-6 py-4">
         <div className="animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-1/3 mb-2"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          <div className="mb-2 h-6 w-1/3 rounded bg-gray-200"></div>
+          <div className="h-4 w-1/2 rounded bg-gray-200"></div>
         </div>
       </div>
     );
@@ -45,14 +45,14 @@ const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
 
   if (!project) {
     return (
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
+      <div className="border-b border-gray-200 bg-white px-6 py-4">
         <div className="text-red-600">Project not found</div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white border-b border-gray-200 px-6 py-4">
+    <div className="border-b border-gray-200 bg-white px-6 py-4">
       <div className="flex items-center justify-between">
         <div>
           <nav className="flex" aria-label="Breadcrumb">
@@ -89,21 +89,21 @@ const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
           <h1 className="mt-2 text-2xl font-bold text-gray-900">
             {project.projectName} - Schedule Management
           </h1>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="mt-1 text-sm text-gray-600">
             Status: <span className="font-medium">{project.status}</span> •
             Owner: {project.projectOwner} • Contractor: {project.mainContractor}
           </p>
         </div>
         <div className="flex items-center space-x-3">
           <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
               project.status === ProjectStatus.IN_PROGRESS
                 ? "bg-green-100 text-green-800"
                 : project.status === ProjectStatus.PLANNING
-                ? "bg-blue-100 text-blue-800"
-                : project.status === ProjectStatus.COMPLETED
-                ? "bg-gray-100 text-gray-800"
-                : "bg-yellow-100 text-yellow-800"
+                  ? "bg-blue-100 text-blue-800"
+                  : project.status === ProjectStatus.COMPLETED
+                    ? "bg-gray-100 text-gray-800"
+                    : "bg-yellow-100 text-yellow-800"
             }`}
           >
             {project.status}
@@ -126,17 +126,17 @@ const TabNavigation: React.FC<TabNavigationProps> = ({
   onTabChange,
 }) => {
   return (
-    <div className="bg-white border-b border-gray-200">
+    <div className="border-b border-gray-200 bg-white">
       <div className="px-6">
         <nav className="flex space-x-8" aria-label="Tabs">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
-              className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+              className={`flex items-center space-x-2 border-b-2 px-1 py-4 text-sm font-medium transition-colors duration-200 ${
                 activeTab === tab.id
                   ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
               }`}
             >
               <span className="text-lg">{tab.icon}</span>
@@ -166,7 +166,7 @@ const TabContent: React.FC<TabContentProps> = ({
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
           <p className="mt-4 text-gray-600">Loading schedule data...</p>
         </div>
       </div>
@@ -177,14 +177,14 @@ const TabContent: React.FC<TabContentProps> = ({
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <div className="text-red-500 text-lg mb-2">⚠️</div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <div className="mb-2 text-lg text-red-500">⚠️</div>
+          <h3 className="mb-2 text-lg font-medium text-gray-900">
             Error Loading Schedule
           </h3>
           <p className="text-gray-600">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+            className="mt-4 inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
             Retry
           </button>
@@ -197,7 +197,7 @@ const TabContent: React.FC<TabContentProps> = ({
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <h3 className="mb-2 text-lg font-medium text-gray-900">
             Project Not Found
           </h3>
           <p className="text-gray-600">
@@ -245,7 +245,7 @@ const TabContent: React.FC<TabContentProps> = ({
 
     default:
       return (
-        <div className="text-center py-12">
+        <div className="py-12 text-center">
           <p className="text-gray-500">Tab content not implemented</p>
         </div>
       );
@@ -278,12 +278,12 @@ const ProjectSchedulePage: React.FC = () => {
 
   if (!projectId) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
           <h2 className="text-xl font-semibold text-gray-900">
             Invalid Project ID
           </h2>
-          <p className="text-gray-600 mt-2">
+          <p className="mt-2 text-gray-600">
             Please select a valid project to view its schedule.
           </p>
         </div>

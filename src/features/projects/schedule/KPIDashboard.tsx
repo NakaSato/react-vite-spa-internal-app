@@ -61,21 +61,21 @@ const KPICard: React.FC<KPICardProps> = ({
   const performance = (value / target) * 100;
 
   return (
-    <div className={`border rounded-lg p-4 ${getStatusColor()}`}>
-      <div className="flex items-center justify-between mb-2">
+    <div className={`rounded-lg border p-4 ${getStatusColor()}`}>
+      <div className="mb-2 flex items-center justify-between">
         <div className="text-xs font-medium uppercase tracking-wide">
           {title}
         </div>
         <span className="text-lg">{getTrendIcon()}</span>
       </div>
 
-      <div className="text-2xl font-bold mb-1">
+      <div className="mb-1 text-2xl font-bold">
         {formatValue(value, format)}
       </div>
 
-      <div className="text-xs mb-2">Target: {formatValue(target, format)}</div>
+      <div className="mb-2 text-xs">Target: {formatValue(target, format)}</div>
 
-      <div className="w-full bg-white rounded-full h-2 mb-2">
+      <div className="mb-2 h-2 w-full rounded-full bg-white">
         <div
           className="h-2 rounded-full bg-current opacity-60"
           style={{ width: `${Math.min(performance, 100)}%` }}
@@ -153,7 +153,7 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
   return (
     <div className="space-y-6">
       {/* Key Performance Indicators */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
         {kpis.map((kpi, index) => (
           <KPICard
             key={index}
@@ -168,18 +168,18 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
       </div>
 
       {/* Performance Overview */}
-      <div className="bg-white rounded-lg shadow-sm border">
-        <div className="p-6 border-b">
+      <div className="rounded-lg border bg-white shadow-sm">
+        <div className="border-b p-6">
           <h3 className="text-lg font-medium text-gray-900">
             Performance Overview
           </h3>
         </div>
         <div className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {performanceData.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-4 border rounded-lg"
+                className="flex items-center justify-between rounded-lg border p-4"
               >
                 <div>
                   <div className="font-medium text-gray-900">{item.metric}</div>
@@ -196,7 +196,7 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
                     {item.variance > 0 ? "+" : ""}
                     {item.variance}%
                   </div>
-                  <div className="w-16 bg-gray-200 rounded-full h-2 mt-1">
+                  <div className="mt-1 h-2 w-16 rounded-full bg-gray-200">
                     <div
                       className={`h-2 rounded-full ${
                         item.current >= item.target
@@ -214,18 +214,18 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
       </div>
 
       {/* Advanced analytics charts placeholder */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Performance Trend Chart */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-4 border-b">
+        <div className="rounded-lg border bg-white shadow-sm">
+          <div className="border-b p-4">
             <h3 className="text-lg font-medium text-gray-900">
               Performance Trends
             </h3>
           </div>
           <div className="p-6">
-            <div className="text-center py-8 text-gray-500">
-              <div className="text-4xl mb-4">📊</div>
-              <h4 className="text-lg font-medium text-gray-900 mb-2">
+            <div className="py-8 text-center text-gray-500">
+              <div className="mb-4 text-4xl">📊</div>
+              <h4 className="mb-2 text-lg font-medium text-gray-900">
                 Performance Chart
               </h4>
               <p className="text-sm">
@@ -241,8 +241,8 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
         </div>
 
         {/* Risk Analysis */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-4 border-b">
+        <div className="rounded-lg border bg-white shadow-sm">
+          <div className="border-b p-4">
             <h3 className="text-lg font-medium text-gray-900">Risk Analysis</h3>
           </div>
           <div className="p-6">
@@ -250,11 +250,11 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
               {riskIndicators.map((risk, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 border rounded-lg"
+                  className="flex items-center justify-between rounded-lg border p-3"
                 >
                   <div className="flex items-center space-x-3">
                     <span
-                      className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getRiskColor(
+                      className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${getRiskColor(
                         risk.level
                       )}`}
                     >
@@ -273,8 +273,8 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
                     {risk.trend === "increasing"
                       ? "📈"
                       : risk.trend === "decreasing"
-                      ? "📉"
-                      : "➡️"}
+                        ? "📉"
+                        : "➡️"}
                   </div>
                 </div>
               ))}
@@ -284,18 +284,18 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
       </div>
 
       {/* Additional Charts Placeholders */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Burndown Chart */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-4 border-b">
+        <div className="rounded-lg border bg-white shadow-sm">
+          <div className="border-b p-4">
             <h3 className="text-lg font-medium text-gray-900">
               Burndown Chart
             </h3>
           </div>
           <div className="p-6">
-            <div className="text-center py-8 text-gray-500">
-              <div className="text-4xl mb-4">📉</div>
-              <h4 className="text-lg font-medium text-gray-900 mb-2">
+            <div className="py-8 text-center text-gray-500">
+              <div className="mb-4 text-4xl">📉</div>
+              <h4 className="mb-2 text-lg font-medium text-gray-900">
                 Burndown Visualization
               </h4>
               <p className="text-sm">
@@ -306,16 +306,16 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
         </div>
 
         {/* Resource Allocation Chart */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-4 border-b">
+        <div className="rounded-lg border bg-white shadow-sm">
+          <div className="border-b p-4">
             <h3 className="text-lg font-medium text-gray-900">
               Resource Allocation
             </h3>
           </div>
           <div className="p-6">
-            <div className="text-center py-8 text-gray-500">
-              <div className="text-4xl mb-4">👥</div>
-              <h4 className="text-lg font-medium text-gray-900 mb-2">
+            <div className="py-8 text-center text-gray-500">
+              <div className="mb-4 text-4xl">👥</div>
+              <h4 className="mb-2 text-lg font-medium text-gray-900">
                 Resource Distribution
               </h4>
               <p className="text-sm">
@@ -328,27 +328,27 @@ export const KPIDashboard: React.FC<KPIDashboardProps> = ({ project }) => {
       </div>
 
       {/* Export and Reporting */}
-      <div className="bg-white rounded-lg shadow-sm border">
-        <div className="p-6 border-b">
-          <div className="flex justify-between items-center">
+      <div className="rounded-lg border bg-white shadow-sm">
+        <div className="border-b p-6">
+          <div className="flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">
               Reports & Export
             </h3>
             <div className="flex space-x-2">
-              <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              <button className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                 📊 Export to Excel
               </button>
-              <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              <button className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                 📄 Generate PDF
               </button>
-              <button className="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+              <button className="rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
                 📧 Schedule Report
               </button>
             </div>
           </div>
         </div>
         <div className="p-6">
-          <div className="text-center py-4 text-gray-500">
+          <div className="py-4 text-center text-gray-500">
             <p className="text-sm">
               Report generation and export functionality will be implemented in
               Phase 5.

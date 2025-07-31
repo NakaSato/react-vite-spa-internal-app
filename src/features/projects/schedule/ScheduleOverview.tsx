@@ -18,8 +18,8 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
       project.overallCompletion > 0.8
         ? "healthy"
         : project.overallCompletion > 0.4
-        ? "warning"
-        : "critical",
+          ? "warning"
+          : "critical",
     criticalTasks: criticalPath.length,
     completion: Math.round(project.overallCompletion * 100),
     daysRemaining: Math.ceil(
@@ -44,9 +44,9 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
   return (
     <div className="space-y-6">
       {/* Project health status cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-4">
         <div
-          className={`border rounded-lg p-4 ${getStatusColor(
+          className={`rounded-lg border p-4 ${getStatusColor(
             scheduleHealth.status
           )}`}
         >
@@ -56,12 +56,12 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
           </div>
         </div>
         <div
-          className={`border rounded-lg p-4 ${
+          className={`rounded-lg border p-4 ${
             scheduleHealth.criticalTasks > 5
-              ? "bg-red-50 border-red-200 text-red-800"
+              ? "border-red-200 bg-red-50 text-red-800"
               : scheduleHealth.criticalTasks > 0
-              ? "bg-yellow-50 border-yellow-200 text-yellow-800"
-              : "bg-green-50 border-green-200 text-green-800"
+                ? "border-yellow-200 bg-yellow-50 text-yellow-800"
+                : "border-green-200 bg-green-50 text-green-800"
           }`}
         >
           <div className="font-medium">Critical Tasks</div>
@@ -70,18 +70,18 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
           </div>
         </div>
         <div
-          className={`border rounded-lg p-4 ${
+          className={`rounded-lg border p-4 ${
             scheduleHealth.completion >= 80
-              ? "bg-green-50 border-green-200 text-green-800"
+              ? "border-green-200 bg-green-50 text-green-800"
               : scheduleHealth.completion >= 40
-              ? "bg-yellow-50 border-yellow-200 text-yellow-800"
-              : "bg-red-50 border-red-200 text-red-800"
+                ? "border-yellow-200 bg-yellow-50 text-yellow-800"
+                : "border-red-200 bg-red-50 text-red-800"
           }`}
         >
           <div className="font-medium">Completion</div>
           <div className="text-2xl font-bold">{scheduleHealth.completion}%</div>
         </div>
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-gray-800">
+        <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-gray-800">
           <div className="font-medium">Days Remaining</div>
           <div className="text-2xl font-bold">
             {Math.max(0, scheduleHealth.daysRemaining)}
@@ -90,29 +90,29 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
       </div>
 
       {/* Interactive Gantt Chart Placeholder */}
-      <div className="bg-white rounded-lg shadow-sm border">
-        <div className="p-6 border-b">
-          <div className="flex justify-between items-center">
+      <div className="rounded-lg border bg-white shadow-sm">
+        <div className="border-b p-6">
+          <div className="flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">
               Project Timeline
             </h3>
             <div className="flex space-x-2">
-              <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-50">
+              <button className="rounded-md border px-3 py-1 text-sm hover:bg-gray-50">
                 Days
               </button>
-              <button className="px-3 py-1 text-sm border rounded-md bg-blue-50 text-blue-600">
+              <button className="rounded-md border bg-blue-50 px-3 py-1 text-sm text-blue-600">
                 Weeks
               </button>
-              <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-50">
+              <button className="rounded-md border px-3 py-1 text-sm hover:bg-gray-50">
                 Months
               </button>
             </div>
           </div>
         </div>
         <div className="p-6">
-          <div className="text-center py-12 text-gray-500">
-            <div className="text-4xl mb-4">📊</div>
-            <h4 className="text-lg font-medium text-gray-900 mb-2">
+          <div className="py-12 text-center text-gray-500">
+            <div className="mb-4 text-4xl">📊</div>
+            <h4 className="mb-2 text-lg font-medium text-gray-900">
               Gantt Chart Coming Soon
             </h4>
             <p className="text-sm">
@@ -128,10 +128,10 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
       </div>
 
       {/* Critical path and milestones */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Critical Path View */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-4 border-b">
+        <div className="rounded-lg border bg-white shadow-sm">
+          <div className="border-b p-4">
             <h3 className="text-lg font-medium text-gray-900">Critical Path</h3>
           </div>
           <div className="p-4">
@@ -140,9 +140,9 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
                 {criticalPath.slice(0, 5).map((taskId, index) => (
                   <div
                     key={taskId}
-                    className="flex items-center space-x-3 p-2 bg-red-50 rounded-md"
+                    className="flex items-center space-x-3 rounded-md bg-red-50 p-2"
                   >
-                    <div className="flex-shrink-0 w-6 h-6 bg-red-100 rounded-full flex items-center justify-center text-xs font-medium text-red-600">
+                    <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-red-100 text-xs font-medium text-red-600">
                       {index + 1}
                     </div>
                     <div className="flex-1">
@@ -156,14 +156,14 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
                   </div>
                 ))}
                 {criticalPath.length > 5 && (
-                  <div className="text-sm text-gray-500 text-center">
+                  <div className="text-center text-sm text-gray-500">
                     +{criticalPath.length - 5} more critical tasks
                   </div>
                 )}
               </div>
             ) : (
-              <div className="text-center py-6 text-gray-500">
-                <div className="text-2xl mb-2">✅</div>
+              <div className="py-6 text-center text-gray-500">
+                <div className="mb-2 text-2xl">✅</div>
                 <p className="text-sm">No critical path issues detected</p>
               </div>
             )}
@@ -171,8 +171,8 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
         </div>
 
         {/* Milestone Tracker */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-4 border-b">
+        <div className="rounded-lg border bg-white shadow-sm">
+          <div className="border-b p-4">
             <h3 className="text-lg font-medium text-gray-900">Milestones</h3>
           </div>
           <div className="p-4">
@@ -214,12 +214,12 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
               ].map((milestone, index) => (
                 <div key={index} className="flex items-center space-x-3">
                   <div
-                    className={`flex-shrink-0 w-3 h-3 rounded-full ${
+                    className={`h-3 w-3 flex-shrink-0 rounded-full ${
                       milestone.status === "completed"
                         ? "bg-green-500"
                         : milestone.status === "in_progress"
-                        ? "bg-yellow-500"
-                        : "bg-gray-300"
+                          ? "bg-yellow-500"
+                          : "bg-gray-300"
                     }`}
                   ></div>
                   <div className="flex-1">
@@ -231,12 +231,12 @@ export const ScheduleOverview: React.FC<ScheduleOverviewProps> = ({
                     </div>
                   </div>
                   <div
-                    className={`text-xs px-2 py-1 rounded-full ${
+                    className={`rounded-full px-2 py-1 text-xs ${
                       milestone.status === "completed"
                         ? "bg-green-100 text-green-800"
                         : milestone.status === "in_progress"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-gray-100 text-gray-600"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-gray-100 text-gray-600"
                     }`}
                   >
                     {milestone.status.replace("_", " ")}

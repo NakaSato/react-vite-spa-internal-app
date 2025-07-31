@@ -16,15 +16,15 @@ const ErrorBanner = ({ error, onDismiss }: ErrorBannerProps) => {
 
   return (
     <div
-      className={`border rounded-lg p-4 ${
+      className={`rounded-lg border p-4 ${
         isWarning
-          ? "bg-yellow-50 border-yellow-200"
-          : "bg-red-50 border-red-200"
+          ? "border-yellow-200 bg-yellow-50"
+          : "border-red-200 bg-red-50"
       }`}
     >
       <div className="flex items-center gap-3">
         <svg
-          className={`w-5 h-5 ${
+          className={`h-5 w-5 ${
             isWarning ? "text-yellow-500" : "text-red-500"
           }`}
           fill="none"
@@ -47,12 +47,12 @@ const ErrorBanner = ({ error, onDismiss }: ErrorBannerProps) => {
             {isWarning
               ? "Limited Data Warning"
               : isAuthError
-              ? "Authentication Required"
-              : isServerError
-              ? "Server Error"
-              : isNotFound
-              ? "Project Not Found"
-              : "API Error"}
+                ? "Authentication Required"
+                : isServerError
+                  ? "Server Error"
+                  : isNotFound
+                    ? "Project Not Found"
+                    : "API Error"}
           </h4>
           <p
             className={`text-sm ${
@@ -65,7 +65,7 @@ const ErrorBanner = ({ error, onDismiss }: ErrorBannerProps) => {
             <div className="mt-2">
               <button
                 onClick={() => (window.location.href = "/login")}
-                className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                className="inline-flex items-center rounded-md border border-transparent bg-red-100 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
               >
                 Go to Login
               </button>
@@ -75,13 +75,13 @@ const ErrorBanner = ({ error, onDismiss }: ErrorBannerProps) => {
             <div className="mt-2 space-x-2">
               <button
                 onClick={() => window.location.reload()}
-                className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                className="inline-flex items-center rounded-md border border-transparent bg-red-100 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
               >
                 Retry
               </button>
               <button
                 onClick={() => (window.location.href = "/dashboard")}
-                className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                className="inline-flex items-center rounded-md border border-transparent bg-red-100 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
               >
                 Back to Dashboard
               </button>
@@ -97,7 +97,7 @@ const ErrorBanner = ({ error, onDismiss }: ErrorBannerProps) => {
           }`}
         >
           <svg
-            className="w-5 h-5"
+            className="h-5 w-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

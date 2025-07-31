@@ -65,7 +65,7 @@ export default function QuickReportForm({
 
   const renderProgressBar = () => (
     <div className="mb-6">
-      <div className="flex items-center justify-between mb-2">
+      <div className="mb-2 flex items-center justify-between">
         <span className="text-sm font-medium text-gray-700">
           Step {currentStep} of {totalSteps}
         </span>
@@ -73,9 +73,9 @@ export default function QuickReportForm({
           {Math.round((currentStep / totalSteps) * 100)}% Complete
         </span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
+      <div className="h-2 w-full rounded-full bg-gray-200">
         <div
-          className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+          className="h-2 rounded-full bg-blue-600 transition-all duration-300"
           style={{ width: `${(currentStep / totalSteps) * 100}%` }}
         ></div>
       </div>
@@ -84,24 +84,24 @@ export default function QuickReportForm({
 
   const renderStep1 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <h3 className="mb-4 text-lg font-semibold text-gray-900">
         📅 Basic Information
       </h3>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Report Date
         </label>
         <input
           type="date"
           value={formData.reportDate}
           onChange={(e) => handleInputChange("reportDate", e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Work Hours
         </label>
         <input
@@ -113,12 +113,12 @@ export default function QuickReportForm({
           onChange={(e) =>
             handleInputChange("totalWorkHours", Number(e.target.value))
           }
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Personnel on Site
         </label>
         <input
@@ -128,7 +128,7 @@ export default function QuickReportForm({
           onChange={(e) =>
             handleInputChange("personnelOnSite", Number(e.target.value))
           }
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
         />
       </div>
     </div>
@@ -136,12 +136,12 @@ export default function QuickReportForm({
 
   const renderStep2 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <h3 className="mb-4 text-lg font-semibold text-gray-900">
         🌤️ Weather & Conditions
       </h3>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Weather Condition
         </label>
         <select
@@ -149,7 +149,7 @@ export default function QuickReportForm({
           onChange={(e) =>
             handleInputChange("weatherCondition", e.target.value)
           }
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
         >
           <option value="Sunny">☀️ Sunny</option>
           <option value="PartlyCloudy">⛅ Partly Cloudy</option>
@@ -164,7 +164,7 @@ export default function QuickReportForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-gray-700">
             Temperature (°F)
           </label>
           <input
@@ -173,11 +173,11 @@ export default function QuickReportForm({
             onChange={(e) =>
               handleInputChange("temperature", Number(e.target.value))
             }
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-gray-700">
             Humidity (%)
           </label>
           <input
@@ -188,7 +188,7 @@ export default function QuickReportForm({
             onChange={(e) =>
               handleInputChange("humidity", Number(e.target.value))
             }
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>
@@ -197,12 +197,12 @@ export default function QuickReportForm({
 
   const renderStep3 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <h3 className="mb-4 text-lg font-semibold text-gray-900">
         📝 Work Summary
       </h3>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Work Summary
         </label>
         <textarea
@@ -210,12 +210,12 @@ export default function QuickReportForm({
           value={formData.workSummary}
           onChange={(e) => handleInputChange("workSummary", e.target.value)}
           placeholder="Brief overview of today's work..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Work Accomplished
         </label>
         <textarea
@@ -225,12 +225,12 @@ export default function QuickReportForm({
             handleInputChange("workAccomplished", e.target.value)
           }
           placeholder="What was completed today..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Work Planned for Tomorrow
         </label>
         <textarea
@@ -240,7 +240,7 @@ export default function QuickReportForm({
             handleInputChange("workPlannedNextDay", e.target.value)
           }
           placeholder="What's planned for tomorrow..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
         />
       </div>
     </div>
@@ -248,13 +248,13 @@ export default function QuickReportForm({
 
   const renderStep4 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <h3 className="mb-4 text-lg font-semibold text-gray-900">
         📊 Scores & Final Notes
       </h3>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-gray-700">
             Safety Score (1-10)
           </label>
           <div className="relative">
@@ -266,9 +266,9 @@ export default function QuickReportForm({
               onChange={(e) =>
                 handleInputChange("safetyScore", Number(e.target.value))
               }
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+              className="slider h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="mt-1 flex justify-between text-xs text-gray-500">
               <span>1</span>
               <span className="font-semibold text-green-600">
                 {formData.safetyScore}
@@ -278,7 +278,7 @@ export default function QuickReportForm({
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="mb-2 block text-sm font-medium text-gray-700">
             Quality Score (1-10)
           </label>
           <div className="relative">
@@ -290,9 +290,9 @@ export default function QuickReportForm({
               onChange={(e) =>
                 handleInputChange("qualityScore", Number(e.target.value))
               }
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+              className="slider h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="mt-1 flex justify-between text-xs text-gray-500">
               <span>1</span>
               <span className="font-semibold text-blue-600">
                 {formData.qualityScore}
@@ -304,7 +304,7 @@ export default function QuickReportForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Daily Progress Contribution (%)
         </label>
         <div className="relative">
@@ -320,9 +320,9 @@ export default function QuickReportForm({
                 Number(e.target.value)
               )
             }
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+            className="slider h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
           />
-          <div className="flex justify-between text-xs text-gray-500 mt-1">
+          <div className="mt-1 flex justify-between text-xs text-gray-500">
             <span>0%</span>
             <span className="font-semibold text-purple-600">
               {formData.dailyProgressContribution}%
@@ -333,7 +333,7 @@ export default function QuickReportForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Issues Encountered
         </label>
         <textarea
@@ -343,12 +343,12 @@ export default function QuickReportForm({
             handleInputChange("issuesEncountered", e.target.value)
           }
           placeholder="Any issues or challenges faced today..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Additional Notes
         </label>
         <textarea
@@ -356,7 +356,7 @@ export default function QuickReportForm({
           value={formData.additionalNotes || ""}
           onChange={(e) => handleInputChange("additionalNotes", e.target.value)}
           placeholder="Any additional notes or observations..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
         />
       </div>
     </div>
@@ -378,12 +378,12 @@ export default function QuickReportForm({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-xl max-w-lg mx-auto">
-      <div className="px-6 py-4 border-b border-gray-200">
+    <div className="mx-auto max-w-lg rounded-lg bg-white shadow-xl">
+      <div className="border-b border-gray-200 px-6 py-4">
         <h2 className="text-xl font-bold text-gray-900">
           📝 Quick Daily Report
         </h2>
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="mt-1 text-sm text-gray-600">
           Create a report in 4 easy steps
         </p>
       </div>
@@ -392,13 +392,13 @@ export default function QuickReportForm({
         {renderProgressBar()}
         {renderStepContent()}
 
-        <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
+        <div className="mt-8 flex justify-between border-t border-gray-200 pt-6">
           <div>
             {currentStep > 1 && (
               <button
                 type="button"
                 onClick={handlePrevious}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                className="px-4 py-2 font-medium text-gray-600 hover:text-gray-800"
               >
                 ← Previous
               </button>
@@ -409,7 +409,7 @@ export default function QuickReportForm({
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+              className="px-4 py-2 font-medium text-gray-600 hover:text-gray-800"
             >
               Cancel
             </button>
@@ -418,7 +418,7 @@ export default function QuickReportForm({
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
+                className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700"
               >
                 Next →
               </button>
@@ -426,15 +426,15 @@ export default function QuickReportForm({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`px-6 py-2 rounded-lg font-medium ${
+                className={`rounded-lg px-6 py-2 font-medium ${
                   isSubmitting
-                    ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                    ? "cursor-not-allowed bg-gray-400 text-gray-200"
                     : "bg-green-600 text-white hover:bg-green-700"
                 }`}
               >
                 {isSubmitting ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white inline-block mr-2"></div>
+                    <div className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
                     Submitting...
                   </>
                 ) : (

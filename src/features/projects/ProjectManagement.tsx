@@ -195,11 +195,14 @@ const ProjectManagement: React.FC = () => {
             )) *
           100
         : 0,
-    statusDistribution: projects.reduce((acc, project) => {
-      const status = project.status || "Unknown";
-      acc[status] = (acc[status] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>),
+    statusDistribution: projects.reduce(
+      (acc, project) => {
+        const status = project.status || "Unknown";
+        acc[status] = (acc[status] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>
+    ),
   };
 
   // Filter tabs based on user role
@@ -247,11 +250,11 @@ const ProjectManagement: React.FC = () => {
       case "planning":
         return (
           <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <h3 className="mb-4 text-xl font-bold text-gray-900">
                 Project Timeline & Planning
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="mb-6 text-gray-600">
                 Interactive Gantt chart for project planning and timeline
                 management.
               </p>
@@ -267,20 +270,20 @@ const ProjectManagement: React.FC = () => {
       case "analytics":
         return (
           <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <h3 className="mb-4 text-xl font-bold text-gray-900">
                 Advanced Analytics
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="mb-6 text-gray-600">
                 Comprehensive data analysis and insights for project
                 performance.
               </p>
 
               {/* Analytics Charts Placeholder */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-gray-50 rounded-lg p-6 h-64 flex items-center justify-center">
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <div className="flex h-64 items-center justify-center rounded-lg bg-gray-50 p-6">
                   <div className="text-center">
-                    <div className="text-4xl mb-2">📊</div>
+                    <div className="mb-2 text-4xl">📊</div>
                     <h4 className="text-lg font-semibold text-gray-700">
                       Budget Analysis
                     </h4>
@@ -288,9 +291,9 @@ const ProjectManagement: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-6 h-64 flex items-center justify-center">
+                <div className="flex h-64 items-center justify-center rounded-lg bg-gray-50 p-6">
                   <div className="text-center">
-                    <div className="text-4xl mb-2">⏱️</div>
+                    <div className="mb-2 text-4xl">⏱️</div>
                     <h4 className="text-lg font-semibold text-gray-700">
                       Timeline Analysis
                     </h4>
@@ -298,9 +301,9 @@ const ProjectManagement: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-6 h-64 flex items-center justify-center">
+                <div className="flex h-64 items-center justify-center rounded-lg bg-gray-50 p-6">
                   <div className="text-center">
-                    <div className="text-4xl mb-2">⚡</div>
+                    <div className="mb-2 text-4xl">⚡</div>
                     <h4 className="text-lg font-semibold text-gray-700">
                       Performance Metrics
                     </h4>
@@ -308,9 +311,9 @@ const ProjectManagement: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-6 h-64 flex items-center justify-center">
+                <div className="flex h-64 items-center justify-center rounded-lg bg-gray-50 p-6">
                   <div className="text-center">
-                    <div className="text-4xl mb-2">🎯</div>
+                    <div className="mb-2 text-4xl">🎯</div>
                     <h4 className="text-lg font-semibold text-gray-700">
                       Risk Analysis
                     </h4>
@@ -330,11 +333,11 @@ const ProjectManagement: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Loading State */}
         {loading && (
-          <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="flex items-center justify-center py-12">
+            <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
             <span className="ml-3 text-lg text-gray-600">
               Loading projects...
             </span>
@@ -347,23 +350,23 @@ const ProjectManagement: React.FC = () => {
 
       {/* Create Project Modals */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold mb-4">Create New Project</h3>
-            <p className="text-gray-600 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+            <h3 className="mb-4 text-lg font-semibold">Create New Project</h3>
+            <p className="mb-4 text-gray-600">
               Project creation modal coming soon. This will integrate with the
               API endpoints.
             </p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-600 hover:bg-gray-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleProjectCreated}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
               >
                 Create Project
               </button>

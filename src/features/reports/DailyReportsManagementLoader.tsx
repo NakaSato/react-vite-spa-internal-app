@@ -17,9 +17,9 @@ const DailyReportsManagementLoader: React.FC<
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center p-12 bg-white rounded-lg shadow">
+        <div className="flex items-center justify-center rounded-lg bg-white p-12 shadow">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
             <p className="mt-4 text-gray-600">Loading Daily Reports...</p>
             <p className="text-sm text-gray-500">
               Preparing reports management interface

@@ -70,7 +70,7 @@ export default function LogoutButton({
       {isLoggingOut ? (
         <>
           <svg
-            className="animate-spin -ml-1 mr-2 h-4 w-4"
+            className="-ml-1 mr-2 h-4 w-4 animate-spin"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -95,7 +95,7 @@ export default function LogoutButton({
         children || (
           <>
             <svg
-              className="w-4 h-4 mr-2"
+              className="mr-2 h-4 w-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

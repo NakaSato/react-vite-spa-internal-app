@@ -163,8 +163,8 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
 
   if (!chartData) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -172,10 +172,10 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
   return (
     <div className="space-y-6">
       {/* Chart Navigation */}
-      <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+      <div className="flex space-x-1 rounded-lg bg-gray-100 p-1">
         <button
           onClick={() => setActiveChart("trends")}
-          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+          className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
             activeChart === "trends"
               ? "bg-white text-blue-600 shadow-sm"
               : "text-gray-600 hover:text-gray-900"
@@ -185,7 +185,7 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
         </button>
         <button
           onClick={() => setActiveChart("performance")}
-          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+          className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
             activeChart === "performance"
               ? "bg-white text-blue-600 shadow-sm"
               : "text-gray-600 hover:text-gray-900"
@@ -195,7 +195,7 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
         </button>
         <button
           onClick={() => setActiveChart("weather")}
-          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+          className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
             activeChart === "weather"
               ? "bg-white text-blue-600 shadow-sm"
               : "text-gray-600 hover:text-gray-900"
@@ -206,11 +206,11 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
       </div>
 
       {/* Chart Display */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="rounded-lg bg-white p-6 shadow-lg">
         <div className="h-96">
           {activeChart === "trends" && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 Performance Trends Over Time
               </h3>
               <Line data={chartData.trends} options={chartOptions} />
@@ -219,7 +219,7 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
 
           {activeChart === "performance" && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 Current Performance Metrics
               </h3>
               <Doughnut
@@ -231,7 +231,7 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
 
           {activeChart === "weather" && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 Weather Conditions Distribution
               </h3>
               <Bar data={chartData.weather} options={doughnutOptions} />
@@ -241,11 +241,11 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
       </div>
 
       {/* Key Insights */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-600 text-sm font-medium">
+              <p className="text-sm font-medium text-blue-600">
                 Productivity Trend
               </p>
               <p className="text-2xl font-bold text-blue-900">
@@ -253,53 +253,53 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
                 {analytics.productivityIndex.toFixed(1)}%
               </p>
             </div>
-            <div className="p-3 bg-blue-200 rounded-full">
+            <div className="rounded-full bg-blue-200 p-3">
               <span className="text-2xl">📊</span>
             </div>
           </div>
-          <p className="text-blue-700 text-sm mt-2">
+          <p className="mt-2 text-sm text-blue-700">
             {analytics.productivityIndex > 100
               ? "Above average productivity"
               : "Below average productivity"}
           </p>
         </div>
 
-        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6">
+        <div className="rounded-lg bg-gradient-to-br from-green-50 to-green-100 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-600 text-sm font-medium">
+              <p className="text-sm font-medium text-green-600">
                 Safety Performance
               </p>
               <p className="text-2xl font-bold text-green-900">
                 {analytics.averageSafetyScore.toFixed(1)}/10
               </p>
             </div>
-            <div className="p-3 bg-green-200 rounded-full">
+            <div className="rounded-full bg-green-200 p-3">
               <span className="text-2xl">🛡️</span>
             </div>
           </div>
-          <p className="text-green-700 text-sm mt-2">
+          <p className="mt-2 text-sm text-green-700">
             {analytics.averageSafetyScore >= 8
               ? "Excellent safety record"
               : "Needs safety improvement"}
           </p>
         </div>
 
-        <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-6">
+        <div className="rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-orange-600 text-sm font-medium">
+              <p className="text-sm font-medium text-orange-600">
                 Weather Impact
               </p>
               <p className="text-2xl font-bold text-orange-900">
                 {analytics.weatherDelayDays} days
               </p>
             </div>
-            <div className="p-3 bg-orange-200 rounded-full">
+            <div className="rounded-full bg-orange-200 p-3">
               <span className="text-2xl">🌦️</span>
             </div>
           </div>
-          <p className="text-orange-700 text-sm mt-2">
+          <p className="mt-2 text-sm text-orange-700">
             {analytics.weatherDelayDays > 5
               ? "High weather impact"
               : "Low weather impact"}
@@ -309,8 +309,8 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
 
       {/* Team Performance Rankings */}
       {analytics.topPerformers && analytics.topPerformers.length > 0 && (
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="rounded-lg bg-white p-6 shadow-lg">
+          <h3 className="mb-4 text-lg font-semibold text-gray-900">
             🏆 Top Performers
           </h3>
           <div className="space-y-3">
@@ -319,18 +319,18 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
               .map((performer: TopPerformer, index: number) => (
                 <div
                   key={performer.userId}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                  className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
                 >
                   <div className="flex items-center space-x-3">
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
+                      className={`flex h-8 w-8 items-center justify-center rounded-full font-bold text-white ${
                         index === 0
                           ? "bg-yellow-500"
                           : index === 1
-                          ? "bg-gray-400"
-                          : index === 2
-                          ? "bg-amber-600"
-                          : "bg-blue-500"
+                            ? "bg-gray-400"
+                            : index === 2
+                              ? "bg-amber-600"
+                              : "bg-blue-500"
                       }`}
                     >
                       {index + 1}
@@ -358,21 +358,21 @@ const EnhancedAnalytics: React.FC<EnhancedAnalyticsProps> = ({
       )}
 
       {/* Recommendations */}
-      <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 p-6">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           💡 Smart Recommendations
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-white rounded-lg p-4">
-            <h4 className="font-medium text-purple-600 mb-2">Productivity</h4>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="rounded-lg bg-white p-4">
+            <h4 className="mb-2 font-medium text-purple-600">Productivity</h4>
             <p className="text-sm text-gray-700">
               {analytics.productivityIndex > 100
                 ? "Maintain current momentum. Consider sharing best practices with other teams."
                 : "Focus on workflow optimization. Review recent successful reports for insights."}
             </p>
           </div>
-          <div className="bg-white rounded-lg p-4">
-            <h4 className="font-medium text-blue-600 mb-2">Schedule</h4>
+          <div className="rounded-lg bg-white p-4">
+            <h4 className="mb-2 font-medium text-blue-600">Schedule</h4>
             <p className="text-sm text-gray-700">
               {analytics.daysAheadBehindSchedule > 0
                 ? "Project is ahead of schedule. Good opportunity to focus on quality improvements."

@@ -195,18 +195,18 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg">
-      <div className="px-6 py-4 border-b border-gray-200">
+    <div className="mx-auto max-w-4xl rounded-lg bg-white shadow-lg">
+      <div className="border-b border-gray-200 px-6 py-4">
         <h2 className="text-xl font-semibold text-gray-900">
           {reportId ? "Edit Daily Report" : "Create Daily Report"}
         </h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-6 space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 p-6">
         {/* Basic Information */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Report Date *
             </label>
             <input
@@ -224,7 +224,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Hours Worked *
             </label>
             <input
@@ -247,7 +247,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Personnel on Site
             </label>
             <input
@@ -262,7 +262,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Daily Progress Contribution (%)
             </label>
             <input
@@ -284,12 +284,12 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
 
         {/* Weather Information */}
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
+          <h3 className="mb-4 text-lg font-medium text-gray-900">
             Weather Conditions
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Weather
               </label>
               <select
@@ -308,7 +308,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Temperature (°F)
               </label>
               <input
@@ -325,7 +325,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Humidity (%)
               </label>
               <input
@@ -347,12 +347,12 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
 
         {/* Work Summary */}
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
+          <h3 className="mb-4 text-lg font-medium text-gray-900">
             Work Summary
           </h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Summary *
               </label>
               <textarea
@@ -371,7 +371,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Work Accomplished
               </label>
               <textarea
@@ -386,7 +386,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Work Planned for Next Day
               </label>
               <textarea
@@ -401,7 +401,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Issues Encountered
               </label>
               <textarea
@@ -417,12 +417,12 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
 
         {/* Scores */}
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
+          <h3 className="mb-4 text-lg font-medium text-gray-900">
             Performance Scores
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Safety Score (1-10) *
               </label>
               <input
@@ -446,7 +446,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Quality Score (1-10) *
               </label>
               <input
@@ -473,14 +473,14 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
 
         {/* Tasks Completed */}
         <div className="border-t border-gray-200 pt-6">
-          <div className="flex items-center justify-between mb-4">
+          <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">
               Tasks Completed
             </h3>
             <button
               type="button"
               onClick={addTask}
-              className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+              className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700"
             >
               Add Task
             </button>
@@ -489,9 +489,9 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
           {formData.tasksCompleted?.map((task, index) => (
             <div
               key={index}
-              className="border border-gray-200 rounded-lg p-4 mb-4"
+              className="mb-4 rounded-lg border border-gray-200 p-4"
             >
-              <div className="flex items-start justify-between mb-3">
+              <div className="mb-3 flex items-start justify-between">
                 <h4 className="text-sm font-medium text-gray-900">
                   Task {index + 1}
                 </h4>
@@ -504,9 +504,9 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     Task Title
                   </label>
                   <input
@@ -520,7 +520,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     Completion %
                   </label>
                   <input
@@ -545,14 +545,14 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
 
         {/* Materials Used */}
         <div className="border-t border-gray-200 pt-6">
-          <div className="flex items-center justify-between mb-4">
+          <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">
               Materials Used
             </h3>
             <button
               type="button"
               onClick={addMaterial}
-              className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+              className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700"
             >
               Add Material
             </button>
@@ -561,9 +561,9 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
           {formData.materialsUsed?.map((material, index) => (
             <div
               key={index}
-              className="border border-gray-200 rounded-lg p-4 mb-4"
+              className="mb-4 rounded-lg border border-gray-200 p-4"
             >
-              <div className="flex items-start justify-between mb-3">
+              <div className="mb-3 flex items-start justify-between">
                 <h4 className="text-sm font-medium text-gray-900">
                   Material {index + 1}
                 </h4>
@@ -576,9 +576,9 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     Material Name
                   </label>
                   <input
@@ -592,7 +592,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     Quantity
                   </label>
                   <input
@@ -611,7 +611,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     Unit
                   </label>
                   <input
@@ -626,7 +626,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     Unit Cost ($)
                   </label>
                   <input
@@ -652,7 +652,7 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
         {/* Additional Notes */}
         <div className="border-t border-gray-200 pt-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Additional Notes
             </label>
             <textarea
@@ -670,16 +670,16 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
         {/* Validation Results */}
         {validation && (
           <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
+            <h3 className="mb-4 text-lg font-medium text-gray-900">
               Validation Results
             </h3>
 
             {validation.warnings.length > 0 && (
-              <div className="mb-4 bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <div className="mb-4 border-l-4 border-yellow-400 bg-yellow-50 p-4">
                 <h4 className="text-sm font-medium text-yellow-800">
                   Warnings:
                 </h4>
-                <ul className="mt-2 list-disc list-inside text-sm text-yellow-700">
+                <ul className="mt-2 list-inside list-disc text-sm text-yellow-700">
                   {validation.warnings.map((warning: any, index: number) => (
                     <li key={index}>{warning.message}</li>
                   ))}
@@ -688,11 +688,11 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
             )}
 
             {validation.suggestions.length > 0 && (
-              <div className="mb-4 bg-blue-50 border-l-4 border-blue-400 p-4">
+              <div className="mb-4 border-l-4 border-blue-400 bg-blue-50 p-4">
                 <h4 className="text-sm font-medium text-blue-800">
                   Suggestions:
                 </h4>
-                <ul className="mt-2 list-disc list-inside text-sm text-blue-700">
+                <ul className="mt-2 list-inside list-disc text-sm text-blue-700">
                   {validation.suggestions.map(
                     (suggestion: string, index: number) => (
                       <li key={index}>{suggestion}</li>
@@ -705,12 +705,12 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
         )}
 
         {/* Form Actions */}
-        <div className="border-t border-gray-200 pt-6 flex items-center justify-end space-x-4">
+        <div className="flex items-center justify-end space-x-4 border-t border-gray-200 pt-6">
           {onCancel && (
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
+              className="rounded-md border border-gray-300 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-50"
             >
               Cancel
             </button>
@@ -718,13 +718,13 @@ const DailyReportForm: React.FC<DailyReportFormProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="rounded-md bg-blue-600 px-6 py-2 text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting
               ? "Saving..."
               : reportId
-              ? "Update Report"
-              : "Create Report"}
+                ? "Update Report"
+                : "Create Report"}
           </button>
         </div>
       </form>

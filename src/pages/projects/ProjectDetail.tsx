@@ -106,8 +106,8 @@ const ProjectDetail = () => {
           phase.status === "completed"
             ? 100
             : phase.status === "in-progress"
-            ? 60
-            : 0,
+              ? 60
+              : 0,
       };
     });
 
@@ -164,48 +164,48 @@ const ProjectDetail = () => {
     return (
       <ProtectedRoute>
         <div className="min-h-screen bg-gray-50 px-4 py-8">
-          <div className="max-w-7xl mx-auto">
+          <div className="mx-auto max-w-7xl">
             {/* Header Skeleton */}
             <div className="mb-8 animate-pulse">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="h-6 w-32 bg-gray-300 rounded"></div>
+                  <div className="h-6 w-32 rounded bg-gray-300"></div>
                   <div className="h-6 w-px bg-gray-300"></div>
-                  <div className="h-8 w-64 bg-gray-300 rounded"></div>
-                  <div className="h-6 w-20 bg-gray-300 rounded-full"></div>
+                  <div className="h-8 w-64 rounded bg-gray-300"></div>
+                  <div className="h-6 w-20 rounded-full bg-gray-300"></div>
                 </div>
                 <div className="flex gap-3">
-                  <div className="h-10 w-24 bg-gray-300 rounded"></div>
-                  <div className="h-10 w-28 bg-gray-300 rounded"></div>
+                  <div className="h-10 w-24 rounded bg-gray-300"></div>
+                  <div className="h-10 w-28 rounded bg-gray-300"></div>
                 </div>
               </div>
             </div>
 
             {/* Content Skeleton */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-6">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+              <div className="space-y-6 lg:col-span-2">
                 {/* Analytics Banner Skeleton */}
-                <div className="h-32 bg-gray-300 rounded-lg animate-pulse"></div>
+                <div className="h-32 animate-pulse rounded-lg bg-gray-300"></div>
 
                 {/* Cards Skeleton */}
                 {[1, 2, 3, 4].map((i) => (
                   <div
                     key={i}
-                    className="h-64 bg-gray-300 rounded-lg animate-pulse"
+                    className="h-64 animate-pulse rounded-lg bg-gray-300"
                   ></div>
                 ))}
               </div>
 
               {/* Sidebar Skeleton */}
               <div className="space-y-6">
-                <div className="h-96 bg-gray-300 rounded-lg animate-pulse"></div>
+                <div className="h-96 animate-pulse rounded-lg bg-gray-300"></div>
               </div>
             </div>
 
             {/* Loading indicator */}
-            <div className="fixed bottom-8 right-8 bg-white rounded-full shadow-lg p-4">
+            <div className="fixed bottom-8 right-8 rounded-full bg-white p-4 shadow-lg">
               <div className="flex items-center gap-3">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-blue-600"></div>
                 <span className="text-sm font-medium text-gray-700">
                   Loading project details...
                 </span>
@@ -222,15 +222,15 @@ const ProjectDetail = () => {
     return (
       <ProtectedRoute>
         <div className="min-h-screen bg-gray-50 px-4 py-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="mx-auto max-w-7xl">
+            <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
               {/* Error Header */}
-              <div className="bg-gradient-to-r from-red-50 to-orange-50 px-8 py-6 border-b border-gray-200">
+              <div className="border-b border-gray-200 bg-gradient-to-r from-red-50 to-orange-50 px-8 py-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
                       <svg
-                        className="w-6 h-6 text-red-600"
+                        className="h-6 w-6 text-red-600"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -247,7 +247,7 @@ const ProjectDetail = () => {
                       <h1 className="text-2xl font-bold text-gray-900">
                         Project Not Found
                       </h1>
-                      <p className="text-gray-600 mt-1">
+                      <p className="mt-1 text-gray-600">
                         Project ID: {projectId}
                       </p>
                     </div>
@@ -257,20 +257,20 @@ const ProjectDetail = () => {
 
               {/* Error Content */}
               <div className="px-8 py-6">
-                <div className="text-center max-w-2xl mx-auto">
-                  <p className="text-gray-600 text-lg mb-6">
+                <div className="mx-auto max-w-2xl text-center">
+                  <p className="mb-6 text-lg text-gray-600">
                     {error ||
                       "The requested project could not be found. It may have been deleted, moved, or you might not have permission to access it."}
                   </p>
 
                   {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
                     <button
                       onClick={() => navigate("/dashboard")}
-                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium"
+                      className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700"
                     >
                       <svg
-                        className="w-5 h-5"
+                        className="h-5 w-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -287,10 +287,10 @@ const ProjectDetail = () => {
 
                     <button
                       onClick={() => window.location.reload()}
-                      className="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2 font-medium"
+                      className="flex items-center gap-2 rounded-lg bg-gray-100 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200"
                     >
                       <svg
-                        className="w-5 h-5"
+                        className="h-5 w-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -307,8 +307,8 @@ const ProjectDetail = () => {
                   </div>
 
                   {/* Help Text */}
-                  <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <h3 className="font-medium text-gray-900 mb-2">
+                  <div className="mt-8 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                    <h3 className="mb-2 font-medium text-gray-900">
                       Need Help?
                     </h3>
                     <p className="text-sm text-gray-600">
@@ -328,7 +328,7 @@ const ProjectDetail = () => {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto max-w-7xl">
           {/* Header */}
           <ProjectHeader
             project={project}
@@ -356,7 +356,7 @@ const ProjectDetail = () => {
 
           {/* Tab Navigation */}
           <div className="mb-8">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
               <div className="px-6 py-4">
                 <div className="flex gap-1">
                   {[
@@ -368,10 +368,10 @@ const ProjectDetail = () => {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id as any)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                      className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                         activeTab === tab.id
-                          ? "bg-blue-100 text-blue-700 border border-blue-200"
-                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                          ? "border border-blue-200 bg-blue-100 text-blue-700"
+                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                       }`}
                     >
                       <span>{tab.icon}</span>
@@ -383,9 +383,9 @@ const ProjectDetail = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="space-y-8 lg:col-span-2">
               {/* Error and Warning Banners */}
               <div className="space-y-4">
                 {error && (
@@ -413,13 +413,13 @@ const ProjectDetail = () => {
                 {activeTab === "overview" && (
                   <div className="space-y-8">
                     {/* Project Overview */}
-                    <div className="bg-white rounded-lg shadow-sm p-6">
-                      <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                    <div className="rounded-lg bg-white p-6 shadow-sm">
+                      <h2 className="mb-4 text-xl font-semibold text-gray-900">
                         Project Overview
                       </h2>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             Client
                           </label>
                           <p className="text-gray-900">
@@ -427,7 +427,7 @@ const ProjectDetail = () => {
                           </p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             Address
                           </label>
                           <p className="text-gray-900">
@@ -435,7 +435,7 @@ const ProjectDetail = () => {
                           </p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             Start Date
                           </label>
                           <p className="text-gray-900">
@@ -443,7 +443,7 @@ const ProjectDetail = () => {
                           </p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             Estimated End Date
                           </label>
                           <p className="text-gray-900">
@@ -452,7 +452,7 @@ const ProjectDetail = () => {
                         </div>
                         {project.actualEndDate && (
                           <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
                               Actual End Date
                             </label>
                             <p className="text-gray-900">
@@ -461,16 +461,16 @@ const ProjectDetail = () => {
                           </div>
                         )}
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             Status
                           </label>
                           <span
-                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
                               project.status === "Active"
                                 ? "bg-green-100 text-green-800"
                                 : project.status === "Completed"
-                                ? "bg-blue-100 text-blue-800"
-                                : "bg-gray-100 text-gray-800"
+                                  ? "bg-blue-100 text-blue-800"
+                                  : "bg-gray-100 text-gray-800"
                             }`}
                           >
                             {project.status}
@@ -480,13 +480,13 @@ const ProjectDetail = () => {
                     </div>
 
                     {/* Project Progress */}
-                    <div className="bg-white rounded-lg shadow-sm p-6">
-                      <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                    <div className="rounded-lg bg-white p-6 shadow-sm">
+                      <h2 className="mb-4 text-xl font-semibold text-gray-900">
                         Progress & Tasks
                       </h2>
                       <div className="space-y-4">
                         <div>
-                          <div className="flex justify-between items-center mb-2">
+                          <div className="mb-2 flex items-center justify-between">
                             <span className="text-sm font-medium text-gray-700">
                               Overall Progress
                             </span>
@@ -498,9 +498,9 @@ const ProjectDetail = () => {
                               %
                             </span>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div className="h-3 w-full rounded-full bg-gray-200">
                             <div
-                              className="bg-blue-600 h-3 rounded-full transition-all duration-300"
+                              className="h-3 rounded-full bg-blue-600 transition-all duration-300"
                               style={{
                                 width: `${calculateProgress(
                                   project.completedTaskCount,
@@ -511,7 +511,7 @@ const ProjectDetail = () => {
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
-                          <div className="text-center p-4 bg-blue-50 rounded-lg">
+                          <div className="rounded-lg bg-blue-50 p-4 text-center">
                             <div className="text-2xl font-bold text-blue-600">
                               {project.completedTaskCount}
                             </div>
@@ -519,7 +519,7 @@ const ProjectDetail = () => {
                               Completed Tasks
                             </div>
                           </div>
-                          <div className="text-center p-4 bg-gray-50 rounded-lg">
+                          <div className="rounded-lg bg-gray-50 p-4 text-center">
                             <div className="text-2xl font-bold text-gray-600">
                               {project.taskCount}
                             </div>
@@ -535,14 +535,14 @@ const ProjectDetail = () => {
 
                 {/* Schedule Tab */}
                 {activeTab === "schedule" && (
-                  <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                  <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
                     {/* Schedule Header */}
-                    <div className="px-6 py-4 border-b border-gray-200">
+                    <div className="border-b border-gray-200 px-6 py-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                          <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
                             <svg
-                              className="w-5 h-5 text-blue-600"
+                              className="h-5 w-5 text-blue-600"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -556,14 +556,14 @@ const ProjectDetail = () => {
                             </svg>
                             Project Schedule
                           </h3>
-                          <p className="text-sm text-gray-600 mt-1">
+                          <p className="mt-1 text-sm text-gray-600">
                             Manage project timeline, tasks, and milestones
                           </p>
                         </div>
                       </div>
 
                       {/* Schedule View Tabs */}
-                      <div className="flex gap-1 mt-4">
+                      <div className="mt-4 flex gap-1">
                         {[
                           { id: "overview", label: "Overview", icon: "📊" },
                           { id: "gantt", label: "Timeline", icon: "📈" },
@@ -572,10 +572,10 @@ const ProjectDetail = () => {
                           <button
                             key={tab.id}
                             onClick={() => setScheduleView(tab.id as any)}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                               scheduleView === tab.id
-                                ? "bg-blue-100 text-blue-700 border border-blue-200"
-                                : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                                ? "border border-blue-200 bg-blue-100 text-blue-700"
+                                : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                             }`}
                           >
                             <span>{tab.icon}</span>
@@ -605,57 +605,57 @@ const ProjectDetail = () => {
                           return (
                             <div className="space-y-6">
                               {/* Project Stats */}
-                              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                                  <div className="text-blue-600 text-sm font-medium">
+                              <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+                                <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+                                  <div className="text-sm font-medium text-blue-600">
                                     Progress
                                   </div>
                                   <div className="text-2xl font-bold text-blue-900">
                                     {progressPercentage}%
                                   </div>
-                                  <div className="text-blue-600 text-xs mt-1">
+                                  <div className="mt-1 text-xs text-blue-600">
                                     {project?.completedTaskCount || 0} of{" "}
                                     {project?.taskCount || 0} tasks
                                   </div>
                                 </div>
-                                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                                  <div className="text-green-600 text-sm font-medium">
+                                <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+                                  <div className="text-sm font-medium text-green-600">
                                     Start Date
                                   </div>
                                   <div className="text-lg font-bold text-green-900">
                                     {startDate.toLocaleDateString()}
                                   </div>
                                 </div>
-                                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                                  <div className="text-orange-600 text-sm font-medium">
+                                <div className="rounded-lg border border-orange-200 bg-orange-50 p-4">
+                                  <div className="text-sm font-medium text-orange-600">
                                     Target End
                                   </div>
                                   <div className="text-lg font-bold text-orange-900">
                                     {endDate.toLocaleDateString()}
                                   </div>
                                 </div>
-                                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                                  <div className="text-purple-600 text-sm font-medium">
+                                <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+                                  <div className="text-sm font-medium text-purple-600">
                                     Duration
                                   </div>
                                   <div className="text-lg font-bold text-purple-900">
                                     {totalDays} days
                                   </div>
-                                  <div className="text-purple-600 text-xs mt-1">
+                                  <div className="mt-1 text-xs text-purple-600">
                                     {daysElapsed} elapsed
                                   </div>
                                 </div>
                               </div>
 
                               {/* Progress Timeline */}
-                              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                                <h4 className="text-lg font-semibold text-gray-900 mb-4">
+                              <div className="rounded-lg border border-gray-200 bg-white p-6">
+                                <h4 className="mb-4 text-lg font-semibold text-gray-900">
                                   Project Phases
                                 </h4>
                                 <div className="space-y-4">
                                   {timelineData.map((phase, index) => (
                                     <div key={index} className="space-y-2">
-                                      <div className="flex justify-between items-center">
+                                      <div className="flex items-center justify-between">
                                         <span className="font-medium text-gray-900">
                                           {phase.name}
                                         </span>
@@ -664,7 +664,7 @@ const ProjectDetail = () => {
                                           - {phase.endDate.toLocaleDateString()}
                                         </span>
                                       </div>
-                                      <div className="w-full bg-gray-200 rounded-full h-3">
+                                      <div className="h-3 w-full rounded-full bg-gray-200">
                                         <div
                                           className={`h-3 rounded-full ${phase.color} transition-all duration-300`}
                                           style={{
@@ -672,14 +672,14 @@ const ProjectDetail = () => {
                                           }}
                                         />
                                       </div>
-                                      <div className="flex justify-between items-center text-sm">
+                                      <div className="flex items-center justify-between text-sm">
                                         <span
-                                          className={`capitalize px-2 py-1 rounded text-xs font-medium ${
+                                          className={`rounded px-2 py-1 text-xs font-medium capitalize ${
                                             phase.status === "completed"
                                               ? "bg-green-100 text-green-800"
                                               : phase.status === "in-progress"
-                                              ? "bg-blue-100 text-blue-800"
-                                              : "bg-gray-100 text-gray-800"
+                                                ? "bg-blue-100 text-blue-800"
+                                                : "bg-gray-100 text-gray-800"
                                           }`}
                                         >
                                           {phase.status.replace("-", " ")}
@@ -698,14 +698,14 @@ const ProjectDetail = () => {
 
                         if (scheduleView === "gantt") {
                           return (
-                            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                              <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+                              <div className="border-b border-gray-200 bg-gray-50 px-4 py-3">
                                 <h4 className="font-medium text-gray-900">
                                   Project Timeline
                                 </h4>
                               </div>
                               <div className="p-4">
-                                <div className="grid grid-cols-12 gap-1 mb-4 text-xs text-gray-600">
+                                <div className="mb-4 grid grid-cols-12 gap-1 text-xs text-gray-600">
                                   {Array.from({ length: 12 }, (_, i) => (
                                     <div key={i} className="text-center">
                                       Week {i + 1}
@@ -716,15 +716,15 @@ const ProjectDetail = () => {
                                   {timelineData.map((phase, index) => (
                                     <div
                                       key={index}
-                                      className="grid grid-cols-12 gap-1 items-center"
+                                      className="grid grid-cols-12 items-center gap-1"
                                     >
-                                      <div className="col-span-3 text-sm font-medium text-gray-900 truncate">
+                                      <div className="col-span-3 truncate text-sm font-medium text-gray-900">
                                         {phase.name}
                                       </div>
-                                      <div className="col-span-9 relative">
-                                        <div className="h-8 bg-gray-100 rounded-lg overflow-hidden">
+                                      <div className="relative col-span-9">
+                                        <div className="h-8 overflow-hidden rounded-lg bg-gray-100">
                                           <div
-                                            className={`h-full ${phase.color} rounded-lg flex items-center px-2`}
+                                            className={`h-full ${phase.color} flex items-center rounded-lg px-2`}
                                             style={{
                                               width: `${
                                                 (phase.duration / 75) * 100
@@ -732,7 +732,7 @@ const ProjectDetail = () => {
                                             }}
                                           >
                                             <div
-                                              className="h-full bg-white bg-opacity-30 rounded"
+                                              className="h-full rounded bg-white bg-opacity-30"
                                               style={{
                                                 width: `${phase.progress}%`,
                                               }}
@@ -740,7 +740,7 @@ const ProjectDetail = () => {
                                           </div>
                                         </div>
                                         <div className="absolute inset-y-0 left-2 flex items-center">
-                                          <span className="text-white text-xs font-medium">
+                                          <span className="text-xs font-medium text-white">
                                             {phase.duration}d
                                           </span>
                                         </div>
@@ -756,16 +756,16 @@ const ProjectDetail = () => {
                         if (scheduleView === "tasks") {
                           return (
                             <div className="space-y-4">
-                              <div className="flex justify-between items-center">
+                              <div className="flex items-center justify-between">
                                 <h4 className="text-lg font-semibold text-gray-900">
                                   Task Management
                                 </h4>
                                 <button
                                   onClick={() => console.log("Create task")}
-                                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                                  className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
                                 >
                                   <svg
-                                    className="w-4 h-4"
+                                    className="h-4 w-4"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -781,8 +781,8 @@ const ProjectDetail = () => {
                                 </button>
                               </div>
 
-                              <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                                <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
+                              <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+                                <div className="border-b border-gray-200 bg-gray-50 px-4 py-3">
                                   <div className="grid grid-cols-5 gap-4 text-sm font-medium text-gray-700">
                                     <div>Task Name</div>
                                     <div>Status</div>
@@ -803,7 +803,7 @@ const ProjectDetail = () => {
                                           key={i}
                                           className="px-4 py-3 hover:bg-gray-50"
                                         >
-                                          <div className="grid grid-cols-5 gap-4 text-sm items-center">
+                                          <div className="grid grid-cols-5 items-center gap-4 text-sm">
                                             <div className="font-medium text-gray-900">
                                               Task {i + 1} -{" "}
                                               {
@@ -814,7 +814,7 @@ const ProjectDetail = () => {
                                             </div>
                                             <div>
                                               <span
-                                                className={`px-2 py-1 rounded text-xs font-medium ${
+                                                className={`rounded px-2 py-1 text-xs font-medium ${
                                                   i < project.completedTaskCount
                                                     ? "bg-green-100 text-green-800"
                                                     : "bg-yellow-100 text-yellow-800"
@@ -891,13 +891,13 @@ const ProjectDetail = () => {
                 {activeTab === "specs" && (
                   <div className="space-y-8">
                     {/* Technical Specifications */}
-                    <div className="bg-white rounded-lg shadow-sm p-6">
-                      <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                    <div className="rounded-lg bg-white p-6 shadow-sm">
+                      <h2 className="mb-4 text-xl font-semibold text-gray-900">
                         Technical Specifications
                       </h2>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             Total Capacity
                           </label>
                           <p className="text-gray-900">
@@ -907,7 +907,7 @@ const ProjectDetail = () => {
                           </p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             PV Module Count
                           </label>
                           <p className="text-gray-900">
@@ -915,7 +915,7 @@ const ProjectDetail = () => {
                           </p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             Connection Type
                           </label>
                           <p className="text-gray-900">
@@ -923,7 +923,7 @@ const ProjectDetail = () => {
                           </p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             Team
                           </label>
                           <p className="text-gray-900">
@@ -932,7 +932,7 @@ const ProjectDetail = () => {
                         </div>
                         {project.connectionNotes && (
                           <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
                               Connection Notes
                             </label>
                             <p className="text-gray-900">
@@ -945,12 +945,12 @@ const ProjectDetail = () => {
 
                     {/* Equipment Details */}
                     {project.equipmentDetails && (
-                      <div className="bg-white rounded-lg shadow-sm p-6">
-                        <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                      <div className="rounded-lg bg-white p-6 shadow-sm">
+                        <h2 className="mb-4 text-xl font-semibold text-gray-900">
                           Equipment Details
                         </h2>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                          <div className="text-center p-4 bg-gray-50 rounded-lg">
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                          <div className="rounded-lg bg-gray-50 p-4 text-center">
                             <div className="text-xl font-bold text-gray-900">
                               {project.equipmentDetails.inverter125kw || 0}
                             </div>
@@ -958,7 +958,7 @@ const ProjectDetail = () => {
                               125kW Inverters
                             </div>
                           </div>
-                          <div className="text-center p-4 bg-gray-50 rounded-lg">
+                          <div className="rounded-lg bg-gray-50 p-4 text-center">
                             <div className="text-xl font-bold text-gray-900">
                               {project.equipmentDetails.inverter80kw || 0}
                             </div>
@@ -966,7 +966,7 @@ const ProjectDetail = () => {
                               80kW Inverters
                             </div>
                           </div>
-                          <div className="text-center p-4 bg-gray-50 rounded-lg">
+                          <div className="rounded-lg bg-gray-50 p-4 text-center">
                             <div className="text-xl font-bold text-gray-900">
                               {project.equipmentDetails.inverter60kw || 0}
                             </div>
@@ -974,7 +974,7 @@ const ProjectDetail = () => {
                               60kW Inverters
                             </div>
                           </div>
-                          <div className="text-center p-4 bg-gray-50 rounded-lg">
+                          <div className="rounded-lg bg-gray-50 p-4 text-center">
                             <div className="text-xl font-bold text-gray-900">
                               {project.equipmentDetails.inverter40kw || 0}
                             </div>
@@ -992,20 +992,20 @@ const ProjectDetail = () => {
                 {activeTab === "performance" && (
                   <div>
                     {performance ? (
-                      <div className="bg-white rounded-lg shadow-sm p-6">
-                        <div className="flex items-center justify-between mb-4">
+                      <div className="rounded-lg bg-white p-6 shadow-sm">
+                        <div className="mb-4 flex items-center justify-between">
                           <h2 className="text-xl font-semibold text-gray-900">
                             Performance Analytics
                           </h2>
                           <div className="flex items-center gap-2">
                             <div
-                              className={`px-3 py-1 rounded-full text-sm font-medium ${
+                              className={`rounded-full px-3 py-1 text-sm font-medium ${
                                 performance.riskAssessment.riskLevel === "Low"
                                   ? "bg-green-100 text-green-800"
                                   : performance.riskAssessment.riskLevel ===
-                                    "Medium"
-                                  ? "bg-yellow-100 text-yellow-800"
-                                  : "bg-red-100 text-red-800"
+                                      "Medium"
+                                    ? "bg-yellow-100 text-yellow-800"
+                                    : "bg-red-100 text-red-800"
                               }`}
                             >
                               Risk: {performance.riskAssessment.riskLevel}
@@ -1016,14 +1016,14 @@ const ProjectDetail = () => {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                          <div className="rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 p-4">
+                            <div className="mb-2 flex items-center justify-between">
                               <span className="text-sm font-medium text-blue-700">
                                 Timeline
                               </span>
                               <svg
-                                className="w-5 h-5 text-blue-600"
+                                className="h-5 w-5 text-blue-600"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -1044,13 +1044,13 @@ const ProjectDetail = () => {
                             </div>
                           </div>
 
-                          <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
+                          <div className="rounded-lg bg-gradient-to-r from-green-50 to-green-100 p-4">
+                            <div className="mb-2 flex items-center justify-between">
                               <span className="text-sm font-medium text-green-700">
                                 Budget
                               </span>
                               <svg
-                                className="w-5 h-5 text-green-600"
+                                className="h-5 w-5 text-green-600"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -1071,8 +1071,8 @@ const ProjectDetail = () => {
                             </div>
                           </div>
 
-                          <div className="bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
+                          <div className="rounded-lg bg-gradient-to-r from-purple-50 to-purple-100 p-4">
+                            <div className="mb-2 flex items-center justify-between">
                               <span className="text-sm font-medium text-purple-700">
                                 Quality
                               </span>
@@ -1083,8 +1083,8 @@ const ProjectDetail = () => {
                             <div className="text-xs text-purple-600">Score</div>
                           </div>
 
-                          <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
+                          <div className="rounded-lg bg-gradient-to-r from-orange-50 to-orange-100 p-4">
+                            <div className="mb-2 flex items-center justify-between">
                               <span className="text-sm font-medium text-orange-700">
                                 Safety
                               </span>
@@ -1097,8 +1097,8 @@ const ProjectDetail = () => {
                             </div>
                           </div>
 
-                          <div className="bg-gradient-to-r from-pink-50 to-pink-100 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
+                          <div className="rounded-lg bg-gradient-to-r from-pink-50 to-pink-100 p-4">
+                            <div className="mb-2 flex items-center justify-between">
                               <span className="text-sm font-medium text-pink-700">
                                 Stakeholder
                               </span>
@@ -1111,8 +1111,8 @@ const ProjectDetail = () => {
                             </div>
                           </div>
 
-                          <div className="bg-gradient-to-r from-red-50 to-red-100 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
+                          <div className="rounded-lg bg-gradient-to-r from-red-50 to-red-100 p-4">
+                            <div className="mb-2 flex items-center justify-between">
                               <span className="text-sm font-medium text-red-700">
                                 Risks
                               </span>
@@ -1125,10 +1125,10 @@ const ProjectDetail = () => {
                         </div>
                       </div>
                     ) : (
-                      <div className="bg-white rounded-lg shadow-sm p-6">
+                      <div className="rounded-lg bg-white p-6 shadow-sm">
                         <div className="text-center text-gray-500">
                           <svg
-                            className="w-12 h-12 mx-auto mb-4 text-gray-400"
+                            className="mx-auto mb-4 h-12 w-12 text-gray-400"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -1153,14 +1153,14 @@ const ProjectDetail = () => {
             <div className="lg:sticky lg:top-8 lg:self-start">
               <div className="space-y-6">
                 {/* Project Manager */}
-                <div className="bg-white rounded-lg shadow-sm p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <div className="rounded-lg bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">
                     Project Manager
                   </h3>
                   {project.projectManager ? (
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <span className="text-blue-600 font-medium">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
+                        <span className="font-medium text-blue-600">
                           {project.projectManager.fullName?.charAt(0) || "?"}
                         </span>
                       </div>
@@ -1174,8 +1174,8 @@ const ProjectDetail = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="text-gray-500 text-center py-4">
-                      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <div className="py-4 text-center text-gray-500">
+                      <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
                         <span className="text-gray-400">?</span>
                       </div>
                       <div className="text-sm">No manager assigned</div>
@@ -1184,13 +1184,13 @@ const ProjectDetail = () => {
                 </div>
 
                 {/* Financial Information */}
-                <div className="bg-white rounded-lg shadow-sm p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <div className="rounded-lg bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">
                     Financial Information
                   </h3>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         Revenue Value
                       </label>
                       <p className="text-gray-900">
@@ -1198,13 +1198,13 @@ const ProjectDetail = () => {
                         project.revenueValue !== 0
                           ? formatCurrency(project.revenueValue)
                           : project.totalCapacityKw
-                          ? formatCurrency(project.totalCapacityKw * 5000) +
-                            " (estimated)"
-                          : "Not specified"}
+                            ? formatCurrency(project.totalCapacityKw * 5000) +
+                              " (estimated)"
+                            : "Not specified"}
                       </p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         FTS Value
                       </label>
                       <p className="text-gray-900">
@@ -1214,7 +1214,7 @@ const ProjectDetail = () => {
                       </p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         PQM Value
                       </label>
                       <p className="text-gray-900">
@@ -1227,13 +1227,13 @@ const ProjectDetail = () => {
                 </div>
 
                 {/* Technical Details */}
-                <div className="bg-white rounded-lg shadow-sm p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <div className="rounded-lg bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">
                     Technical Details
                   </h3>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         Connection Type
                       </label>
                       <p className="text-gray-900">
@@ -1247,16 +1247,16 @@ const ProjectDetail = () => {
                     </div>
                     {project.connectionNotes && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
                           Connection Notes
                         </label>
-                        <p className="text-gray-900 text-sm">
+                        <p className="text-sm text-gray-900">
                           {project.connectionNotes}
                         </p>
                       </div>
                     )}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         Total Capacity
                       </label>
                       <p className="text-gray-900">
@@ -1266,7 +1266,7 @@ const ProjectDetail = () => {
                       </p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         PV Modules
                       </label>
                       <p className="text-gray-900">
@@ -1288,13 +1288,13 @@ const ProjectDetail = () => {
                 </div>
 
                 {/* Project Info */}
-                <div className="bg-white rounded-lg shadow-sm p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <div className="rounded-lg bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">
                     Project Information
                   </h3>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         Team Assignment
                       </label>
                       <p className="text-gray-900">
@@ -1302,7 +1302,7 @@ const ProjectDetail = () => {
                       </p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         Current Status
                       </label>
                       <p className="text-gray-900">
@@ -1311,7 +1311,7 @@ const ProjectDetail = () => {
                     </div>
                     {project.estimatedEndDate && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
                           Estimated End Date
                         </label>
                         <p className="text-gray-900">
@@ -1326,8 +1326,8 @@ const ProjectDetail = () => {
 
                 {/* Location Information */}
                 {project.locationCoordinates && (
-                  <div className="bg-white rounded-lg shadow-sm p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  <div className="rounded-lg bg-white p-6 shadow-sm">
+                    <h3 className="mb-4 text-lg font-semibold text-gray-900">
                       Location
                     </h3>
                     <div className="space-y-2">
@@ -1336,7 +1336,7 @@ const ProjectDetail = () => {
                           Coordinates:
                         </span>
                         <br />
-                        <span className="text-gray-900 font-mono text-xs">
+                        <span className="font-mono text-xs text-gray-900">
                           {project.locationCoordinates.latitude.toFixed(6)},{" "}
                           {project.locationCoordinates.longitude.toFixed(6)}
                         </span>
@@ -1361,9 +1361,9 @@ const ProjectDetail = () => {
 
           {/* Loading Indicator for Performance Data */}
           {loadingPerformance && (
-            <div className="fixed bottom-8 right-8 bg-white rounded-full shadow-lg p-4 border border-gray-200 z-50">
+            <div className="fixed bottom-8 right-8 z-50 rounded-full border border-gray-200 bg-white p-4 shadow-lg">
               <div className="flex items-center gap-3">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-600"></div>
+                <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-indigo-600"></div>
                 <span className="text-sm font-medium text-gray-700">
                   Updating performance data...
                 </span>
@@ -1373,9 +1373,9 @@ const ProjectDetail = () => {
 
           {/* Refresh Indicator */}
           {refreshing && (
-            <div className="fixed top-8 right-8 bg-white rounded-full shadow-lg p-4 border border-gray-200 z-50">
+            <div className="fixed right-8 top-8 z-50 rounded-full border border-gray-200 bg-white p-4 shadow-lg">
               <div className="flex items-center gap-3">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-600"></div>
+                <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-gray-600"></div>
                 <span className="text-sm font-medium text-gray-700">
                   Refreshing project data...
                 </span>
@@ -1388,14 +1388,14 @@ const ProjectDetail = () => {
             <div className="relative">
               {/* Quick Actions Menu */}
               {showQuickActions && (
-                <div className="absolute bottom-16 left-0 bg-white rounded-lg shadow-lg border border-gray-200 p-2 min-w-[200px]">
+                <div className="absolute bottom-16 left-0 min-w-[200px] rounded-lg border border-gray-200 bg-white p-2 shadow-lg">
                   <div className="space-y-1">
                     <button
                       onClick={() => fetchProject(true)}
-                      className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center gap-2 text-sm"
+                      className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors hover:bg-gray-100"
                     >
                       <svg
-                        className="w-4 h-4"
+                        className="h-4 w-4"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -1414,10 +1414,10 @@ const ProjectDetail = () => {
                       onClick={() =>
                         navigate(`/projects/${projectId}/schedule`)
                       }
-                      className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center gap-2 text-sm"
+                      className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors hover:bg-gray-100"
                     >
                       <svg
-                        className="w-4 h-4"
+                        className="h-4 w-4"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -1437,10 +1437,10 @@ const ProjectDetail = () => {
                         onClick={() =>
                           setShowAdvancedActions(!showAdvancedActions)
                         }
-                        className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center gap-2 text-sm"
+                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors hover:bg-gray-100"
                       >
                         <svg
-                          className="w-4 h-4"
+                          className="h-4 w-4"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -1468,10 +1468,10 @@ const ProjectDetail = () => {
               {/* FAB Button */}
               <button
                 onClick={() => setShowQuickActions(!showQuickActions)}
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-colors duration-200"
+                className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-colors duration-200 hover:bg-blue-700"
               >
                 <svg
-                  className={`w-6 h-6 transition-transform duration-200 ${
+                  className={`h-6 w-6 transition-transform duration-200 ${
                     showQuickActions ? "rotate-45" : ""
                   }`}
                   fill="none"

@@ -28,11 +28,11 @@ export default function Forbidden({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
           {/* 403 Icon */}
-          <div className="mx-auto h-24 w-24 flex items-center justify-center rounded-full bg-yellow-100 mb-8">
+          <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-yellow-100">
             <svg
               className="h-12 w-12 text-yellow-600"
               fill="none"
@@ -50,33 +50,33 @@ export default function Forbidden({
           </div>
 
           {/* Error Text */}
-          <h1 className="text-6xl font-bold text-gray-900 mb-4">403</h1>
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+          <h1 className="mb-4 text-6xl font-bold text-gray-900">403</h1>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-700">
             Access Forbidden
           </h2>
-          <p className="text-gray-600 mb-6 max-w-md mx-auto">
+          <p className="mx-auto mb-6 max-w-md text-gray-600">
             {message}. You don't have permission to access this resource.
           </p>
 
           {/* Role Information */}
           {(requiredRole || currentRole || user) && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8 text-left max-w-sm mx-auto">
-              <h3 className="text-sm font-medium text-yellow-800 mb-2">
+            <div className="mx-auto mb-8 max-w-sm rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-left">
+              <h3 className="mb-2 text-sm font-medium text-yellow-800">
                 Access Information
               </h3>
               {currentRole && (
-                <p className="text-sm text-yellow-700 mb-1">
+                <p className="mb-1 text-sm text-yellow-700">
                   <span className="font-medium">Your Role:</span> {currentRole}
                 </p>
               )}
               {user && (
-                <p className="text-sm text-yellow-700 mb-1">
+                <p className="mb-1 text-sm text-yellow-700">
                   <span className="font-medium">Your Role:</span>{" "}
                   {user.roleName || "Unknown"}
                 </p>
               )}
               {requiredRole && (
-                <p className="text-sm text-yellow-700 mb-1">
+                <p className="mb-1 text-sm text-yellow-700">
                   <span className="font-medium">Required:</span> {requiredRole}
                 </p>
               )}
@@ -87,13 +87,13 @@ export default function Forbidden({
           )}
 
           {/* Action Buttons */}
-          <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+          <div className="space-y-4 sm:flex sm:justify-center sm:space-x-4 sm:space-y-0">
             <button
               onClick={handleGoHome}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -110,10 +110,10 @@ export default function Forbidden({
 
             <button
               onClick={handleGoBack}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              className="inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -130,8 +130,8 @@ export default function Forbidden({
           </div>
 
           {/* Contact Information */}
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <p className="text-sm text-gray-500 mb-2">
+          <div className="mt-8 border-t border-gray-200 pt-8">
+            <p className="mb-2 text-sm text-gray-500">
               Need access to this resource?
             </p>
             <div className="space-y-1">
