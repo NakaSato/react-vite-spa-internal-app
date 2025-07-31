@@ -2,6 +2,145 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Toast animations */
+@keyframes toast-enter {
+  from {
+    transform: translate3d(100%, 0, 0) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Enhanced toast container styles */
+.Toaster__toast-container {
+  animation: toast-enter 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+}
+
+.Toaster__toast-container[data-visible="false"] {
+  animation: toast-exit 0.25s ease-in forwards;
+}
+
+@keyframes toast-exit {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(100%, 0, 0) scale(0.95);
+    opacity: 0;
+  }
+}
+
+/* Mobile-specific toast positioning */
+@media (max-width: 768px) {
+  .Toaster__toast-container {
+    max-width: calc(100vw - 32px);
+    margin: 0 16px;
+  }
+}
+
+/* Mobile-optimized home page styles */
+@media (max-width: 640px) {
+  /* Reduce blur effects on mobile for better performance */
+  .animate-pulse {
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  /* Ensure touch targets are at least 44px */
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Optimize text rendering on mobile */
+  .text-shadow {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Prevent text scaling on mobile */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Improve touch scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Mobile-specific optimizations */
+  .home-container {
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+  }
+
+  /* Reduce motion for better battery life */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pulse,
+    .animate-bounce {
+      animation: none;
+    }
+  }
+}
+
+/* Extra small devices optimization */
+@media (max-width: 475px) {
+  /* Further optimize for very small screens */
+  .text-xs {
+    font-size: 0.7rem;
+  }
+
+  /* Ensure minimum spacing */
+  .min-gap {
+    gap: 0.5rem;
+  }
+
+  /* Better button sizing for small thumbs */
+  .mobile-button {
+    min-height: 48px;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+/* Landscape phone optimization */
+@media (max-width: 896px) and (orientation: landscape) and (max-height: 500px) {
+  .landscape-optimize {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height */
+  }
+
+  /* Reduce vertical spacing in landscape */
+  .landscape-spacing {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* High DPI display optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+  .filter {
+    transform: translateZ(0); /* Force GPU acceleration */
+  }
+}
+
 body {
   @apply bg-gray-100 text-gray-900;
 }
