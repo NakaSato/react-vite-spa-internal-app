@@ -1,27 +1,18 @@
-import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { useAuth } from "../shared/hooks/useAuth";
+import { Route, Routes, useLocation } from "react-router-dom";
+import Footer from "../components/layout/Footer";
+import ProtectedRoute from "../features/auth/ProtectedRoute";
+import { About, Home, Login, NotFound, ProjectDebug, Register } from "../pages";
 import { DashboardProvider } from "../shared/contexts";
+import { useAuth } from "../shared/hooks/useAuth";
+import { Navigation } from "../widgets";
 import {
-  Home,
-  About,
-  Login,
-  Register,
-  NotFound,
-  ProjectDebug,
-  MUIShowcase,
-} from "../pages";
-import {
+  DailyReportsLazy,
   DashboardLazy,
   ProjectDetailLazy,
   ProjectDetailRefactoredLazy,
-  DailyReportsLazy,
   ProjectScheduleLazy,
   RealTimeProjectDashboardLazy,
 } from "./LazyPages";
-import { Navigation } from "../widgets";
-import Footer from "../components/layout/Footer";
-import ProtectedRoute from "../features/auth/ProtectedRoute";
 
 function AppRoutesContent() {
   const { isLoading } = useAuth();
@@ -52,7 +43,6 @@ function AppRoutesContent() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/mui-showcase" element={<MUIShowcase />} />
 
           {/* Protected Routes */}
           <Route

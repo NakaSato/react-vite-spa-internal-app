@@ -3,48 +3,6 @@
 /* Additional Tailwind utilities for this component */
 @tailwind utilities;
 
-/* Toast animations */
-@keyframes toast-enter {
-  from {
-    transform: translate3d(100%, 0, 0) scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-/* Enhanced toast container styles */
-.Toaster__toast-container {
-  animation: toast-enter 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
-}
-
-.Toaster__toast-container[data-visible="false"] {
-  animation: toast-exit 0.25s ease-in forwards;
-}
-
-@keyframes toast-exit {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(100%, 0, 0) scale(0.95);
-    opacity: 0;
-  }
-}
-
 /* Custom scrollbar for better UX */
 ::-webkit-scrollbar {
   width: 8px;

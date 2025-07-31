@@ -19,8 +19,18 @@ body {
   padding: 0;
   height: 100%;
   font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    "Sarabun",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -44,6 +54,47 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Sarabun font weight utilities */
+.font-sarabun-thin {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 100;
+}
+
+.font-sarabun-extralight {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 200;
+}
+
+.font-sarabun-light {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 300;
+}
+
+.font-sarabun-regular {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 400;
+}
+
+.font-sarabun-medium {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 500;
+}
+
+.font-sarabun-semibold {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 600;
+}
+
+.font-sarabun-bold {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 700;
+}
+
+.font-sarabun-extrabold {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 800;
 }
 
 /* Toast animations (keep for react-hot-toast) */

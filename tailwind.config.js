@@ -21,8 +21,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        // Match MUI's font family
+        // Match MUI's font family with Sarabun as primary
         sans: [
+          "Sarabun",
           "Roboto",
           "-apple-system",
           "BlinkMacSystemFont",

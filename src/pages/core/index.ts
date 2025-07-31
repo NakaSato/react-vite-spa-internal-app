@@ -1,13 +1,11 @@
 // Core Application Pages
-export { default as Home } from "./Home";
-export { default as Dashboard } from "./Dashboard";
 export { default as About } from "./About";
-export { default as MUIShowcase } from "./MUIShowcase";
-export { default as TailwindMUIDemo } from "./TailwindMUIDemo";
+export { default as Dashboard } from "./Dashboard";
+export { default as Home } from "./Home";
 
 // Error Pages
-export { default as NotFound } from "./NotFound";
-export { default as ServerError } from "./ServerError";
+export { default as ErrorFallback } from "./ErrorFallback";
 export { default as Forbidden } from "./Forbidden";
 export { default as NetworkError } from "./NetworkError";
-export { default as ErrorFallback } from "./ErrorFallback";
+export { default as NotFound } from "./NotFound";
+export { default as ServerError } from "./ServerError";

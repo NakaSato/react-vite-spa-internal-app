@@ -1,5 +1,5 @@
+import { blue, green, grey, orange, red } from "@mui/material/colors";
 import { createTheme, ThemeOptions } from "@mui/material/styles";
-import { blue, green, orange, red, grey } from "@mui/material/colors";
 
 // Custom color palette based on your solar project theme
 const customColors = {
@@ -65,6 +65,7 @@ const themeOptions: ThemeOptions = {
   },
   typography: {
     fontFamily: [
+      "Sarabun",
       "-apple-system",
       "BlinkMacSystemFont",
       '"Segoe UI"',

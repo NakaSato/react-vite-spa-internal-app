@@ -1,8 +1,6 @@
-import { Component, ReactNode, ErrorInfo } from "react";
-import ErrorFallback from "../pages/core/ErrorFallback";
-import ServerError from "../pages/core/ServerError";
-import NetworkError from "../pages/core/NetworkError";
+import { Component, ErrorInfo, ReactNode } from "react";
 import { ErrorHandler } from "../shared/utils/errorHandler";
+import { ErrorLayout } from "../templates/layouts/ErrorLayout";
 
 interface Props {
   children: ReactNode;
@@ -132,44 +130,118 @@ class EnhancedErrorBoundary extends Component<Props, State> {
         return this.props.fallback;
       }
 
-      // Determine error type and render appropriate page
+      // Determine error type and render appropriate template
       const errorType = this.determineErrorType();
 
       switch (errorType) {
         case "network":
           return (
-            <NetworkError
-              message={this.state.error?.message}
-              onRetry={this.resetError}
+            <ErrorLayout
+              errorCode="NETWORK_ERROR"
+              title="เครือข่ายมีปัญหา - Network Connection Issue"
+              message="ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ในขณะนี้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต | Unable to connect to the server. Please check your internet connection and try again."
+              icon="🌐"
+              customActions={[
+                {
+                  label: "ลองใหม่ / Retry",
+                  onClick: this.resetError,
+                  variant: "contained",
+                  color: "primary",
+                },
+                {
+                  label: "รีเฟรชหน้า / Refresh Page",
+                  onClick: () => window.location.reload(),
+                  variant: "outlined",
+                  color: "secondary",
+                },
+              ]}
             />
           );
 
         case "server":
           return (
-            <ServerError
-              error={this.state.error?.message}
-              onRetry={this.resetError}
+            <ErrorLayout
+              errorCode="500"
+              title="เซิร์ฟเวอร์มีปัญหา - Internal Server Error"
+              message="เซิร์ฟเวอร์กำลังมีปัญหาชั่วคราว กรุณาลองใหม่อีกครั้งในภายหลัง | The server is experiencing issues. Please try again later or contact support if the problem persists."
+              icon="🔧"
+              customActions={[
+                {
+                  label: "ลองใหม่ / Try Again",
+                  onClick: this.resetError,
+                  variant: "contained",
+                  color: "primary",
+                },
+                {
+                  label: "กลับหน้าหลัก / Go Home",
+                  onClick: () => (window.location.href = "/"),
+                  variant: "outlined",
+                  color: "secondary",
+                },
+              ]}
             />
           );
 
         default:
           return (
-            <ErrorFallback
-              error={this.state.error}
-              resetError={this.resetError}
+            <ErrorLayout
+              errorCode={this.state.errorId || "UNKNOWN_ERROR"}
+              title="เกิดข้อผิดพลาด - Application Error"
+              message="แอปพลิเคชันพบข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่หรือติดต่อทีมสนับสนุน | An unexpected error occurred in the application. Please try again or contact support if the problem continues."
+              icon="⚠️"
+              customActions={[
+                {
+                  label: "ลองใหม่ / Try Again",
+                  onClick: this.resetError,
+                  variant: "contained",
+                  color: "primary",
+                },
+                {
+                  label: "รีโหลดหน้า / Reload Page",
+                  onClick: () => window.location.reload(),
+                  variant: "outlined",
+                  color: "secondary",
+                },
+              ]}
+              showSupport
             >
-              {/* Additional error context for development */}
+              {/* Development error details */}
               {import.meta.env.DEV && this.state.errorInfo && (
-                <div className="rounded-md bg-gray-100 p-4">
-                  <h4 className="mb-2 font-medium text-gray-800">
-                    Component Stack:
+                <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                  <h4 className="font-sarabun-semibold mb-3 text-gray-800">
+                    🔍 Development Debug Info
                   </h4>
-                  <pre className="overflow-x-auto whitespace-pre-wrap text-xs text-gray-600">
-                    {this.state.errorInfo.componentStack}
-                  </pre>
+                  <div className="space-y-3">
+                    <div>
+                      <h5 className="font-sarabun-medium mb-1 text-sm text-gray-700">
+                        Error Message:
+                      </h5>
+                      <pre className="overflow-x-auto rounded border border-red-200 bg-red-50 p-2 text-xs text-red-800">
+                        {this.state.error?.message}
+                      </pre>
+                    </div>
+                    <div>
+                      <h5 className="font-sarabun-medium mb-1 text-sm text-gray-700">
+                        Component Stack:
+                      </h5>
+                      <pre className="overflow-x-auto whitespace-pre-wrap rounded border border-blue-200 bg-blue-50 p-2 text-xs text-blue-800">
+                        {this.state.errorInfo.componentStack}
+                      </pre>
+                    </div>
+                    {this.state.error?.stack && (
+                      <div>
+                        <h5 className="font-sarabun-medium mb-1 text-sm text-gray-700">
+                          Stack Trace:
+                        </h5>
+                        <pre className="max-h-40 overflow-x-auto whitespace-pre-wrap rounded border border-yellow-200 bg-yellow-50 p-2 text-xs text-yellow-800">
+                          {this.state.error.stack}
+                        </pre>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
-            </ErrorFallback>
+            </ErrorLayout>
           );
       }
     }

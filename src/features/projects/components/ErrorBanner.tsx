@@ -1,4 +1,20 @@
-import React from "react";
+import {
+  Close,
+  Error,
+  Info,
+  Login,
+  Refresh,
+  Warning,
+} from "@mui/icons-material";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 interface ErrorBannerProps {
   error: string;
@@ -14,104 +30,111 @@ const ErrorBanner = ({ error, onDismiss }: ErrorBannerProps) => {
     error.includes("Object reference not set");
   const isNotFound = error.includes("not found") || error.includes("404");
 
+  // Determine alert severity based on error type
+  const getSeverity = () => {
+    if (isWarning) return "warning";
+    if (isAuthError) return "error";
+    if (isServerError) return "error";
+    if (isNotFound) return "info";
+    return "error";
+  };
+
+  // Get appropriate icon based on error type
+  const getIcon = () => {
+    if (isWarning) return <Warning />;
+    if (isAuthError) return <Error />;
+    if (isServerError) return <Error />;
+    if (isNotFound) return <Info />;
+    return <Error />;
+  };
+
+  // Get title based on error type
+  const getTitle = () => {
+    if (isWarning) return "Limited Data Warning";
+    if (isAuthError) return "Authentication Required";
+    if (isServerError) return "Server Error";
+    if (isNotFound) return "Project Not Found";
+    return "API Error";
+  };
+
+  // Get action buttons based on error type
+  const getActions = () => {
+    const actions = [];
+
+    if (isAuthError) {
+      actions.push(
+        <Button
+          key="login"
+          startIcon={<Login />}
+          variant="outlined"
+          size="small"
+          onClick={() => (window.location.href = "/login")}
+          className="font-sarabun-medium"
+        >
+          Go to Login
+        </Button>
+      );
+    }
+
+    if (isServerError) {
+      actions.push(
+        <Button
+          key="retry"
+          startIcon={<Refresh />}
+          variant="outlined"
+          size="small"
+          onClick={() => window.location.reload()}
+          className="font-sarabun-medium mr-2"
+        >
+          Retry
+        </Button>
+      );
+      actions.push(
+        <Button
+          key="dashboard"
+          variant="outlined"
+          size="small"
+          onClick={() => (window.location.href = "/dashboard")}
+          className="font-sarabun-medium"
+        >
+          Back to Dashboard
+        </Button>
+      );
+    }
+
+    return actions;
+  };
+
   return (
-    <div
-      className={`rounded-lg border p-4 ${
-        isWarning
-          ? "border-yellow-200 bg-yellow-50"
-          : "border-red-200 bg-red-50"
-      }`}
-    >
-      <div className="flex items-center gap-3">
-        <svg
-          className={`h-5 w-5 ${
-            isWarning ? "text-yellow-500" : "text-red-500"
-          }`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+    <Box className="mb-4">
+      <Alert
+        severity={getSeverity()}
+        icon={getIcon()}
+        className="shadow-sm"
+        action={
+          <Stack direction="row" spacing={1} alignItems="center">
+            {getActions()}
+            <IconButton
+              size="small"
+              onClick={onDismiss}
+              className="ml-2"
+              aria-label="Close alert"
+            >
+              <Close fontSize="small" />
+            </IconButton>
+          </Stack>
+        }
+      >
+        <AlertTitle className="font-sarabun-semibold">{getTitle()}</AlertTitle>
+        <Typography
+          variant="body2"
+          className="font-sarabun-regular"
+          component="div"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
-          />
-        </svg>
-        <div className="flex-1">
-          <h4
-            className={`font-medium ${
-              isWarning ? "text-yellow-900" : "text-red-900"
-            }`}
-          >
-            {isWarning
-              ? "Limited Data Warning"
-              : isAuthError
-                ? "Authentication Required"
-                : isServerError
-                  ? "Server Error"
-                  : isNotFound
-                    ? "Project Not Found"
-                    : "API Error"}
-          </h4>
-          <p
-            className={`text-sm ${
-              isWarning ? "text-yellow-700" : "text-red-700"
-            }`}
-          >
-            {error}
-          </p>
-          {isAuthError && (
-            <div className="mt-2">
-              <button
-                onClick={() => (window.location.href = "/login")}
-                className="inline-flex items-center rounded-md border border-transparent bg-red-100 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-              >
-                Go to Login
-              </button>
-            </div>
-          )}
-          {isServerError && (
-            <div className="mt-2 space-x-2">
-              <button
-                onClick={() => window.location.reload()}
-                className="inline-flex items-center rounded-md border border-transparent bg-red-100 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-              >
-                Retry
-              </button>
-              <button
-                onClick={() => (window.location.href = "/dashboard")}
-                className="inline-flex items-center rounded-md border border-transparent bg-red-100 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-              >
-                Back to Dashboard
-              </button>
-            </div>
-          )}
-        </div>
-        <button
-          onClick={onDismiss}
-          className={`${
-            isWarning
-              ? "text-yellow-500 hover:text-yellow-700"
-              : "text-red-500 hover:text-red-700"
-          }`}
-        >
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
+          {error}
+        </Typography>
+      </Alert>
+    </Box>
   );
 };
 

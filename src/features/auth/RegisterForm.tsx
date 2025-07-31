@@ -1,6 +1,48 @@
+import {
+  AccountCircle,
+  Badge,
+  Cancel,
+  CheckCircle,
+  Email,
+  Lock,
+  PersonAdd,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Container,
+  Fade,
+  IconButton,
+  InputAdornment,
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../shared/hooks/useAuth";
-import { RegisterRequest, UserRole } from "../../shared/types/auth";
+import { RegisterRequest } from "../../shared/types/auth";
+
+// Define UserRole enum based on the documentation
+enum UserRole {
+  ADMIN = 1,
+  MANAGER = 2,
+  USER = 3,
+  VIEWER = 4,
+}
 
 interface RegisterFormProps {
   onSuccess?: () => void;
@@ -8,10 +50,10 @@ interface RegisterFormProps {
 }
 
 interface FormErrors {
+  fullName?: string;
   username?: string;
   email?: string;
   password?: string;
-  fullName?: string;
   confirmPassword?: string;
 }
 
@@ -19,19 +61,23 @@ export default function RegisterForm({
   onSuccess,
   onSwitchToLogin,
 }: RegisterFormProps) {
-  const { register, isLoading } = useAuth();
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState<
     RegisterRequest & { confirmPassword: string }
   >({
+    fullName: "",
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
-    fullName: "",
-    roleId: UserRole.USER, // Default to User role
+    roleId: UserRole.USER,
   });
+
   const [errors, setErrors] = useState<FormErrors>({});
   const [serverError, setServerError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -71,8 +117,7 @@ export default function RegisterForm({
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (!passwordRegex.test(formData.password)) {
-      newErrors.password =
-        "Password must be at least 8 characters with uppercase, lowercase, number, and special character";
+      newErrors.password = "Password must meet all requirements";
     }
 
     // Confirm password validation
@@ -85,6 +130,7 @@ export default function RegisterForm({
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setServerError("");
@@ -93,46 +139,33 @@ export default function RegisterForm({
       return;
     }
 
+    setIsLoading(true);
     try {
       const { confirmPassword, ...registerData } = formData;
       const success = await register(registerData);
 
       if (success) {
         onSuccess?.();
+        navigate("/dashboard");
       } else {
         setServerError("Registration failed. Please try again.");
       }
-    } catch (err: any) {
-      // Handle server validation errors
-      if (err.response?.data?.errors) {
-        const serverErrors = err.response.data.errors;
-        const newErrors: FormErrors = {};
-
-        serverErrors.forEach((error: string) => {
-          if (error.toLowerCase().includes("username")) {
-            newErrors.username = error;
-          } else if (error.toLowerCase().includes("email")) {
-            newErrors.email = error;
-          } else if (error.toLowerCase().includes("password")) {
-            newErrors.password = error;
-          }
-        });
-
-        setErrors(newErrors);
-        if (Object.keys(newErrors).length === 0) {
-          setServerError(err.response.data.message || "Registration failed");
-        }
+    } catch (error: any) {
+      if (error.message?.includes("Username already exists")) {
+        setErrors({ username: "Username is already taken" });
+      } else if (error.message?.includes("Email already exists")) {
+        setErrors({ email: "Email is already registered" });
       } else {
         setServerError("Registration failed. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData((prev: typeof formData) => ({
       ...prev,
       [name]: name === "roleId" ? parseInt(value) : value,
     }));
@@ -148,303 +181,365 @@ export default function RegisterForm({
 
   const getPasswordStrength = (
     password: string
-  ): { strength: string; color: string } => {
-    if (!password) return { strength: "", color: "" };
+  ): { strength: number; color: string; label: string } => {
+    if (!password) return { strength: 0, color: "grey", label: "" };
 
     let score = 0;
-    if (password.length >= 8) score++;
-    if (/[a-z]/.test(password)) score++;
-    if (/[A-Z]/.test(password)) score++;
-    if (/\d/.test(password)) score++;
-    if (/[@$!%*?&]/.test(password)) score++;
+    if (password.length >= 8) score += 25;
+    if (/[a-z]/.test(password)) score += 25;
+    if (/[A-Z]/.test(password)) score += 25;
+    if (/\d/.test(password)) score += 12.5;
+    if (/[@$!%*?&]/.test(password)) score += 12.5;
 
-    switch (score) {
-      case 0 - 2:
-        return { strength: "Weak", color: "text-red-600" };
-      case 3:
-        return { strength: "Fair", color: "text-yellow-600" };
-      case 4:
-        return { strength: "Good", color: "text-blue-600" };
-      case 5:
-        return { strength: "Strong", color: "text-green-600" };
-      default:
-        return { strength: "Weak", color: "text-red-600" };
-    }
+    if (score < 50) return { strength: score, color: "error", label: "Weak" };
+    if (score < 75) return { strength: score, color: "warning", label: "Fair" };
+    if (score < 100) return { strength: score, color: "info", label: "Good" };
+    return { strength: score, color: "success", label: "Strong" };
   };
 
   const passwordStrength = getPasswordStrength(formData.password);
 
+  const passwordRequirements = [
+    { met: formData.password.length >= 8, text: "At least 8 characters long" },
+    {
+      met: /[a-z]/.test(formData.password),
+      text: "Contains lowercase letters",
+    },
+    {
+      met: /[A-Z]/.test(formData.password),
+      text: "Contains uppercase letters",
+    },
+    { met: /\d/.test(formData.password), text: "Contains at least one number" },
+    {
+      met: /[@$!%*?&]/.test(formData.password),
+      text: "Contains special character (@$!%*?&)",
+    },
+  ];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create Your Account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Join the Solar Projects management platform
-          </p>
-        </div>
-
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {serverError && (
-            <div className="rounded border border-red-300 bg-red-50 px-4 py-3 text-red-700">
-              {serverError}
-            </div>
-          )}
-
-          <div className="space-y-4">
-            {/* Full Name */}
-            <div>
-              <label
-                htmlFor="fullName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Full Name
-              </label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                required
-                className={`relative mt-1 block w-full appearance-none border px-3 py-2 ${
-                  errors.fullName ? "border-red-300" : "border-gray-300"
-                } rounded-md text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm`}
-                placeholder="Enter your full name"
-                value={formData.fullName}
-                onChange={handleInputChange}
-                disabled={isLoading}
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "grey.50",
+        py: { xs: 2, sm: 4 },
+        px: { xs: 2, sm: 4 },
+      }}
+    >
+      <Container maxWidth="md">
+        <Fade in timeout={800}>
+          <Paper
+            elevation={8}
+            sx={{
+              p: { xs: 3, sm: 4, md: 5 },
+              borderRadius: 3,
+              background: "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)",
+            }}
+          >
+            {/* Header */}
+            <Box textAlign="center" mb={4}>
+              <PersonAdd
+                sx={{
+                  fontSize: 48,
+                  color: "primary.main",
+                  mb: 2,
+                }}
               />
-              {errors.fullName && (
-                <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>
+              <Typography
+                variant="h4"
+                component="h1"
+                fontWeight="bold"
+                gutterBottom
+                color="text.primary"
+              >
+                Create Your Account
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Join the Solar Projects management platform
+              </Typography>
+            </Box>
+
+            {/* Form */}
+            <Box component="form" onSubmit={handleSubmit} noValidate>
+              {serverError && (
+                <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
+                  {serverError}
+                </Alert>
               )}
-            </div>
 
-            {/* Username */}
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Username
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                required
-                className={`relative mt-1 block w-full appearance-none border px-3 py-2 ${
-                  errors.username ? "border-red-300" : "border-gray-300"
-                } rounded-md text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm`}
-                placeholder="Choose a username"
-                value={formData.username}
-                onChange={handleInputChange}
-                disabled={isLoading}
-              />
-              {errors.username && (
-                <p className="mt-1 text-sm text-red-600">{errors.username}</p>
-              )}
-            </div>
-
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email Address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className={`relative mt-1 block w-full appearance-none border px-3 py-2 ${
-                  errors.email ? "border-red-300" : "border-gray-300"
-                } rounded-md text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm`}
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleInputChange}
-                disabled={isLoading}
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Role Selection */}
-            <div>
-              <label
-                htmlFor="roleId"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Account Type
-              </label>
-              <select
-                id="roleId"
-                name="roleId"
-                className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                value={formData.roleId}
-                onChange={handleInputChange}
-                disabled={isLoading}
-              >
-                <option value={UserRole.USER}>User - Standard access</option>
-                <option value={UserRole.VIEWER}>
-                  Viewer - Read-only access
-                </option>
-              </select>
-              <p className="mt-1 text-xs text-gray-500">
-                Admin and Manager accounts require approval
-              </p>
-            </div>
-
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  required
-                  className={`relative mt-1 block w-full appearance-none border px-3 py-2 pr-10 ${
-                    errors.password ? "border-red-300" : "border-gray-300"
-                  } rounded-md text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm`}
-                  placeholder="Create a strong password"
-                  value={formData.password}
+              <Stack spacing={3}>
+                {/* Full Name */}
+                <TextField
+                  name="fullName"
+                  label="Full Name"
+                  type="text"
+                  value={formData.fullName}
                   onChange={handleInputChange}
                   disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 flex items-center pr-3"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  <span className="text-gray-400 hover:text-gray-600">
-                    {showPassword ? "👁️" : "👁️‍🗨️"}
-                  </span>
-                </button>
-              </div>
-              {formData.password && (
-                <p className={`mt-1 text-sm ${passwordStrength.color}`}>
-                  Password strength: {passwordStrength.strength}
-                </p>
-              )}
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-              )}
-            </div>
-
-            {/* Confirm Password */}
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Confirm Password
-              </label>
-              <div className="relative">
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
                   required
-                  className={`relative mt-1 block w-full appearance-none border px-3 py-2 pr-10 ${
-                    errors.confirmPassword
-                      ? "border-red-300"
-                      : "border-gray-300"
-                  } rounded-md text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm`}
-                  placeholder="Confirm your password"
+                  fullWidth
+                  error={!!errors.fullName}
+                  helperText={errors.fullName}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle color="action" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+
+                {/* Username */}
+                <TextField
+                  name="username"
+                  label="Username"
+                  type="text"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  disabled={isLoading}
+                  required
+                  fullWidth
+                  error={!!errors.username}
+                  helperText={errors.username}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Badge color="action" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+
+                {/* Email */}
+                <TextField
+                  name="email"
+                  label="Email Address"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  disabled={isLoading}
+                  required
+                  fullWidth
+                  error={!!errors.email}
+                  helperText={errors.email}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Email color="action" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+
+                {/* Role Selection */}
+                <TextField
+                  name="roleId"
+                  label="Account Type"
+                  select
+                  value={formData.roleId}
+                  onChange={handleInputChange}
+                  disabled={isLoading}
+                  fullWidth
+                  helperText="Admin and Manager accounts require approval"
+                >
+                  <MenuItem value={UserRole.USER}>
+                    User - Standard access
+                  </MenuItem>
+                  <MenuItem value={UserRole.VIEWER}>
+                    Viewer - Read-only access
+                  </MenuItem>
+                </TextField>
+
+                {/* Password */}
+                <Box>
+                  <TextField
+                    name="password"
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    disabled={isLoading}
+                    required
+                    fullWidth
+                    error={!!errors.password}
+                    helperText={errors.password}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Lock color="action" />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+
+                  {/* Password Strength Indicator */}
+                  {formData.password && (
+                    <Box mt={1}>
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        mb={1}
+                      >
+                        <Typography variant="caption" color="text.secondary">
+                          Password Strength:
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          color={passwordStrength.color + ".main"}
+                          fontWeight="bold"
+                        >
+                          {passwordStrength.label}
+                        </Typography>
+                      </Box>
+                      <LinearProgress
+                        variant="determinate"
+                        value={passwordStrength.strength}
+                        color={passwordStrength.color as any}
+                        sx={{ height: 6, borderRadius: 3 }}
+                      />
+                    </Box>
+                  )}
+                </Box>
+
+                {/* Confirm Password */}
+                <TextField
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type={showConfirmPassword ? "text" : "password"}
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   disabled={isLoading}
+                  required
+                  fullWidth
+                  error={!!errors.confirmPassword}
+                  helperText={errors.confirmPassword}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Lock color="action" />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          edge="end"
+                        >
+                          {showConfirmPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 flex items-center pr-3"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  disabled={isLoading}
+                  size="large"
+                  sx={{
+                    py: 1.5,
+                    fontSize: "1.1rem",
+                    fontWeight: 600,
+                    borderRadius: 2,
+                    textTransform: "none",
+                    background:
+                      "linear-gradient(45deg, #2e7d32 30%, #4caf50 90%)",
+                    "&:hover": {
+                      background:
+                        "linear-gradient(45deg, #1b5e20 30%, #2e7d32 90%)",
+                    },
+                  }}
+                  startIcon={
+                    isLoading ? (
+                      <CircularProgress size={20} color="inherit" />
+                    ) : (
+                      <PersonAdd />
+                    )
+                  }
                 >
-                  <span className="text-gray-400 hover:text-gray-600">
-                    {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
-                  </span>
-                </button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.confirmPassword}
-                </p>
-              )}
-            </div>
-          </div>
+                  {isLoading ? "Creating Account..." : "Create Account"}
+                </Button>
+              </Stack>
 
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isLoading ? (
-                <>
-                  <svg
-                    className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
+              {/* Login Link */}
+              <Box textAlign="center" mt={3}>
+                <Typography variant="body2" color="text.secondary">
+                  Already have an account?{" "}
+                  <Button
+                    variant="text"
+                    onClick={onSwitchToLogin}
+                    sx={{
+                      p: 0,
+                      textTransform: "none",
+                      fontWeight: 600,
+                      minWidth: "auto",
+                    }}
                   >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  Creating Account...
-                </>
-              ) : (
-                "Create Account"
+                    Sign in here
+                  </Button>
+                </Typography>
+              </Box>
+
+              {/* Password Requirements */}
+              {formData.password && (
+                <Card sx={{ mt: 3, bgcolor: "grey.50" }}>
+                  <CardContent sx={{ py: 2 }}>
+                    <Typography
+                      variant="subtitle2"
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Password Requirements:
+                    </Typography>
+                    <List dense sx={{ py: 0 }}>
+                      {passwordRequirements.map((req, index) => (
+                        <ListItem key={index} sx={{ py: 0.25, px: 0 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            {req.met ? (
+                              <CheckCircle color="success" fontSize="small" />
+                            ) : (
+                              <Cancel color="error" fontSize="small" />
+                            )}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={req.text}
+                            primaryTypographyProps={{
+                              variant: "body2",
+                              color: req.met ? "success.main" : "error.main",
+                            }}
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </CardContent>
+                </Card>
               )}
-            </button>
-          </div>
-
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Already have an account?{" "}
-              <button
-                type="button"
-                onClick={onSwitchToLogin}
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
-                Sign in here
-              </button>
-            </p>
-          </div>
-
-          {/* Password Requirements */}
-          <div className="mt-4 rounded-md bg-gray-50 p-4">
-            <h4 className="mb-2 text-sm font-medium text-gray-700">
-              Password Requirements:
-            </h4>
-            <ul className="space-y-1 text-xs text-gray-600">
-              <li>• At least 8 characters long</li>
-              <li>• Contains uppercase and lowercase letters</li>
-              <li>• Contains at least one number</li>
-              <li>• Contains at least one special character (@$!%*?&)</li>
-            </ul>
-          </div>
-        </form>
-      </div>
-    </div>
+            </Box>
+          </Paper>
+        </Fade>
+      </Container>
+    </Box>
   );
 }

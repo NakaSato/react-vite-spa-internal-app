@@ -1,15 +1,15 @@
-import { apiClient } from "./apiClient";
-import toast from "react-hot-toast";
 import {
+  AUTH_ENDPOINTS,
   LoginRequest,
   LoginResponse,
+  LogoutResponse,
   RegisterRequest,
   RegisterResponse,
-  LogoutResponse,
-  User,
   TokenPayload,
-  AUTH_ENDPOINTS,
+  User,
 } from "../types/auth";
+import { apiClient } from "./apiClient";
+import { showToast } from "./toast";
 
 export class AuthService {
   private static readonly TOKEN_KEY = "solar_auth_token";
@@ -51,7 +51,7 @@ export class AuthService {
     });
 
     // Show loading toast
-    const loadingToastId = toast.loading("Signing in...");
+    const loadingToastId = showToast.loading("Signing in...");
 
     try {
       console.log("AuthService: Trying API login");
@@ -70,14 +70,12 @@ export class AuthService {
         apiClient.setAuthToken(response.data.token);
 
         // Show success toast
-        toast.success(`Welcome back, ${response.data.user.fullName}!`, {
-          id: loadingToastId,
-        });
+        showToast.dismiss(loadingToastId);
+        showToast.auth.loginSuccess(response.data.user.fullName);
       } else {
         // Show error toast for unsuccessful response
-        toast.error(response.message || "Login failed", {
-          id: loadingToastId,
-        });
+        showToast.dismiss(loadingToastId);
+        showToast.auth.loginError(response.message || "Login failed");
       }
 
       return response;
@@ -98,9 +96,8 @@ export class AuthService {
           "Connection error. Please check your internet connection.";
       }
 
-      toast.error(errorMessage, {
-        id: loadingToastId,
-      });
+      showToast.dismiss(loadingToastId);
+      showToast.auth.loginError(errorMessage);
 
       // Re-throw the error for proper error handling upstream
       throw error;
@@ -110,7 +107,7 @@ export class AuthService {
   // Register new user
   static async register(userData: RegisterRequest): Promise<RegisterResponse> {
     // Show loading toast
-    const loadingToastId = toast.loading("Creating your account...");
+    const loadingToastId = showToast.loading("Creating your account...");
 
     try {
       console.log("AuthService: Attempting API registration with data:", {
@@ -126,9 +123,8 @@ export class AuthService {
       // Handle both response formats from API (direct User object or nested user property)
       if (response.success && response.data) {
         // Show success toast
-        toast.success("Account created successfully! You can now log in.", {
-          id: loadingToastId,
-        });
+        showToast.dismiss(loadingToastId);
+        showToast.auth.registrationSuccess();
 
         // If the response data contains a direct User object (as in API docs)
         if ("userId" in response.data) {
@@ -142,9 +138,10 @@ export class AuthService {
         }
       } else {
         // Show error toast for unsuccessful response
-        toast.error(response.message || "Registration failed", {
-          id: loadingToastId,
-        });
+        showToast.dismiss(loadingToastId);
+        showToast.auth.registrationError(
+          response.message || "Registration failed"
+        );
       }
 
       return response;
@@ -165,9 +162,8 @@ export class AuthService {
           "Connection error. Please check your internet connection.";
       }
 
-      toast.error(errorMessage, {
-        id: loadingToastId,
-      });
+      showToast.dismiss(loadingToastId);
+      showToast.auth.registrationError(errorMessage);
 
       // Format error for better user experience
       if (error.message && error.message.includes("HTTP error! status: 400")) {
@@ -218,7 +214,7 @@ export class AuthService {
         apiClient.setAuthToken(response.data.token);
 
         // Show subtle success toast for token refresh
-        toast.success("Session refreshed", {
+        showToast.success("Session refreshed", {
           duration: 2000,
         });
 
@@ -230,7 +226,7 @@ export class AuthService {
       console.error("AuthService: Token refresh failed:", error);
 
       // Show error toast when token refresh fails
-      toast.error("Session expired. Please log in again.", {
+      showToast.error("Session expired. Please log in again.", {
         duration: 4000,
       });
 
@@ -244,7 +240,7 @@ export class AuthService {
     console.log("AuthService: Attempting logout");
 
     // Show loading toast
-    const loadingToastId = toast.loading("Signing out...");
+    const loadingToastId = showToast.loading("Signing out...");
 
     try {
       // Call logout endpoint if token exists
@@ -274,7 +270,7 @@ export class AuthService {
       }
 
       // Show success toast
-      toast.success("Successfully signed out!", {
+      showToast.success("Successfully signed out!", {
         id: loadingToastId,
       });
 
@@ -283,7 +279,7 @@ export class AuthService {
       console.error("AuthService: Logout process failed:", error);
 
       // Show error toast but still proceed with local logout
-      toast.error("Signed out locally", {
+      showToast.error("Signed out locally", {
         id: loadingToastId,
       });
 
