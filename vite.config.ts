@@ -1,35 +1,20 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// Minimal working config for MUI
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxImportSource: "@emotion/react",
+    }),
+  ],
 
   server: {
-    host: true,
     port: 3000,
-    open: true,
   },
 
   build: {
-    target: "esnext",
+    target: "es2020",
     outDir: "dist",
-    sourcemap: false,
-    chunkSizeWarningLimit: 2000,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ["react", "react-dom"],
-          router: ["react-router-dom"],
-          mui: [
-            "@mui/material",
-            "@mui/icons-material",
-            "@emotion/react",
-            "@emotion/styled",
-          ],
-        },
-      },
-    },
   },
 
   resolve: {
@@ -45,6 +30,8 @@ export default defineConfig({
       "@types": "/src/shared/types",
       "@api": "/src/shared/api",
       "@hooks": "/src/shared/hooks",
+      "@config": "/src/config",
+      "@entities": "/src/entities",
     },
   },
 });
