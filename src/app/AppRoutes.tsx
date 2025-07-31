@@ -9,7 +9,7 @@ import {
   Register,
   NotFound,
   ProjectDebug,
-  MUIShowcase,
+  // MUIShowcase, // Temporarily commented for build testing
 } from "../pages";
 import {
   DashboardLazy,
@@ -52,7 +52,7 @@ function AppRoutesContent() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/mui-showcase" element={<MUIShowcase />} />
+          {/* <Route path="/mui-showcase" element={<MUIShowcase />} /> */}
 
           {/* Protected Routes */}
           <Route
