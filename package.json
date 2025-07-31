@@ -3,19 +3,21 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest",
-    "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "type-check": "tsc --noEmit",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 50",
-    "lint:fix": "eslint . --ext ts,tsx --fix",
-    "lint:strict": "eslint . --ext ts,tsx --max-warnings 0",
-    "build:analyze": "ANALYZE=true vite build",
-    "clean": "rm -rf dist node_modules/.vite",
-    "start": "vite --host"
+    "dev": "bun run vite --host",
+    "build": "bun run vite build",
+    "preview": "bun run vite preview",
+    "test": "bun test",
+    "test:run": "bun run vitest run",
+    "test:coverage": "bun run vitest run --coverage",
+    "type-check": "bun run tsc --noEmit",
+    "lint": "bun run eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 50",
+    "lint:fix": "bun run eslint . --ext ts,tsx --fix",
+    "lint:strict": "bun run eslint . --ext ts,tsx --max-warnings 0",
+    "build:analyze": "ANALYZE=true bun run vite build",
+    "clean": "rm -rf dist node_modules/.vite bun.lockb",
+    "start": "bun run vite --host",
+    "install:clean": "rm -rf node_modules bun.lockb && bun install",
+    "dev:bun": "bun --hot src/main.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -82,7 +84,17 @@
     "vite-plugin-html": "^3.2.2",
     "vitest": "^3.2.4"
   },
+  "packageManager": "bun@1.2.18",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
   "trustedDependencies": [
     "tesseract.js"
-  ]
+  ],
+  "bun": {
+    "install": {
+      "frozenLockfile": true,
+      "production": false
+    }
+  }
 }

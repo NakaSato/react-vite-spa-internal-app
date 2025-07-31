@@ -53,6 +53,16 @@ export default defineConfig({
           // UI and Animation libraries
           ui: ["framer-motion", "react-hot-toast"],
 
+          // Material-UI components (new chunking for MUI)
+          mui: [
+            "@mui/material",
+            "@mui/icons-material",
+            "@mui/lab",
+            "@mui/x-charts",
+            "@mui/x-tree-view",
+            "@mui/joy",
+          ],
+
           // PDF and Charts (large libraries)
           pdf: ["@react-pdf/renderer"],
 

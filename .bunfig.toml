@@ -1,0 +1,43 @@
+# Bun configuration file
+# This file configures Bun's behavior for this project
+
+[install]
+# Use the lockfile to ensure reproducible builds
+frozenLockfile = true
+
+# Install only production dependencies in production
+production = false
+
+# Registry configuration
+registry = "https://registry.npmjs.org/"
+
+# Cache configuration
+cache = true
+
+# Peer dependencies handling
+peer = true
+
+[run]
+# Enable hot reload for development
+hot = true
+
+# Set environment
+env = "development"
+
+[build]
+# Enable source maps for debugging
+sourcemap = true
+
+# Minify in production
+minify = true
+
+# Target modern browsers
+target = "browser"
+
+[test]
+# Test runner configuration
+runner = "bun"
+coverage = true
+
+# Preload modules for testing
+preload = ["./src/test-setup.ts"]
