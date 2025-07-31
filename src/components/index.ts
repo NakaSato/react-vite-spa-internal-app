@@ -9,6 +9,7 @@ export * from "./feedback";
 
 // Form Components (remaining in components)
 export { default as QuickReportForm } from "./QuickReportForm";
+export { default as QuickReportFormMUI } from "./QuickReportFormMUI";
 export { default as SimpleReports } from "./SimpleReports";
 
 // Feature Re-exports (for backward compatibility) - Only export loaders to avoid circular dependencies

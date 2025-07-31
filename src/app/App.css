@@ -1,6 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* App-specific styles for MUI integration */
+
+/* Remove Tailwind imports */
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
 
 /* Toast animations */
 @keyframes toast-enter {
@@ -42,6 +45,58 @@
     transform: translate3d(100%, 0, 0) scale(0.95);
     opacity: 0;
   }
+}
+
+/* Custom scrollbar for better UX */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Loading animations */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Gradient backgrounds for special elements */
+.gradient-bg-primary {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+}
+
+.gradient-bg-secondary {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+}
+
+/* Error boundary styles */
+.error-boundary {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Mobile-specific toast positioning */
@@ -141,8 +196,10 @@
   }
 }
 
+/* Remove Tailwind @apply directives - use standard CSS */
 body {
-  @apply bg-gray-100 text-gray-900;
+  background-color: #f3f4f6;
+  color: #111827;
 }
 
 h1,
@@ -151,17 +208,28 @@ h3,
 h4,
 h5,
 h6 {
-  @apply font-bold;
+  font-weight: bold;
 }
 
 a {
-  @apply text-blue-600 hover:text-blue-800;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1d4ed8;
 }
 
 button {
-  @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }
 
 button:hover {
-  @apply bg-blue-600;
+  background-color: #2563eb;
 }

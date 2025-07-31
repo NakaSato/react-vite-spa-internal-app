@@ -1,7 +1,10 @@
 import { useState, useEffect, Component, ErrorInfo, ReactNode } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import { AuthProvider } from "../shared/contexts/AuthContext";
+import { muiTheme } from "../shared/theme";
 import "./App.css";
 import AppRoutes from "./AppRoutes";
 
@@ -102,93 +105,94 @@ const App = () => {
   }, []);
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <Router>
-          <div className="min-h-screen bg-gray-50">
-            <AppRoutes />
-            <Toaster
-              position={toastPosition}
-              containerClassName="!top-4 !right-4 !left-4"
-              containerStyle={{
-                zIndex: 9999,
-              }}
-              toastOptions={{
-                duration: 4000,
-                style: {
-                  background: "rgba(17, 24, 39, 0.95)",
-                  color: "#f9fafb",
-                  border: "1px solid rgba(75, 85, 99, 0.3)",
-                  borderRadius: "12px",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  maxWidth: "400px",
-                  backdropFilter: "blur(10px)",
-                  boxShadow:
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  padding: "16px 20px",
-                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                },
-                success: {
-                  duration: 3500,
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <AuthProvider>
+          <Router>
+            <div style={{ minHeight: "100vh" }}>
+              <AppRoutes />
+              <Toaster
+                position={toastPosition}
+                reverseOrder={false}
+                gutter={8}
+                containerClassName=""
+                containerStyle={{
+                  top: toastPosition === "top-center" ? 40 : 20,
+                  right: toastPosition === "top-right" ? 20 : undefined,
+                }}
+                toastOptions={{
+                  className: "",
+                  duration: 4000,
                   style: {
-                    background:
-                      "linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%)",
-                    color: "#ffffff",
-                    border: "1px solid rgba(16, 185, 129, 0.3)",
-                    boxShadow:
-                      "0 20px 25px -5px rgba(16, 185, 129, 0.2), 0 10px 10px -5px rgba(16, 185, 129, 0.1)",
-                    animation: "toast-enter 0.3s ease-out",
+                    borderRadius: "12px",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    maxWidth: "420px",
+                    padding: "16px 20px",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                   },
-                  iconTheme: {
-                    primary: "#ffffff",
-                    secondary: "#10b981",
+                  success: {
+                    duration: 3500,
+                    style: {
+                      background:
+                        "linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%)",
+                      color: "#ffffff",
+                      border: "1px solid rgba(16, 185, 129, 0.3)",
+                      boxShadow:
+                        "0 20px 25px -5px rgba(16, 185, 129, 0.2), 0 10px 10px -5px rgba(16, 185, 129, 0.1)",
+                      animation: "toast-enter 0.3s ease-out",
+                    },
+                    iconTheme: {
+                      primary: "#ffffff",
+                      secondary: "#10b981",
+                    },
                   },
-                },
-                error: {
-                  duration: 6000,
-                  style: {
-                    background:
-                      "linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%)",
-                    color: "#ffffff",
-                    border: "1px solid rgba(239, 68, 68, 0.3)",
-                    boxShadow:
-                      "0 20px 25px -5px rgba(239, 68, 68, 0.2), 0 10px 10px -5px rgba(239, 68, 68, 0.1)",
-                    animation: "toast-enter 0.3s ease-out",
+                  error: {
+                    duration: 6000,
+                    style: {
+                      background:
+                        "linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%)",
+                      color: "#ffffff",
+                      border: "1px solid rgba(239, 68, 68, 0.3)",
+                      boxShadow:
+                        "0 20px 25px -5px rgba(239, 68, 68, 0.2), 0 10px 10px -5px rgba(239, 68, 68, 0.1)",
+                      animation: "toast-enter 0.3s ease-out",
+                    },
+                    iconTheme: {
+                      primary: "#ffffff",
+                      secondary: "#ef4444",
+                    },
                   },
-                  iconTheme: {
-                    primary: "#ffffff",
-                    secondary: "#ef4444",
+                  loading: {
+                    duration: Infinity,
+                    style: {
+                      background:
+                        "linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%)",
+                      color: "#ffffff",
+                      border: "1px solid rgba(59, 130, 246, 0.3)",
+                      boxShadow:
+                        "0 20px 25px -5px rgba(59, 130, 246, 0.2), 0 10px 10px -5px rgba(59, 130, 246, 0.1)",
+                      animation: "toast-enter 0.3s ease-out, pulse 2s infinite",
+                    },
+                    iconTheme: {
+                      primary: "#ffffff",
+                      secondary: "#3b82f6",
+                    },
                   },
-                },
-                loading: {
-                  duration: Infinity,
-                  style: {
-                    background:
-                      "linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%)",
-                    color: "#ffffff",
-                    border: "1px solid rgba(59, 130, 246, 0.3)",
-                    boxShadow:
-                      "0 20px 25px -5px rgba(59, 130, 246, 0.2), 0 10px 10px -5px rgba(59, 130, 246, 0.1)",
-                    animation: "toast-enter 0.3s ease-out, pulse 2s infinite",
+                  blank: {
+                    style: {
+                      background: "rgba(30, 41, 59, 0.95)",
+                      color: "#f1f5f9",
+                      border: "1px solid rgba(71, 85, 105, 0.3)",
+                      animation: "toast-enter 0.3s ease-out",
+                    },
                   },
-                  iconTheme: {
-                    primary: "#ffffff",
-                    secondary: "#3b82f6",
-                  },
-                },
-                blank: {
-                  style: {
-                    background: "rgba(30, 41, 59, 0.95)",
-                    color: "#f1f5f9",
-                    border: "1px solid rgba(71, 85, 105, 0.3)",
-                    animation: "toast-enter 0.3s ease-out",
-                  },
-                },
-              }}
-            />
-          </div>
-        </Router>
-      </AuthProvider>
+                }}
+              />
+            </div>
+          </Router>
+        </AuthProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 };

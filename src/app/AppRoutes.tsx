@@ -2,7 +2,15 @@ import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useAuth } from "../shared/hooks/useAuth";
 import { DashboardProvider } from "../shared/contexts";
-import { Home, About, Login, Register, NotFound, ProjectDebug } from "../pages";
+import {
+  Home,
+  About,
+  Login,
+  Register,
+  NotFound,
+  ProjectDebug,
+  MUIShowcase,
+} from "../pages";
 import {
   DashboardLazy,
   ProjectDetailLazy,
@@ -44,6 +52,7 @@ function AppRoutesContent() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/mui-showcase" element={<MUIShowcase />} />
 
           {/* Protected Routes */}
           <Route

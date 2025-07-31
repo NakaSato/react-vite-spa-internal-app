@@ -51,18 +51,30 @@ export function Navigation() {
                     Daily Reports
                   </Link>
 
-                  {/* Debug link for development */}
+                  {/* Debug and MUI Showcase links for development */}
                   {import.meta.env.DEV && (
-                    <Link
-                      to="/debug/projects"
-                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                        location.pathname === "/debug/projects"
-                          ? "bg-red-700 text-white"
-                          : "text-red-100 hover:text-white hover:bg-red-700"
-                      }`}
-                    >
-                      Debug
-                    </Link>
+                    <>
+                      <Link
+                        to="/mui-showcase"
+                        className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                          location.pathname === "/mui-showcase"
+                            ? "bg-purple-700 text-white"
+                            : "text-purple-100 hover:text-white hover:bg-purple-700"
+                        }`}
+                      >
+                        🎨 MUI Showcase
+                      </Link>
+                      <Link
+                        to="/debug/projects"
+                        className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                          location.pathname === "/debug/projects"
+                            ? "bg-red-700 text-white"
+                            : "text-red-100 hover:text-white hover:bg-red-700"
+                        }`}
+                      >
+                        Debug
+                      </Link>
+                    </>
                   )}
                 </div>
               )}
