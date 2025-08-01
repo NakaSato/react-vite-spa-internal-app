@@ -122,6 +122,10 @@ const themeOptions: ThemeOptions = {
   spacing: 8,
   components: {
     MuiButton: {
+      defaultProps: {
+        disableRipple: true,
+        disableElevation: true,
+      },
       styleOverrides: {
         root: {
           borderRadius: 8,
@@ -191,6 +195,26 @@ const themeOptions: ThemeOptions = {
         },
       },
     },
+    MuiMenuItem: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
+    MuiIconButton: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
+    MuiFab: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
+    MuiButtonBase: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
   },
 };
 
@@ -210,6 +234,9 @@ export const darkTheme = createTheme({
       primary: "#f1f5f9",
       secondary: "#cbd5e1",
     },
+  },
+  components: {
+    ...themeOptions.components,
   },
 });
 
