@@ -26,8 +26,6 @@ export { default as ErrorBoundary } from "./ErrorBoundary";
 
 // Form Components (remaining in components)
 export { default as QuickReportForm } from "./QuickReportForm";
-export { default as QuickReportFormMUI } from "./QuickReportFormMUI";
-export { default as SimpleReports } from "./SimpleReports";
 // Widget re-exports for convenience
 export { default as ApiStatus } from "../widgets/ApiStatus";
 export { default as NavbarApiStatus } from "../widgets/NavbarApiStatus";
