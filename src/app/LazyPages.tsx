@@ -1,3 +1,12 @@
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Fade,
+  Typography,
+  alpha,
+  useTheme,
+} from "@mui/material";
 import React, { Suspense, lazy } from "react";
 
 // Lazy load heavy pages to reduce initial bundle size
@@ -11,16 +20,81 @@ const LazyProjectSchedule = lazy(
   () => import("../pages/projects/ProjectSchedule")
 );
 const LazyRealTimeProjectDashboard = lazy(
-  () => import("../features/projects/RealTimeProjectDashboard")
+  () => import("../components/projects/RealTimeProjectDashboard")
 );
 
 // Loading component for page transitions
-const PageLoader: React.FC = () => (
-  <div className="flex min-h-screen items-center justify-center">
-    <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
-    <span className="ml-3 text-lg text-gray-600">Loading page...</span>
-  </div>
-);
+const PageLoader: React.FC = () => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: alpha(theme.palette.background.default, 0.8),
+        backdropFilter: "blur(4px)",
+        zIndex: theme.zIndex.modal,
+      }}
+    >
+      <Container maxWidth="sm">
+        <Fade in timeout={300}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 3,
+              py: 4,
+              px: 3,
+              bgcolor: "background.paper",
+              borderRadius: 3,
+              boxShadow: theme.shadows[8],
+              border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+            }}
+          >
+            <CircularProgress
+              size={56}
+              thickness={4}
+              sx={{
+                color: theme.palette.primary.main,
+              }}
+            />
+            <Box sx={{ textAlign: "center" }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: "Sarabun, sans-serif",
+                  fontWeight: 600,
+                  color: "text.primary",
+                  mb: 1,
+                }}
+              >
+                Loading page...
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontFamily: "Sarabun, sans-serif",
+                  color: "text.secondary",
+                }}
+              >
+                Please wait while we prepare the content
+              </Typography>
+            </Box>
+          </Box>
+        </Fade>
+      </Container>
+    </Box>
+  );
+};
 
 // Wrapper components with Suspense
 export const DashboardLazy: React.FC = () => (

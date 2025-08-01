@@ -65,7 +65,6 @@ const themeOptions: ThemeOptions = {
   },
   typography: {
     fontFamily: [
-      "Sarabun",
       "-apple-system",
       "BlinkMacSystemFont",
       '"Segoe UI"',
@@ -172,6 +171,7 @@ const themeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+          borderRadius: 0, // Remove rounded corners from AppBar
         },
       },
     },

@@ -1,83 +1,212 @@
-import { Link } from "react-router-dom";
+import {
+  alpha,
+  Box,
+  Container,
+  Divider,
+  Link,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { NavbarApiStatus } from "../../widgets";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const theme = useTheme();
+
+  const footerLinks = [
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms of Service", href: "#" },
+    { label: "Cookie Policy", href: "#" },
+    { label: "Security", href: "#" },
+  ];
 
   return (
-    <footer className="mt-auto bg-blue-600 text-white">
-      <div className="container mx-auto px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-        {/* Main Footer Content */}
-        <div className="flex flex-col space-y-4 sm:space-y-6">
+    <Box
+      component="footer"
+      sx={{
+        mt: "auto",
+        bgcolor: theme.palette.primary.main,
+        color: "#ffffff",
+        borderTop: `1px solid ${alpha(theme.palette.primary.light, 0.2)}`,
+      }}
+    >
+      <Container
+        maxWidth="xl"
+        sx={{
+          px: { xs: 1.5, sm: 3, md: 4, lg: 6 },
+          py: { xs: 3, sm: 4, md: 5 },
+        }}
+      >
+        <Stack spacing={{ xs: 3, sm: 4, md: 5 }}>
           {/* Top Section - Copyright and Team */}
-          <div className="flex flex-col items-center justify-between space-y-3 sm:flex-row sm:space-y-0">
-            <div className="flex flex-col items-center space-y-2 text-center sm:flex-row sm:space-x-4 sm:space-y-0 sm:text-left">
-              <p className="text-xs font-medium text-blue-100 sm:text-sm">
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent="space-between"
+            alignItems={{ xs: "center", sm: "center" }}
+            spacing={{ xs: 2.5, sm: 3, md: 0 }}
+            sx={{
+              flexWrap: { sm: "wrap", md: "nowrap" },
+            }}
+          >
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              alignItems="center"
+              spacing={{ xs: 1.5, sm: 2, md: 3 }}
+              sx={{
+                textAlign: { xs: "center", sm: "left" },
+                flex: 1,
+                maxWidth: { sm: "100%", md: "none" },
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: alpha("#ffffff", 0.9),
+                  fontWeight: 500,
+                  fontSize: { xs: "0.8rem", sm: "0.875rem", md: "0.9rem" },
+                  lineHeight: { xs: 1.4, sm: 1.5 },
+                  letterSpacing: 0.25,
+                }}
+              >
                 © {currentYear} Solar Projects Management. All rights reserved.
-              </p>
-              <div className="flex items-center space-x-2 text-xs text-blue-200">
-                <span className="hidden sm:inline">•</span>
-                <span>Powered by GridTokenX Team</span>
-              </div>
-            </div>
+              </Typography>
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={{ xs: 1, sm: 1.5 }}
+                sx={{
+                  color: alpha("#ffffff", 0.7),
+                  fontSize: { xs: "0.75rem", sm: "0.8rem" },
+                  flexWrap: "wrap",
+                  justifyContent: { xs: "center", sm: "flex-start" },
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: { xs: "none", sm: "inline" },
+                    color: "inherit",
+                  }}
+                >
+                  •
+                </Typography>
+                <Typography variant="caption" sx={{ color: "inherit" }}>
+                  - GridTokenX Team
+                </Typography>
+              </Stack>
+            </Stack>
 
-            {/* API Status - Compact on mobile */}
-            <div className="flex items-center">
+            {/* API Status */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                mt: { xs: 0, sm: 0 },
+                order: { xs: 2, sm: 1, md: 2 },
+                flexShrink: 0,
+              }}
+            >
               <NavbarApiStatus
                 className="inline-flex"
                 compact={true}
                 showDetails={false}
               />
-            </div>
-          </div>
+            </Box>
+          </Stack>
 
           {/* Bottom Section - Links */}
-          <div className="flex flex-col items-center justify-center space-y-3 sm:flex-row sm:justify-end sm:space-y-0">
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
-              <a
-                href="#"
-                className="flex min-h-[44px] items-center rounded px-2 py-1 text-xs text-blue-200 transition-colors duration-200 hover:bg-blue-500/20 hover:text-white sm:text-sm"
-                style={{ touchAction: "manipulation" }}
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="flex min-h-[44px] items-center rounded px-2 py-1 text-xs text-blue-200 transition-colors duration-200 hover:bg-blue-500/20 hover:text-white sm:text-sm"
-                style={{ touchAction: "manipulation" }}
-              >
-                Terms of Service
-              </a>
-              <a
-                href="#"
-                className="flex min-h-[44px] items-center rounded px-2 py-1 text-xs text-blue-200 transition-colors duration-200 hover:bg-blue-500/20 hover:text-white sm:text-sm"
-                style={{ touchAction: "manipulation" }}
-              >
-                Cookie Policy
-              </a>
-              <a
-                href="#"
-                className="flex min-h-[44px] items-center rounded px-2 py-1 text-xs text-blue-200 transition-colors duration-200 hover:bg-blue-500/20 hover:text-white sm:text-sm"
-                style={{ touchAction: "manipulation" }}
-              >
-                Security
-              </a>
-            </div>
-          </div>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent={{ xs: "center", sm: "center", md: "flex-end" }}
+            alignItems="center"
+            spacing={{ xs: 2, sm: 3, md: 0 }}
+          >
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ xs: 2, sm: 2, md: 4 }}
+              sx={{
+                flexWrap: "wrap",
+                justifyContent: "center",
+                alignItems: "center",
+                width: { xs: "100%", sm: "auto" },
+              }}
+            >
+              {footerLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.href}
+                  underline="none"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    minHeight: { xs: 40, sm: 44 },
+                    px: { xs: 2, sm: 2, md: 3 },
+                    py: { xs: 1, sm: 1.5 },
+                    borderRadius: { xs: 2, sm: 1.5 },
+                    color: alpha("#ffffff", 0.75),
+                    fontSize: { xs: "0.8rem", sm: "0.875rem", md: "0.9rem" },
+                    fontWeight: 500,
+                    letterSpacing: 0.25,
+                    transition: "all 0.3s ease",
+                    touchAction: "manipulation",
+                    border: `1px solid transparent`,
+                    "&:hover": {
+                      color: "#ffffff",
+                      bgcolor: alpha(theme.palette.primary.light, 0.15),
+                      borderColor: alpha("#ffffff", 0.2),
+                      transform: "translateY(-1px)",
+                      boxShadow: `0 4px 12px ${alpha(theme.palette.primary.dark, 0.3)}`,
+                    },
+                    "&:active": {
+                      transform: "translateY(0)",
+                    },
+                  }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </Stack>
+          </Stack>
 
-          {/* Mobile-only separator line */}
-          <div className="block border-t border-blue-500/30 pt-3 sm:hidden">
-            <div className="text-center">
-              <p className="text-xs text-blue-200">
+          {/* Mobile-only separator and system info */}
+          <Box sx={{ display: { xs: "block", sm: "none" } }}>
+            <Divider
+              sx={{
+                borderColor: alpha("#ffffff", 0.25),
+                mb: 3,
+                mx: 2,
+              }}
+            />
+            <Stack spacing={1.5} sx={{ textAlign: "center", px: 2 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: alpha("#ffffff", 0.8),
+                  fontSize: "0.75rem",
+                  fontWeight: 500,
+                  letterSpacing: 0.5,
+                  lineHeight: 1.4,
+                }}
+              >
                 Internal Construction Management System
-              </p>
-              <p className="mt-1 text-xs text-blue-300">
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: alpha("#ffffff", 0.85),
+                  fontSize: "0.75rem",
+                  fontWeight: 500,
+                  letterSpacing: 0.25,
+                  lineHeight: 1.4,
+                }}
+              >
                 ระบบจัดการโครงการก่อสร้างภายในองค์กร
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+              </Typography>
+            </Stack>
+          </Box>
+        </Stack>
+      </Container>
+    </Box>
   );
 }

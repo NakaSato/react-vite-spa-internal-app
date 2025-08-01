@@ -28,7 +28,7 @@ export class ReportService {
   private static async loadPdfDependencies() {
     const [{ pdf, Document }, ProjectReport] = await Promise.all([
       import("@react-pdf/renderer"),
-      import("../../features/reports/ProjectReport"),
+      import("../../components/reports/ProjectReport"),
     ]);
 
     return { pdf, Document, ProjectReport: ProjectReport.default };

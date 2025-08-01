@@ -127,7 +127,7 @@ export default defineConfig({
     alias: {
       "@": "/src",
       "@components": "/src/components",
-      "@features": "/src/features",
+      "@features": "/src/components",
       "@shared": "/src/shared",
       "@pages": "/src/pages",
       "@widgets": "/src/widgets",

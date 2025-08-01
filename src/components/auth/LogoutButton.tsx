@@ -1,5 +1,5 @@
 import { Logout } from "@mui/icons-material";
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, SxProps, Theme } from "@mui/material";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../shared/hooks/useAuth";
@@ -10,6 +10,7 @@ interface LogoutButtonProps {
   className?: string;
   redirectTo?: string;
   children?: ReactNode;
+  sx?: SxProps<Theme>;
 }
 
 export default function LogoutButton({
@@ -18,6 +19,7 @@ export default function LogoutButton({
   className = "",
   redirectTo = "/",
   children,
+  sx = {},
 }: LogoutButtonProps) {
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -98,6 +100,11 @@ export default function LogoutButton({
       }
       className={`font-sarabun-medium ${className}`}
       title="Sign out of your account"
+      sx={{
+        textTransform: "none",
+        fontWeight: 500,
+        ...sx,
+      }}
     >
       {isLoggingOut ? "Logging out..." : children || "Logout"}
     </Button>

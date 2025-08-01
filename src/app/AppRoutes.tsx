@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
 import Footer from "../components/layout/Footer";
-import ProtectedRoute from "../features/auth/ProtectedRoute";
 import { About, Home, Login, NotFound, ProjectDebug, Register } from "../pages";
 import { DashboardProvider } from "../shared/contexts";
 import { useAuth } from "../shared/hooks/useAuth";
