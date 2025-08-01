@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
 import { DailyReportsManagementLoader } from "@features/reports";
 import { useAuth, useRole } from "@shared/hooks";
-import { QuickReportForm, SimpleReports } from "@components";
+import React, { useEffect, useState } from "react";
 
 const DailyReports: React.FC = () => {
   const { user } = useAuth();
@@ -251,22 +250,6 @@ const DailyReports: React.FC = () => {
 
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {/* Simple Reports Section */}
-        <div className="mb-8">
-          <SimpleReports
-            onGenerateReport={(reportType, dateRange) => {
-              console.log("Generating report:", reportType, dateRange);
-              // You can integrate with actual report generation logic here
-              // For now, just show a success message
-              setTimeout(() => {
-                alert(
-                  `${reportType} report generated for ${dateRange.start} to ${dateRange.end}`
-                );
-              }, 2000);
-            }}
-          />
-        </div>
-
         {/* Daily Reports Management */}
         <DailyReportsManagementLoader showAnalytics={true} />
       </div>
@@ -299,17 +282,6 @@ const DailyReports: React.FC = () => {
                   </svg>
                 </button>
               </div>
-            </div>
-            <div className="p-6">
-              <QuickReportForm
-                projectId="temp-project-id" // Placeholder - would be selected by user in real implementation
-                onSubmit={async (data) => {
-                  // Handle form submission
-                  console.log("Quick report submitted:", data);
-                  setShowQuickReport(false);
-                }}
-                onCancel={() => setShowQuickReport(false)}
-              />
             </div>
           </div>
         </div>
